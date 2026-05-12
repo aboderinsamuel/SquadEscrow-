@@ -39,7 +39,7 @@ export function BottomNav() {
         <div className="rounded-full bg-cream-50 ring-1 ring-ink/10 shadow-card px-1.5 py-1.5 flex items-center gap-1">
           {TABS.map((t) => {
             const active = pathname.startsWith(t.href);
-            if (t.primary) {
+            if ('primary' in t && t.primary) {
               return (
                 <Link key={t.href} href={t.href} className={cn("relative grid place-items-center rounded-full h-12 w-12 mx-1 transition", "bg-coral-500 text-cream-50 shadow-pop hover:bg-coral-400")}>
                   <Icon name={t.icon} dark />
