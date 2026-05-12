@@ -297,3 +297,5 @@ Submitted for evaluation as part of the **GTCO Squad Hackathon 3.0 · Challenge 
 - Mockup design language: extracted from the product deck pp. 9–10
 
 <p align="center" style="margin-top: 32px;"><sub>Built with ❤ for Nigeria's 92.3%.</sub></p>
+
+
