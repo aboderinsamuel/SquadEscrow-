@@ -29,7 +29,7 @@ export default function ArtisanProfile({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <AppHeader title={null} back />
+      <AppHeader back />
 
       {/* Header card — bold, photo strip, business name */}
       <section className="-mt-1">
