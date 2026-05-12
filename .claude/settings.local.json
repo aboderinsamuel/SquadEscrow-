@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(where pdftoppm *)",
+      "Bash(where pdftotext *)",
+      "Bash(pdftotext -layout \"C:/Users/USER/Downloads/JARA_Hackathon_Deck.pdf\" \"C:/Users/USER/Desktop/SquadcoEscrow/jara_deck.txt\")",
+      "Bash(npm --version)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{url_effective}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{url_effective}\\\\n\" http://localhost:3000/auth)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{url_effective}\\\\n\" http://localhost:3000/operator)",
+      "Bash(cat)",
+      "Bash(bash /tmp/test_golden_path.sh)",
+      "Bash(curl -s -o /dev/null -w \"Landing: %{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"Feed \\(unauth\\): %{http_code} → %{redirect_url}\\\\n\" -L --max-redirs 0 http://localhost:3000/app/feed)",
+      "Bash(curl -s http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"Operator data: %{size_download} bytes\\\\n\" http://localhost:3000/operator)",
+      "Bash(powershell -Command \"Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue\")"
+    ]
+  }
+}
