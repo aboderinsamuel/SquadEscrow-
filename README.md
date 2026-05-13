@@ -161,10 +161,10 @@ All jobs in their states · float-yield estimator · live HMAC-verified webhook 
 | 2 | **Webhooks (HMAC-SHA512)** | `x-squad-signature` validation | `charge_successful` → state machine |
 | 3 | **Account Name Lookup** | `POST /payout/account/lookup` | Pre-payout name resolution + onboarding name-match check |
 | 4 | **Transfer API** | `POST /payout/transfer` | Worker payouts to any Nigerian bank |
-| 5 | **Wallet Balance** | `GET /merchant/balance` | Operator console pre-flight |
-| 6 | **Refunds** | `POST /transaction/refund` | Dispute resolution path (wired, not in golden) |
-| 7 | **VAS · SMS** | `POST /vas/sms` | OTP delivery (stubbed in demo, real in production) |
-| 8 | **USSD shortcode** | `*347*SQUADCO#` reference | Offline-worker fallback (architecture-level) |
+| 5 | **Wallet Balance** | `GET /merchant/balance?currency_id=NGN` | Operator console pre-flight |
+| 6 | **Refunds** | `POST /transaction/refund` | Dispute-resolution refund button on every disputed job |
+| 7 | **VAS · SMS** | `POST /sms/send/instant` | OTP delivery via approved Sender ID |
+| 8 | **Merchant Transactions** | `GET /virtual-account/merchant/transactions` | Operator reconciliation feed |
 
 ---
 

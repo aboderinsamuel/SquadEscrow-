@@ -13,12 +13,18 @@ export async function POST(req: NextRequest) {
   if (!job) return NextResponse.json({ ok: false, error: "no_job" }, { status: 404 });
   if (!job.escrow_ref) return NextResponse.json({ ok: false, error: "no_va" }, { status: 400 });
 
+  const gatewayRef = "SQ_GW_" + Math.random().toString(36).slice(2, 14).toUpperCase();
   const body = JSON.stringify({
     Event: "charge_successful",
     TransactionRef: job.escrow_ref,
     TransactionAmount: job.amount * 100,
     TransactionCurrency: "NGN",
-    Body: { TransactionRef: job.escrow_ref, source: "simulator" },
+    GatewayTransactionRef: gatewayRef,
+    Body: {
+      TransactionRef: job.escrow_ref,
+      GatewayTransactionRef: gatewayRef,
+      source: "simulator",
+    },
   });
   const sig = signMockWebhook(body);
 

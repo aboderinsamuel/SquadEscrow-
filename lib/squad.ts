@@ -1,9 +1,26 @@
 import crypto from "node:crypto";
 
+// ─── Squad sandbox status (verified May 2026 against merchant SBHPM24ZVH) ───
+// ✅ /merchant/balance?currency_id=NGN              — works
+// ✅ /payout/account/lookup (bank_code = 6-digit NIP) — works
+// ✅ /virtual-account/merchant/transactions          — works (listing)
+// ⚠️  /payout/transfer                                — endpoint OK; merchant
+//      must toggle "auto-payout" OFF on dashboard.
+// ⚠️  /virtual-account/create-dynamic-virtual-account — endpoint OK but
+//      merchant lacks "custom name" / "beneficiary_account" entitlements;
+//      email support@squadco.com for the dynamic-VA allocation.
+// ⚠️  /sms/send/instant                              — endpoint OK; merchant
+//      must register a Sender ID on the dashboard. Set SQUAD_SMS_SENDER_ID.
+// ❌ /transactions (legacy path)                       — 404, replaced below.
+// ───────────────────────────────────────────────────────────────────────────
+
 const BASE = process.env.SQUAD_BASE_URL || "https://sandbox-api-d.squadco.com";
 const SECRET = process.env.SQUAD_SECRET_KEY || "";
 const MERCHANT_ID = process.env.SQUAD_MERCHANT_ID || "SQUADCO";
 const MODE_ENV = (process.env.SQUAD_MODE || "auto").toLowerCase();
+// SMS Sender ID must be pre-registered with Squad on the dashboard
+// (Settings → SMS Sender IDs). Until one is approved, sendSquadSms() falls back.
+const SMS_SENDER_ID = process.env.SQUAD_SMS_SENDER_ID || "";
 
 export const isLive = MODE_ENV === "live" || (MODE_ENV === "auto" && SECRET.length > 0);
 export const isMock = !isLive;
@@ -125,11 +142,87 @@ export async function transferPayout(args: {
 
 export async function walletBalance() {
   if (isLive) {
-    const r = await callSquad<any>("GET", "/merchant/balance");
-    if (r.ok && r.data?.data) return { ok: true, balance: Number(r.data.data.AvailableBalance || 0) / 100, source: "live" as const };
+    // Squad requires ?currency_id=NGN on this endpoint, otherwise it 400s with
+    // "currency_id is required" (verified empirically May 2026).
+    const r = await callSquad<any>("GET", "/merchant/balance?currency_id=NGN");
+    if (r.ok && r.data?.data) return { ok: true, balance: Number(r.data.data.AvailableBalance || r.data.data.available_balance || 0) / 100, source: "live" as const, raw: r.data };
     return { ok: false, error: r.error, source: "live" as const };
   }
   return { ok: true, balance: 8_400_000, source: "mock" as const };
+}
+
+// ── VAS · SMS (for OTP delivery) ───────────────────────────────────────
+// Endpoint: POST /sms/send/instant per docs.squadco.com/Value-added-services/SMS/message
+// Body shape: { sender_id, messages: [{ phone_number, message }] }
+// Two prerequisites:
+//   1. SQUAD_SMS_SENDER_ID env var must match a Sender ID registered on the
+//      Squad dashboard (Settings → SMS Sender IDs).
+//   2. Phone number format expected by Squad is local Nigerian (08064834011),
+//      not +234... — we normalise here.
+function toLocalMsisdn(p: string) {
+  const digits = (p || "").replace(/[^0-9]/g, "");
+  if (digits.startsWith("234")) return "0" + digits.slice(3);
+  if (digits.startsWith("0")) return digits;
+  if (/^[789]/.test(digits)) return "0" + digits;
+  return digits;
+}
+
+export async function sendSquadSms(args: { to: string; body: string }) {
+  if (isLive) {
+    if (!SMS_SENDER_ID) {
+      return { ok: false, error: "sender_id_not_configured", source: "live-fallback" as const, note: "Set SQUAD_SMS_SENDER_ID in .env.local to a Sender ID approved on your Squad dashboard." };
+    }
+    const r = await callSquad<any>("POST", "/sms/send/instant", {
+      sender_id: SMS_SENDER_ID,
+      messages: [{ phone_number: toLocalMsisdn(args.to), message: args.body }],
+    });
+    if (r.ok) return { ok: true, source: "live" as const, raw: r.data };
+    if (r.error?.toLowerCase().includes("sender")) {
+      return { ok: false, error: r.error, source: "live-fallback" as const, note: "Register your Sender ID on the Squad dashboard before live SMS will deliver." };
+    }
+    return { ok: false, error: r.error, source: "live" as const };
+  }
+  return { ok: true, source: "mock" as const };
+}
+
+// ── Refund (dispute path) ──────────────────────────────────────────────
+// Squad's sandbox requires all of: transaction_ref (your idempotency ref),
+// gateway_transaction_ref (Squad-assigned ref from the original charge),
+// refund_type ("full" | "partial"), refund_amount (kobo, partial only),
+// and reason. Source: empirical sandbox errors May 2026.
+export async function refundTransaction(args: {
+  transactionRef: string;
+  gatewayTransactionRef: string;
+  amountNaira?: number;
+  reason?: string;
+}) {
+  if (isLive) {
+    const isPartial = typeof args.amountNaira === "number" && args.amountNaira > 0;
+    const body: any = {
+      transaction_ref: args.transactionRef,
+      gateway_transaction_ref: args.gatewayTransactionRef,
+      refund_type: isPartial ? "partial" : "full",
+      reason: args.reason || "Dispute resolution",
+    };
+    if (isPartial) body.refund_amount = args.amountNaira! * 100;
+    const r = await callSquad<any>("POST", "/transaction/refund", body);
+    if (r.ok) return { ok: true, source: "live" as const, raw: r.data };
+    return { ok: false, error: r.error, source: "live" as const };
+  }
+  return { ok: true, source: "mock" as const };
+}
+
+// ── Transactions query (operator reconciliation) ───────────────────────
+// Correct path is /virtual-account/merchant/transactions (not /transactions —
+// that returns 404). Returns transactions paid into any of this merchant's VAs.
+export async function listTransactions(opts: { page?: number; perPage?: number } = {}) {
+  if (isLive) {
+    const qs = `?page=${opts.page || 1}&perPage=${opts.perPage || 50}`;
+    const r = await callSquad<any>("GET", `/virtual-account/merchant/transactions${qs}`);
+    if (r.ok) return { ok: true, items: r.data?.data || [], source: "live" as const };
+    return { ok: false, error: r.error, source: "live" as const };
+  }
+  return { ok: true, items: [], source: "mock" as const };
 }
 
 export function verifyWebhookSignature(rawBody: string, signature: string | null) {

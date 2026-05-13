@@ -72,6 +72,18 @@ export function JobDetail({ meId, meRole, job: jobIn, customer, worker: workerIn
   async function markStart() { setBusy("start"); await call(`/api/jobs/${job.id}/state`, { state: "IN_PROGRESS" }); setBusy(null); await refreshAll(); }
   async function workerDone() { setBusy("wdone"); await call(`/api/jobs/${job.id}/state`, { state: "WORKER_COMPLETED" }); setBusy(null); await refreshAll(); }
   async function customerConfirm() { setBusy("payout"); await call(`/api/jobs/${job.id}/release`); setBusy(null); await refreshAll(); }
+  async function openDispute() {
+    if (!confirm("Open a dispute? Funds stay locked until you and the worker reach a resolution.")) return;
+    setBusy("dispute"); await call(`/api/jobs/${job.id}/state`, { state: "DISPUTED" }); setBusy(null); await refreshAll();
+  }
+  async function refundCustomer() {
+    if (!confirm("Refund the escrowed amount to the customer? This calls Squad /transaction/refund and cancels the job.")) return;
+    setBusy("refund"); await call(`/api/jobs/${job.id}/refund`); setBusy(null); await refreshAll();
+  }
+  async function resolveInWorkerFavour() {
+    if (!confirm("Resolve in the worker's favour? Funds release as a normal payout.")) return;
+    setBusy("resolve"); await call(`/api/jobs/${job.id}/release`); setBusy(null); await refreshAll();
+  }
 
   useEffect(() => { if (autoFund && isMine && job.state === "POSTED" && !vaInfo) fundEscrow(); /* eslint-disable-next-line */ }, []);
 
@@ -220,11 +232,39 @@ export function JobDetail({ meId, meRole, job: jobIn, customer, worker: workerIn
       )}
 
       {/* Live actions for worker / customer */}
-      {worker && (job.worker_id === meId || isMine) && job.state !== "POSTED" && job.state !== "SETTLED" && (
+      {worker && (job.worker_id === meId || isMine) && job.state !== "POSTED" && job.state !== "SETTLED" && job.state !== "CANCELLED" && (
         <div className="space-y-2">
           {job.worker_id === meId && job.state === "ASSIGNED" && <Button block size="lg" onClick={markStart} loading={busy === "start"}>Start the job</Button>}
           {job.worker_id === meId && job.state === "IN_PROGRESS" && <Button block size="lg" onClick={workerDone} loading={busy === "wdone"}>Mark done</Button>}
           {isMine && job.state === "WORKER_COMPLETED" && <Button block size="lg" onClick={customerConfirm} loading={busy === "payout"}>Confirm & release {naira(workerNet)} →</Button>}
+
+          {/* Either side can open a dispute while work is in flight */}
+          {(job.state === "IN_PROGRESS" || job.state === "WORKER_COMPLETED") && (
+            <Button block size="md" variant="ghost" onClick={openDispute} loading={busy === "dispute"}>
+              Open a dispute
+            </Button>
+          )}
+        </div>
+      )}
+
+      {/* Dispute resolution panel — customer-side controls Squad refund vs release */}
+      {isMine && job.state === "DISPUTED" && (
+        <div className="rounded-2xl bg-coral-500 text-cream-50 p-5">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.18em] text-cream-50/80">Dispute open</div>
+          <h3 className="font-display text-[22px] font-bold tracking-tightest leading-tight mt-1">
+            Resolve to release funds.
+          </h3>
+          <p className="text-[13px] text-cream-50/85 mt-2">
+            Squad's <code className="bg-cream-50/15 px-1 rounded">/transaction/refund</code> sends {naira(job.amount)} back to your funding account. Or release as normal — worker keeps {naira(workerNet)}.
+          </p>
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            <Button variant="dark" block size="md" onClick={refundCustomer} loading={busy === "refund"}>
+              Refund customer
+            </Button>
+            <Button variant="ember" block size="md" onClick={resolveInWorkerFavour} loading={busy === "resolve"}>
+              Release to worker
+            </Button>
+          </div>
         </div>
       )}
 
