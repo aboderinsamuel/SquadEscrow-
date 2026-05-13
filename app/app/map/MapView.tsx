@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/Button";
@@ -214,9 +215,15 @@ function Dot({ color, ring }: { color: string; ring?: string }) {
 function BottomSheet({ artisan, onClose }: { artisan: ArtisanPin; onClose: () => void }) {
   const top = artisan.credibility >= 85;
   const isReg = artisan.source === "registered" || artisan.claimed;
-  return (
-    <div className="absolute inset-x-0 bottom-0 z-40 px-3 pb-3 animate-rise">
-      <div className="rounded-3xl bg-cream-50 ring-1 ring-ink/10 shadow-card overflow-hidden">
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => { setMounted(true); }, []);
+  if (!mounted || typeof document === "undefined") return null;
+  return createPortal(
+    <div
+      className="fixed inset-x-0 z-[90] px-3 animate-rise pointer-events-none"
+      style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 88px)" }}
+    >
+      <div className="mx-auto max-w-[480px] pointer-events-auto rounded-3xl bg-cream-50 ring-1 ring-ink/10 shadow-card overflow-hidden">
         <div className="flex items-start gap-3 p-4">
           <div className="grid h-14 w-14 place-items-center rounded-2xl bg-ink text-cream-50 text-2xl shrink-0">
             {artisan.photos[0] || "•"}
@@ -257,7 +264,8 @@ function BottomSheet({ artisan, onClose }: { artisan: ArtisanPin; onClose: () =>
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

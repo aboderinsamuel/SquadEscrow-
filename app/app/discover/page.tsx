@@ -4,6 +4,7 @@ import { readDB } from "@/lib/db";
 import { seedIfEmpty } from "@/lib/seed";
 import { AppHeader } from "@/components/AppHeader";
 import { DiscoverGrid } from "./DiscoverGrid";
+import { DiscoverReels } from "./DiscoverReels";
 
 export default function DiscoverPage({ searchParams }: { searchParams: { q?: string; cat?: string } }) {
   seedIfEmpty();
@@ -30,9 +31,26 @@ export default function DiscoverPage({ searchParams }: { searchParams: { q?: str
       socials: (u.social_handles || []).slice(0, 3).map((h) => ({ platform: h.platform, handle: h.handle, verified: h.verified })),
     }));
 
+  const reelsArtisans = artisans.map((a) => ({
+    id: a.id,
+    business_name: a.name,
+    category: a.category,
+    area: a.area,
+    avg_rating: a.avg_rating,
+    jobs_completed: a.jobs_completed,
+    credibility: a.credibility,
+    followers: a.followers,
+    hourly_rate: a.hourly_rate,
+    photos: a.photos,
+    bio: a.bio,
+    source: a.source,
+    claimed: a.claimed,
+  }));
+
   return (
     <>
       <AppHeader title="Discover" />
+      <DiscoverReels artisans={reelsArtisans} />
       <div className="-mt-1 mb-4 text-[13px] text-ink/65">
         <b className="text-ink">{artisans.length}</b> artisans across Lagos · Scraped from Instagram, Jiji, WhatsApp Business + verified Squadco registrations
       </div>

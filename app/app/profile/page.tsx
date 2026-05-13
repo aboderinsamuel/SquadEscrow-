@@ -8,6 +8,7 @@ import { ScoreDial } from "@/components/ScoreRing";
 import { categoryLabel } from "@/lib/utils";
 import { jaraScore } from "@/lib/score";
 import { LogoutButton } from "./LogoutButton";
+import { ProfileActivity } from "./ProfileActivity";
 
 export default function ProfilePage({ searchParams }: { searchParams: { u?: string } }) {
   const me = getSessionUser();
@@ -93,6 +94,79 @@ export default function ProfilePage({ searchParams }: { searchParams: { u?: stri
           <Trust label="On-time" pass={u.on_time_rate >= 0.85} hint={`${Math.round(u.on_time_rate * 100)}%`} />
         </div>
       </section>
+
+      {self && (() => {
+        const postedJobs = db.jobs
+          .filter((j) => j.customer_id === u.id)
+          .sort((a, b) => b.created_at - a.created_at)
+          .map((j) => {
+            const worker = j.worker_id ? db.users.find((w) => w.id === j.worker_id) : null;
+            const application_count = db.applications.filter((a) => a.job_id === j.id).length;
+            return {
+              id: j.id,
+              title: j.title,
+              category: j.category,
+              amount: j.offer_amount || j.amount,
+              area: j.area,
+              urgency: j.urgency,
+              state: j.state,
+              created_at: j.created_at,
+              funded_at: j.funded_at,
+              worker_id: j.worker_id,
+              worker_name: worker?.business_name || worker?.name,
+              application_count,
+            };
+          });
+
+        const myApplications = db.applications
+          .filter((a) => a.worker_id === u.id)
+          .sort((a, b) => b.created_at - a.created_at)
+          .map((a) => {
+            const job = db.jobs.find((j) => j.id === a.job_id);
+            return {
+              id: a.id,
+              job_id: a.job_id,
+              offer_amount: a.offer_amount,
+              message: a.message,
+              status: a.status,
+              created_at: a.created_at,
+              job_title: job?.title || "Job",
+              job_state: job?.state || "POSTED",
+              job_amount: job?.amount || 0,
+              job_area: job?.area || "—",
+              job_category: job?.category || "other",
+            };
+          });
+
+        const assignedJobs = db.jobs
+          .filter((j) => j.worker_id === u.id)
+          .sort((a, b) => b.created_at - a.created_at)
+          .map((j) => {
+            const application_count = db.applications.filter((a) => a.job_id === j.id).length;
+            return {
+              id: j.id,
+              title: j.title,
+              category: j.category,
+              amount: j.offer_amount || j.amount,
+              area: j.area,
+              urgency: j.urgency,
+              state: j.state,
+              created_at: j.created_at,
+              funded_at: j.funded_at,
+              worker_id: j.worker_id,
+              application_count,
+            };
+          });
+
+        return (
+          <ProfileActivity
+            role={u.role}
+            postedJobs={postedJobs}
+            applications={myApplications}
+            assignedJobs={assignedJobs}
+          />
+        );
+      })()}
     </>
   );
 }

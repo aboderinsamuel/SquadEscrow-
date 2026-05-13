@@ -225,7 +225,7 @@ export default function Landing() {
               <h2 className="mt-3 font-display text-4xl md:text-5xl font-bold tracking-tightest">8 Squad products. One escrow flow.</h2>
               <p className="mt-4 text-ink/65 leading-relaxed">Customer pays via Payment Modal → Dynamic Virtual Account holds the cash → HMAC-signed webhook fires our state machine → dual confirmation → Transfer API pays the worker → Squad SMS notifies them. Real, live, with idempotent transaction refs.</p>
               <div className="mt-6 flex flex-wrap gap-2">
-                {["Payment Modal","Dynamic VA","Webhooks (HMAC-SHA512)","Account Lookup","Transfer API","Refunds","USSD shortcode","VAS · SMS + Airtime"].map((x) => (
+                {["Payment Modal","Dynamic VA","Webhooks (HMAC-SHA512)","Account Lookup","Transfer API","Refunds","Merchant Transactions","VAS · SMS"].map((x) => (
                   <span key={x} className="rounded-full bg-ink text-cream-50 px-3 py-1.5 text-[12px] font-semibold">{x}</span>
                 ))}
               </div>
