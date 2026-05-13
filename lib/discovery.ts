@@ -421,11 +421,143 @@ const COMMENT_TEMPLATES = [
 
 const COMMENTER_NAMES = ["Tope O.", "Adaeze N.", "Wale A.", "Ifeoma E.", "Bola K.", "Ngozi U.", "Dele B.", "Fatima Y.", "Joy I.", "Kayode S.", "Chika A.", "Habiba M."];
 
-export function seedDiscovery() {
-  const db = readDB();
-  if (db.users.some((u) => u.business_name)) return; // already seeded
+// Deterministic pseudo-random — same seed = same output across rebuilds.
+function rng(seed: number) {
+  let s = seed | 0;
+  return () => {
+    s = (s * 1664525 + 1013904223) | 0;
+    return ((s >>> 0) % 100000) / 100000;
+  };
+}
+
+const FIRST_NAMES = [
+  "Tunde", "Aisha", "Chioma", "Emeka", "Folake", "Musa", "Bola", "Ada", "Kunle", "Tope",
+  "Yetunde", "Segun", "Ngozi", "Bukola", "Wale", "Funke", "Ibrahim", "Sade", "Dele", "Joy",
+  "Kayode", "Habiba", "Tobi", "Ifeoma", "Bayo", "Hassan", "Naomi", "Olu", "Linda", "Funmi",
+  "Chinedu", "Bisi", "Tayo", "Kemi", "Yemi", "Fatima", "Olamide", "Damilola", "Halima", "Uche",
+  "Lekan", "Seun", "Nneka", "Lola", "Tunji", "Tola", "Rasheed", "Adaeze", "Mide", "Tochi",
+  "Femi", "Bimpe", "Wahab", "Esther", "Saheed", "Maryam", "Sodiq", "Abiola", "Chuka", "Sanjay",
+];
+
+const LAST_INITIALS = ["A.", "B.", "C.", "E.", "F.", "G.", "I.", "K.", "L.", "M.", "N.", "O.", "P.", "S.", "T.", "U.", "W.", "Y."];
+
+const BUSINESS_SUFFIXES = [
+  "Services", "& Sons", "Hub", "Pro", "Naija", "Lagos", "Co.", "Studio", "Works", "Crew",
+  "Solutions", "& Co.", "Network", "Express", "Plus", "Premium", "Direct", "Now",
+];
+
+const BIO_TEMPLATES: Record<string, string[]> = {
+  generator: ["Tiger, Sumec, Honda. Repairs + service. Same-day callouts.", "5+ years generator repair. Mobile workshop. Fair pricing."],
+  ac_hvac: ["Split AC, central. Installation + gas refill. Fast response.", "Deep clean + repair. 1-year guarantee on parts."],
+  plumbing: ["Pipes, sinks, toilets, water heaters. Tools-on-site.", "POP ceiling work + pipe repairs. Reasonable rates."],
+  electrical: ["House wiring, inverter installs, solar consults.", "Lighting, sockets, breaker panels. Lagos mainland."],
+  cleaning: ["Routine + deep cleaning. AirBnB turnaround.", "Eco products. Weekly retainer pricing available."],
+  carpentry: ["Wardrobes, doors, bookshelves. Custom workshop.", "Furniture + repairs. Delivery + assembly included."],
+  painting: ["Interior + exterior. Texture finishes. Free quote.", "Wall paint + screed. 2-coat standard."],
+  tiling: ["Bathrooms, kitchens, full-floor. Per-sqm pricing.", "Ceramic, porcelain, marble. 5-year workmanship warranty."],
+  hairstyling: ["Home service braids, weaves, wigs. Bridal packages.", "Retouch + styling. Walk-ins welcome."],
+  tailoring: ["Native, casual, bridal. Pickup + delivery.", "48h rush turnaround available."],
+  photography: ["Weddings, portraits, brand shoots.", "Studio + on-location. Drone available."],
+  data_entry: ["Spreadsheet cleanup, SKU catalogue, transcription.", "Per-row or hourly. Remote-friendly."],
+  graphic_design: ["Brand identity, IG content, logo packs.", "Landing pages, social graphics. Quick turnaround."],
+  social_media: ["IG + TikTok management for SMEs.", "Content calendars, captions, monthly reports."],
+  transcription: ["Audio-to-text, podcast transcripts.", "English + pidgin. 24h turnaround."],
+  tutoring: ["JAMB, WAEC, A-Level Maths + Physics.", "In-person + online. Hourly + monthly bundles."],
+  errand: ["Same-day pickups, market runs.", "Bike fleet. Lagos-wide coverage."],
+  delivery: ["Same-day intra-Lagos delivery.", "Fragile + bulky items. Insurance available."],
+  other: ["Reliable service across Lagos.", "Fair pricing, on-time delivery."],
+};
+
+const CATEGORY_PHOTO_POOL: Record<string, string[]> = {
+  generator: ["⚡", "🔧", "🛠"],
+  ac_hvac: ["❄️", "🧰", "🪛"],
+  plumbing: ["🔧", "🚿", "🚰"],
+  electrical: ["💡", "🔌", "⚡"],
+  cleaning: ["🧹", "🪣", "🧼"],
+  carpentry: ["🪚", "🪑", "🚪"],
+  painting: ["🎨", "🖌️", "🪣"],
+  tiling: ["🟫", "🛠", "📐"],
+  hairstyling: ["💇", "💅", "👰"],
+  tailoring: ["🪡", "👗", "📏"],
+  photography: ["📸", "🎬", "🎥"],
+  data_entry: ["⌨️", "📊", "💻"],
+  graphic_design: ["🎨", "🖌️", "💻"],
+  social_media: ["📱", "📊", "💬"],
+  transcription: ["🎧", "⌨️", "📝"],
+  tutoring: ["📚", "✏️", "🧮"],
+  errand: ["🛵", "📦", "🛍"],
+  delivery: ["🚐", "📦", "🛵"],
+  other: ["🛠", "🧰"],
+};
+
+const PROC_CATEGORIES = Object.keys(BIO_TEMPLATES);
+
+function buildHandle(rand: () => number, slug: string, platform: string) {
+  const suffixes = ["_ng", "lagos", "_official", "hq", "_ng_", "_co", ""];
+  const sfx = suffixes[Math.floor(rand() * suffixes.length)];
+  return platform === "whatsapp"
+    ? "+234 " + String(800 + Math.floor(rand() * 100)) + " " + String(100 + Math.floor(rand() * 900)) + " " + String(1000 + Math.floor(rand() * 9000))
+    : "@" + slug + sfx;
+}
+
+function generateProceduralArtisans(count: number): DiscoverySeed[] {
+  const rand = rng(42_424_242);
+  const out: DiscoverySeed[] = [];
+  const areas = Object.keys(LAGOS_AREAS) as (keyof typeof LAGOS_AREAS)[];
+  for (let i = 0; i < count; i++) {
+    const first = FIRST_NAMES[Math.floor(rand() * FIRST_NAMES.length)];
+    const initial = LAST_INITIALS[Math.floor(rand() * LAST_INITIALS.length)];
+    const suffix = BUSINESS_SUFFIXES[Math.floor(rand() * BUSINESS_SUFFIXES.length)];
+    const category = PROC_CATEGORIES[Math.floor(rand() * PROC_CATEGORIES.length)];
+    const area = areas[Math.floor(rand() * areas.length)];
+    const bn = `${first} ${initial} ${suffix}`;
+    const slug = (first + suffix).toLowerCase().replace(/[^a-z]/g, "").slice(0, 14);
+    const credibility = 55 + Math.floor(rand() * 44); // 55-98
+    const rating = +(3.6 + rand() * 1.4).toFixed(1); // 3.6-5.0
+    const jobs = 8 + Math.floor(rand() * 220); // 8-227
+    const followers = Math.floor(rand() * 30_000);
+    const hourlyRate = [2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6500, 7500, 8500, 10000, 12000, 15000][Math.floor(rand() * 14)];
+    const responseTime = [10, 15, 20, 25, 30, 40, 45, 60, 75, 90, 120][Math.floor(rand() * 11)];
+    const socialCount = 1 + Math.floor(rand() * 3); // 1-3 socials
+    const platforms: ("instagram" | "whatsapp" | "tiktok" | "twitter" | "facebook" | "jiji")[] = ["instagram", "whatsapp", "tiktok", "twitter", "facebook", "jiji"];
+    const chosen: typeof platforms = [];
+    for (let s = 0; s < socialCount; s++) {
+      const p = platforms[Math.floor(rand() * platforms.length)];
+      if (!chosen.includes(p)) chosen.push(p);
+    }
+    const social: SocialHandle[] = chosen.map((p) => ({
+      platform: p,
+      handle: buildHandle(rand, slug, p),
+      verified: rand() > 0.55,
+      followers: p === "whatsapp" ? undefined : Math.floor(rand() * (followers + 200)),
+      since: `20${18 + Math.floor(rand() * 7)}-${String(1 + Math.floor(rand() * 12)).padStart(2, "0")}`,
+    }));
+    const source: "discovered" | "registered" | "claimed" = rand() > 0.78 ? "registered" : rand() > 0.92 ? "claimed" : "discovered";
+    const bios = BIO_TEMPLATES[category] || BIO_TEMPLATES.other;
+    const photos = CATEGORY_PHOTO_POOL[category] || CATEGORY_PHOTO_POOL.other;
+
+    out.push({
+      business_name: bn,
+      category,
+      area,
+      social,
+      bio: bios[Math.floor(rand() * bios.length)],
+      photos,
+      credibility,
+      followers,
+      jobs_completed: jobs,
+      avg_rating: rating,
+      hourly_rate: hourlyRate,
+      response_time_min: responseTime,
+      source,
+    });
+  }
+  return out;
+}
+
+function seedFrom(seeds: DiscoverySeed[]) {
   mutate((db) => {
-    for (const s of SEED) {
+    for (const s of seeds) {
       const [lat, lng] = LAGOS_AREAS[s.area];
       const uid = id("u");
       const phone = "+234" + (800 + Math.floor(Math.random() * 100)) + String(Math.floor(1000000 + Math.random() * 9000000)).slice(0, 7);
@@ -499,4 +631,24 @@ export function seedDiscovery() {
       }
     }
   });
+}
+
+const PROC_FLAG = "__proc_seeded";
+
+export function seedDiscovery() {
+  const db = readDB();
+  const hasSeed = db.users.some((u) => u.business_name);
+  const procSeeded = !!(db as any)[PROC_FLAG];
+
+  if (!hasSeed) {
+    seedFrom([...SEED, ...generateProceduralArtisans(260)]);
+    mutate((db) => { (db as any)[PROC_FLAG] = true; });
+    return;
+  }
+
+  if (!procSeeded) {
+    // Existing curated seed but no procedural: top up the map.
+    seedFrom(generateProceduralArtisans(260));
+    mutate((db) => { (db as any)[PROC_FLAG] = true; });
+  }
 }
