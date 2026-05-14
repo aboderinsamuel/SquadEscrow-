@@ -16,6 +16,10 @@ export function setSessionCookie(token: string) {
     sameSite: "lax",
     path: "/",
     maxAge: 60 * 60 * 24 * 30,
+    // On HTTPS deployments, mark Secure so browsers treat the cookie as
+    // first-party and ship it on top-level navigations consistently. Skip
+    // in local dev so http://localhost still works.
+    secure: !!process.env.VERCEL || process.env.NODE_ENV === "production",
   });
 }
 

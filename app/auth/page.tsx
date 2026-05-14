@@ -1,8 +1,19 @@
+import { redirect } from "next/navigation";
 import { AuthForm } from "./AuthForm";
 import { Logo } from "@/components/Logo";
 import Link from "next/link";
+import { getSessionUser } from "@/lib/auth";
 
-export default function AuthPage({ searchParams }: { searchParams: { role?: string } }) {
+export default async function AuthPage({ searchParams }: { searchParams: { role?: string } }) {
+  // If the visitor is already authenticated, do not show the sign-in form —
+  // send them to wherever they belong in the flow. Otherwise users who get
+  // bounced back to /auth (e.g. a transient cookie miss during cold-start
+  // navigation) see a phone form that looks like a restart of the whole flow.
+  const me = await getSessionUser();
+  if (me) {
+    if ((me.kyc_tier ?? 0) > 0) redirect("/app/feed");
+    redirect("/onboard");
+  }
   const role = (searchParams.role === "worker" || searchParams.role === "customer") ? searchParams.role : undefined;
   return (
     <main className="relative min-h-[100dvh] flex flex-col page-bg">

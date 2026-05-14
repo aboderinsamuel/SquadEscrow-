@@ -1,20 +1,26 @@
 import { redirect, notFound } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
-import { readDB } from "@/lib/db";
+import { readDB, findJobById, findUserById } from "@/lib/db";
 import { AppHeader } from "@/components/AppHeader";
 import { JobDetail } from "./JobDetail";
 
 export default async function JobPage({ params, searchParams }: { params: { id: string }; searchParams: { fund?: string } }) {
   const me = await getSessionUser();
   if (!me) redirect("/auth");
-  const db = readDB();
-  const job = db.jobs.find((j) => j.id === params.id);
+  // Use the Supabase-fallback helper. Cache-only lookup 404s when the job
+  // was just written by another lambda and this one hasn't seen it — which
+  // is exactly what happens after "post job" hands you to /app/jobs/<id>?fund=1.
+  const job = await findJobById(params.id);
   if (!job) notFound();
 
-  const customer = db.users.find((u) => u.id === job.customer_id);
-  const worker = job.worker_id ? db.users.find((u) => u.id === job.worker_id) : undefined;
+  const db = readDB();
+  const customer = await findUserById(job.customer_id);
+  const worker = job.worker_id ? await findUserById(job.worker_id) : undefined;
   const apps = db.applications.filter((a) => a.job_id === job.id);
-  const enriched = apps.map((a) => ({ ...a, worker: db.users.find((u) => u.id === a.worker_id) })).filter((a) => a.worker);
+  const enrichedRaw = await Promise.all(
+    apps.map(async (a) => ({ ...a, worker: await findUserById(a.worker_id) })),
+  );
+  const enriched = enrichedRaw.filter((a) => a.worker);
 
   return (
     <>

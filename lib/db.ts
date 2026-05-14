@@ -13,7 +13,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
-import type { DB } from "./types";
+import type { DB, User, Job } from "./types";
 import { supabase, supabaseEnabled } from "./supabase";
 
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -387,4 +387,45 @@ export function id(prefix = "id") {
 
 export function hashPII(v: string) {
   return crypto.createHash("sha256").update(v).digest("hex").slice(0, 32);
+}
+
+// Cache-aware lookups with Supabase fallback. Server-rendered pages used to
+// 404 when the looked-up record was beyond Supabase's 1000-row default page
+// limit (or had been written by another lambda whose cache the current one
+// hadn't seen). These helpers check the in-memory cache first, fall back to
+// a direct Supabase read, and backfill the cache so subsequent reads stay fast.
+export async function findUserById(id: string): Promise<User | null> {
+  const db = await ensureHydrated();
+  const hit = db.users.find((u) => u.id === id);
+  if (hit) return hit;
+  if (!supabaseEnabled) return null;
+  try {
+    const sb = supabase();
+    const r = await sb.from("users").select("*").eq("id", id).maybeSingle();
+    if (r.error || !r.data) return null;
+    const user = r.data as User;
+    if (!db.users.find((u) => u.id === user.id)) db.users.push(user);
+    return user;
+  } catch (e) {
+    console.error("[db] findUserById Supabase fallback failed:", e);
+    return null;
+  }
+}
+
+export async function findJobById(id: string): Promise<Job | null> {
+  const db = await ensureHydrated();
+  const hit = db.jobs.find((j) => j.id === id);
+  if (hit) return hit;
+  if (!supabaseEnabled) return null;
+  try {
+    const sb = supabase();
+    const r = await sb.from("jobs").select("*").eq("id", id).maybeSingle();
+    if (r.error || !r.data) return null;
+    const job = r.data as Job;
+    if (!db.jobs.find((j) => j.id === job.id)) db.jobs.push(job);
+    return job;
+  } catch (e) {
+    console.error("[db] findJobById Supabase fallback failed:", e);
+    return null;
+  }
 }

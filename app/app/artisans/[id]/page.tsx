@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { getSessionUser } from "@/lib/auth";
-import { readDB } from "@/lib/db";
+import { readDB, findUserById } from "@/lib/db";
 import { seedIfEmpty } from "@/lib/seed";
 import { AppHeader } from "@/components/AppHeader";
 import { Badge } from "@/components/Badge";
@@ -19,9 +19,11 @@ export default async function ArtisanProfile({ params }: { params: { id: string 
   seedIfEmpty();
   const me = await getSessionUser();
   if (!me) redirect("/auth");
+  // Use the Supabase-fallback helper so we don't 404 when the artisan record
+  // exists in Supabase but is missing from this lambda's partial cache.
+  const a = await findUserById(params.id);
+  if (!a || !a.business_name) notFound();
   const db = readDB();
-  const a = db.users.find((u) => u.id === params.id && u.business_name);
-  if (!a) notFound();
 
   const comments = db.comments.filter((c) => c.target_id === a.id);
   const verified = a.source === "registered" || a.claimed;

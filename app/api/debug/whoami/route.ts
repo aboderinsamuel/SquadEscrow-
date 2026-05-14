@@ -19,7 +19,7 @@ export async function GET() {
     // Pinned build marker — must match the commit you expect to be live.
     // If this string changes in a later commit and Vercel still returns the
     // old one, the deploy is stale.
-    build: "auth-supabase-fallback-add9933",
+    build: "404-fix-and-auth-ux-v4",
     deploy: {
       vercelGitCommit: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || null,
       vercelEnv: process.env.VERCEL_ENV || null,

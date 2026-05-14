@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { mutateAndPersist, ensureHydrated, id } from "@/lib/db";
 import { loginUser } from "@/lib/auth";
+import { supabase, supabaseEnabled } from "@/lib/supabase";
+import type { User } from "@/lib/types";
 
 function normalizePhone(p: string) {
   const digits = (p || "").replace(/[^0-9]/g, "");
@@ -25,6 +27,30 @@ export async function POST(req: NextRequest) {
     if (otp.code !== code) return NextResponse.json({ ok: false, error: "bad_code" }, { status: 400 });
 
     let user = db.users.find((u) => u.phone === norm);
+
+    // The in-memory cache is hydrated from a single `.select()` which Supabase
+    // caps at 1000 rows. With the discovery seed in play, the users table
+    // grows past 1000 quickly — meaning a perfectly valid existing user can be
+    // missing from this lambda's cache. If we trust the cache, we'd create a
+    // duplicate user with the same phone, which then trips the UNIQUE(phone)
+    // constraint at flush time, which then takes the session row down with it
+    // via the FK on sessions.user_id — and the user ends up bounced to /auth.
+    //
+    // Fall back to a direct Supabase lookup by phone before deciding it's a
+    // new signup.
+    if (!user && supabaseEnabled) {
+      try {
+        const sb = supabase();
+        const r = await sb.from("users").select("*").eq("phone", norm).maybeSingle();
+        if (r.data) {
+          user = r.data as User;
+          if (!db.users.find((u) => u.id === user!.id)) db.users.push(user);
+        }
+      } catch (e) {
+        console.error("[/api/auth/verify] phone lookup fallback failed:", e);
+      }
+    }
+
     let new_user = false;
     if (!user) {
       new_user = true;
