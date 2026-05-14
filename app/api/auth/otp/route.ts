@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mutate, ensureHydrated } from "@/lib/db";
+import { mutateAndPersist, ensureHydrated } from "@/lib/db";
 import { seedIfEmpty } from "@/lib/seed";
 import { sendSquadSms, isLive } from "@/lib/squad";
 
@@ -13,9 +13,9 @@ function normalizePhone(p: string) {
 
 export async function POST(req: NextRequest) {
   try {
-    // Wait for Supabase hydration if we're in the cold-start race window.
-    // On Vercel the filesystem is read-only so the JSON fallback can't run;
-    // we MUST have the in-memory cache populated before mutating.
+    // Wait for Supabase hydration on cold start so we read the same state
+    // every other lambda sees. Without this, the first request after deploy
+    // creates an OTP that the *next* request (different lambda) can't see.
     const db = await ensureHydrated();
     seedIfEmpty();
 
@@ -29,13 +29,14 @@ export async function POST(req: NextRequest) {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const existing = !!db.users.find((u) => u.phone === norm);
 
-    mutate((d) => {
+    // Persist OTP synchronously — must reach Supabase before we return,
+    // because the verify request will hit a different lambda.
+    await mutateAndPersist((d) => {
       d.otps[norm] = { code, expires_at: Date.now() + 10 * 60_000 };
     });
 
-    // Send via Squad VAS SMS if we have keys. Fall back to on-screen demo OTP if:
-    //   1. We're in mock mode (no keys)
-    //   2. Squad refuses (e.g. Sender ID not registered for this merchant)
+    // Try to send via Squad VAS SMS if we have keys. If Squad refuses (e.g.
+    // Sender ID not registered yet), fall back to showing the OTP on screen.
     let smsStatus: "live" | "live-fallback" | "mock" = "mock";
     let smsNote: string | undefined;
     if (isLive) {
@@ -52,6 +53,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    // Only expose demo_otp when we couldn't really deliver via SMS.
     const showDemoOtp = smsStatus !== "live";
 
     return NextResponse.json({
@@ -63,8 +65,8 @@ export async function POST(req: NextRequest) {
       demo_otp: showDemoOtp ? code : undefined,
     });
   } catch (e: any) {
-    // Last line of defence — always return JSON so the client doesn't choke
-    // on an HTML error page from Vercel.
+    // Last line of defence — always return JSON so the client doesn't try to
+    // parse Vercel's HTML 500 page and crash with "Unexpected end of JSON input".
     console.error("[/api/auth/otp] uncaught:", e);
     return NextResponse.json(
       { ok: false, error: "server_error", detail: e?.message || String(e) },

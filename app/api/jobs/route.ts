@@ -5,7 +5,7 @@ import { mutate, id } from "@/lib/db";
 const allowedCats = new Set(["generator","plumbing","electrical","ac_hvac","carpentry","painting","tiling","cleaning","errand","delivery","hairstyling","tailoring","photography","data_entry","graphic_design","social_media","transcription","tutoring","other"]);
 
 export async function POST(req: NextRequest) {
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
   const { title, description, category, amount, area, urgency } = await req.json();
   if (!title || !description || !category || !amount) return NextResponse.json({ ok: false, error: "missing_fields" }, { status: 400 });

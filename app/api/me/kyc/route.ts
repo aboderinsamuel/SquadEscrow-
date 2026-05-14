@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
-import { mutate } from "@/lib/db";
+import { mutateAndPersist } from "@/lib/db";
 import { hashPII } from "@/lib/db";
 import { nameMatchScore } from "@/lib/discovery";
 import type { SocialHandle } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
-  const me = getSessionUser();
+  try {
+  const me = await await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
   const body = await req.json();
   const {
@@ -26,7 +27,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  mutate((db) => {
+  await mutateAndPersist((db) => {
     const u = db.users.find((x) => x.id === me.id);
     if (!u) return;
     u.nin_hash = hashPII(String(nin));
@@ -69,5 +70,9 @@ export async function POST(req: NextRequest) {
     };
   });
 
-  return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true });
+  } catch (e: any) {
+    console.error("[/api/me/kyc] uncaught:", e);
+    return NextResponse.json({ ok: false, error: "server_error", detail: e?.message || String(e) }, { status: 500 });
+  }
 }

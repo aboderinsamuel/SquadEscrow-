@@ -4,8 +4,8 @@ import { readDB } from "@/lib/db";
 import { AppHeader } from "@/components/AppHeader";
 import { JobDetail } from "./JobDetail";
 
-export default function JobPage({ params, searchParams }: { params: { id: string }; searchParams: { fund?: string } }) {
-  const me = getSessionUser();
+export default async function JobPage({ params, searchParams }: { params: { id: string }; searchParams: { fund?: string } }) {
+  const me = await getSessionUser();
   if (!me) redirect("/auth");
   const db = readDB();
   const job = db.jobs.find((j) => j.id === params.id);

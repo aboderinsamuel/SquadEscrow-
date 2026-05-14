@@ -4,7 +4,7 @@ import { mutate, readDB, id } from "@/lib/db";
 import { transferPayout, transferFee } from "@/lib/squad";
 
 export async function POST(_req: NextRequest, { params }: { params: { id: string } }) {
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
 
   const db = readDB();

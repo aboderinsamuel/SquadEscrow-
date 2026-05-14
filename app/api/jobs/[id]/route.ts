@@ -3,7 +3,7 @@ import { getSessionUser } from "@/lib/auth";
 import { readDB } from "@/lib/db";
 
 export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
   const db = readDB();
   const job = db.jobs.find((j) => j.id === params.id);

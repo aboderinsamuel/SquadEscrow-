@@ -275,6 +275,37 @@ export function writeDB() {
   });
 }
 
+// Synchronous flush — awaitable. Use in critical paths (auth, OTP, KYC)
+// where the response MUST NOT be sent before Supabase has the row, because
+// Vercel can freeze the lambda the instant the HTTP response goes out and
+// any pending process.nextTick work gets dropped on the floor.
+export async function flushNow(): Promise<void> {
+  const cur = getCache();
+  if (!cur) return;
+  if (!READONLY_FS) {
+    try {
+      ensureDir();
+      fs.writeFileSync(DB_FILE, JSON.stringify(cur, null, 2));
+    } catch (e) {
+      console.error("[db] JSON flush failed:", e);
+    }
+  }
+  if (supabaseEnabled) {
+    try { await flushToSupabase(cur); }
+    catch (e: any) { console.error("[db] Supabase flush failed:", e?.message); }
+  }
+}
+
+// Like mutate() but awaits the Supabase flush before resolving.
+// Required for auth/OTP/session writes on Vercel — fire-and-forget process.nextTick
+// flushes get dropped when the lambda is frozen after the HTTP response.
+export async function mutateAndPersist<T>(fn: (db: DB) => T): Promise<T> {
+  const db = await ensureHydrated();
+  const result = fn(db);
+  await flushNow();
+  return result;
+}
+
 export function mutate<T>(fn: (db: DB) => T): T {
   const db = readDB();
   const result = fn(db);
