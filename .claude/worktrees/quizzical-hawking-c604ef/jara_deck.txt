@@ -1,0 +1,1010 @@
+            HACKATHON 3.0 / CHALLENGE 02                                                          SMART SYSTEMS · INTELLIGENT ECONOMY
+
+SQUAD                                                                                                                                   SUBMITTED BY
+
+A SQUAD-NATIVE GIG ECONOMY OS                                      Obase-Oyeni Etim Ayomobi · 2026
+
+WORK.
+WAITS.
+WINS.
+
+A two-sided, escrow-secured marketplace that turns Nigeria's
+ 92.3% informal labour force into a verified, bankable, swipe-to-
+hire workforce -- powered end-to-end by Squad APIs.
+
+WORKING TITLE
+
+JARA / The Hustle Layer
+02 · CONTENTS                                                                                              37 PAGES
+
+What's inside.
+
+ACT I                                  ACT II                             ACT III
+
+The problem.                           The solution.                      Squad inside.
+
+03 · Executive summary                 09 · Hero -- the swipe-to-hire OS  15 · Squad API integration map
+04 · The 92% reality                   10 · Product mockups               16 · Endpoint cheat sheet
+05 · Youth unemployment, real numbers  11 · The trust stack               17 · Escrow sequence diagram
+06 · Why current platforms fail        12 · Fraud detection signals       18 · AI matching pipeline
+07 · Why now -- macro context          13 · System architecture           19 · Alternative credit scoring
+08 · Four target users                 14 · Detailed microservices
+                                       35 · WhatsApp onboarding           ACT VI
+ACT IV                                 36 · Trust & Traction Score 
+                                                                          The plan.
+How to build.                          ACT V
+                                                                          31 · Risks & mitigations
+20 · Tech stack                        Why it wins.                       32 · Regulatory positioning
+21 · Database schema                                                      33 · Roadmap to 1M users
+22 · Code: Squad in 60 lines           24 · Competitor matrix             34 · The ask
+23 · 6-week build sprint               25 · Revenue streams (×5)          37 · Sources & appendix
+                                       26 · Unit economics, per job
+JARA · THE INTELLIGENT ECONOMY         27 · 3-year financial model
+                                       28 · How GTCO wins
+                                       29 · CAC vs LTV math
+                                       30 · Float yield economics
+
+                                                                                                           02 / 37
+03 · BLUF                                                                                                                           READ THIS FIRST
+
+JARA is the only Squad-native solution that
+simultaneously serves 92% of Nigeria's labour force,
+monetises GTCO's unfair advantage, and ships
+regulator-ready under NDPA 2023.
+
+PROBLEM                                                       SOLUTION                                                      RETURN
+
+The labour-finance gap is real and                            A Tinder-style hiring app, with                               5 ways GTCO/Squad makes money.
+growing.                                                      banking inside.
+                                                                                                                            (1) Take rate 7­10% per job. (2) Squad gateway/transfer
+235m people · 116.6m working-age · 92.3% in informal jobs ·   Customers swipe to post jobs. Youth tap to apply -- no CV.    fees on every flow. (3) Float yield -- at 1M MAU 
+84% self-employed · 90% earn under 500k/month. Trust          Funds escrowed in a Squad Dynamic Virtual Account. On         52m/month at 17% T-bills. (4) CASA deposits -- youth
+failures, ghosting, and zero credit history lock them out of  dual confirmation, paid out via Squad Transfer API in T+1.    open GTBank accounts to receive instant payouts. (5)
+formal banking. NIN coverage now 127m -- for the first time,  NIN + BVN + face-match verifies every worker. Cash-flow       Embedded credit via GT MFB on alt-data. Year-3
+the rails exist.                                              signals build a credit score -- Squad data, not bureau data.  contribution: 8­12bn revenue.
+
+SOURCE · NBS, NIMC, MONIEPOINT 2024 REPORT                    USES · 8 SQUAD PRODUCTS, >25% INTEGRATION DEPTH               PROJECTION · TEAM MODEL, RES. PG 27
+
+ The single sentence we want judges to remember:                        "It's a dating app for jobs, with a bank inside, and Squad is the heart."
+
+EXECUTIVE SUMMARY                                                                                                                   03 / 37
+04 · ACT I -- THE PROBLEM                                                                                                          NATIONAL BUREAU OF STATISTICS, 2023 NLFS
+
+92.3%
+
+of Nigerian workers earn outside formal
+employment.
+Banks, fintechs, and the state can't see them.
+
+84%                                         58.2%                                                90%                               51.6%
+
+are self-employed. The boss is themselves.  of GDP comes from this informal layer (Moniepoint).  earn under 500,000/month profit.  started their hustle because of unemployment.
+
+THE 92% REALITY                                                                                                                                                                   04 / 37
+05 · ACT I -- THE PROBLEM                                                                                                  A STATISTICAL KNIFE-FIGHT
+
+The official youth unemployment number is 6.5%.
+The real one -- by the old method -- is closer to
+53%. We design for the gap.
+
+NIGERIA YOUTH UNEMPLOYMENT RATE (15­24)                                                                                    ILO, INFORMAL EMPLOYMENT
+
+Two truths, one country                                                                                                    98%
+
+                                                APRIL 2023 · METHOD SWITCH                                                 of Nigerian workers aged 15­24 are in informal employment. They have no
+                                                                                                                           payslip, no PAYE, no credit profile.
+                    60%                   2020  2022  2023                  2024     53%
+                    45%                                                                                                    SO WHAT?
+                    30%                                                                 old method
+                    15%                                                                                                    Whether the rate is 6% or 53%, tens of millions of Nigerian youth need work,
+                     0%                                                              6.5%                                  money, and proof. A platform that gives them all three, plus a credit history they
+                                                                                                                           actually own, is the missing piece.
+                                    2019                                                new method
+                                                                                  Q2'24
+
+In April 2023, NBS adopted ILO-aligned methodology and restated Q4 2020 from 33.3%  4.1%. The Nigeria Labour Congress and
+academic literature continue to cite the old basis.
+
+YOUTH UNEMPLOYMENT                                                                                                         05 / 37
+06 · ACT I -- THE PROBLEM                                                                                                            FIELD INTERVIEWS · LAGOS, ABUJA, PH
+
+Existing platforms fail at the trust handshake -- both
+sides walk away burnt.
+
+                           C If you're hiring              W If you're hustling
+
+"He collected 40k deposit, said he'd come Saturday,        "The customer said the work wasn't good. He didn't
+switched off his phone for three weeks."                   pay. There's no one to call."
+
+-- Folake, Lekki / electrician hire / Twitter, 2024        -- Tunde, generator technician / Yaba
+
+"Jacking up the price the moment they see your kitchen     "I worked 400 hours of probation and they paid me
+is a national sport."                                      nothing. Then they shut down without notice."
+
+-- LaborHack blog, 2023 · "Working with Artisans is Hard"  -- SweepSouth Nigeria worker, 2023 (TimesLIVE / TechCabal)
+
+"How do I know who I'm letting into my house? There's      "Banks won't lend me 50k for a new tool kit. I have
+no NIN check, no nothing."                                 no payslip. I am a ghost."
+
+-- customer review, Wesabi forum                           -- composite, ILO Nigeria informal economy report
+
+      THE OPPORTUNITY  BUILD A SYSTEM WHERE NEITHER SIDE CAN GET BURNED: ESCROW + ID-VERIFIED + DISPUTE-RESOLVED + CREDIT-BUILDING.  06 / 37
+TRUST FAILURES
+07 · ACT I -- THE PROBLEM                                                                                                                             2025  2026
+
+The rails Nigeria didn't have five years ago are now
+live. This product was impossible in 2020. It is
+unavoidable in 2026.
+
+01 · IDENTITY                                   02 · MOBILE MONEY                            03 · DEVICES                                             04 · CREDIBLE FX
+
+127m                                            71.5tn                                       73.9%                                                    1,429
+
+Nigerians enrolled in NIN as of Dec 2025 -- up  processed by mobile-money operators in 2024  of voting-age Nigerians have smartphone                  USD/NGN end-2025. Naira +7.4% YoY -- first
+from 110m in Sept 2024.                         -- +53.4% YoY. 3.9bn transactions.           access. Mobile = 84% of all web traffic.                 annual gain since 2012.
+
+SOURCE · NIMC                                   SOURCE · NIBSS                               SOURCE · PREMISE / DATAREPORTAL 2025                     SOURCE · CBN
+
+       REGULATION                                                           FINTECH MATURITY                                                          YIELDS
+
+   NDPA 2023 is enforced.                                                   430+ fintechs operate in NG.                                              17­26% T-bill rates.
+
+      NDPC fined Multichoice 766m and Meta $220m. Build compliant from day  Squad processed 9.8tn in H1 2024 alone. The infrastructure is finally as  364-day NTB 17.69%, OMO 84-day 26.40% (Nov 2025). Float yield is a real
+      1 -- competitors cannot retrofit.                                     capable as the demand.                                                    revenue line, today.
+
+WHY NOW                                                                                                                                                                                                                                                            07 / 37
+08 · ACT I -- THE PROBLEM                                                                                                                                         DESIGNED FOR THESE 4 HUMANS
+
+Four real Nigerians, two sides of the same problem.
+
+ CH                                                   EM                                                       TU                                                   AI
+
+CUSTOMER · TYPE 1                                    CUSTOMER · TYPE 2                                        WORKER · TYPE 1                                     WORKER · TYPE 2
+
+Chioma, 34                                           Emeka, 41                                                Tunde, 24                                           Aisha, 22
+
+Banker · Ikoyi · 2 kids                              SME owner · Computer Village                             Electrician · Mushin · OND polytechnic              Data labeller · Kano · UNIBEN remote
+
+Pain: Generator died on Sunday. Three numbers from   Pain: Needs 3 errand-runners, 2 sales reps, and a        Pain: Skilled but invisible. No CV makes sense. No  Pain: Wants white-collar gigs (transcription, design, VA
+her group chat are unreachable. She is Googling at   deliveryman, today. Posting on WhatsApp gets him 60      formal payslip means no credit, no chance.          work). Upwork bans Nigerian payouts.
+11pm.                                                ghost CVs.
+                                                                                                              Job: Get hired daily by tapping a button. Build a   Job: Local clients with naira payouts in T+1, no
+Job: Find a verified technician, see when he comes,  Job: Bulk-hire vetted youth, pay daily wages via single  verified work history.                              payment-rail anxiety.
+pay only when fixed.                                 dashboard.
+                                                                                                              Earns: 7k­15k/day when working.                     Earns: 40k­200k/month.
+Pays: 8k­60k, willingly, for certainty.              Pays: 150k­600k/month rolling.
+
+FOUR PERSONAS                                                                                                                                                     08 / 37
+09 · ACT II -- THE SOLUTION                                                                                                                                          HERO CONCEPT
+
+INTRODUCING                                                                                                                                   100
+
+JARA.                                                                                                           9:41
+
+                                                                                                                JARA
+
+                                                                                                                NEAR YOU · LAGOS
+
+                                                                                                                URGENT · 2KM                         15k
+
+                                                                                                                Generator
+
+                                                                                                                repair
+
+                                                                                                                5kVA Tiger gen, won't start. Today before 6pm.
+
+                                                                                                                Chioma · 4.8
+
+                                                                                                                      Verified  Escrow paid
+
+/dr/ -- Yoruba/Pidgin: "extra," the bonus the seller adds for free
+
+Swipe to post. Tap to apply. Pay
+through escrow.
+A bank account is the bonus for showing up.
+
+01                                02                                 03                                                     SKIP             APPLY · TAP
+
+No CV. Workers tap one button to  No ghosting. Funds escrowed. Both  No invisibility. Each job builds verified  JOBS · 23 EARNED · 42K               STREAK · 8
+apply.                            sides locked in.                   credit.                                                                                PROFILE
+                                                                                                                                             CREDIT
+                                                                                                                      JOBS    EARN
+
+SOLUTION HERO                                                                                                                                                        09 / 37
+10 · ACT II -- THE SOLUTION                                                                                                                                             4 SCREENS, END-TO-END
+
+Product tour, in 90 seconds.
+
+9:41                                               9:41                                            9:41                                     9:41                                          
+
+STEP 2 OF 4                                       Today's jobs                 FILTER              JOB #J-4427
+                                                                               8k
+Verify your identity in 30                          Plumbing fix             15k                   Funds locked in escrow.
+seconds.                                                                     12k
+                                                     Surulere · 1.2km · 4.6  3.5k                                                                 
+                                                                              25k
+NIN · NATIONAL ID                                   Generator repair                               SQUAD VIRTUAL ACCOUNT                          13,950 paid
+                                                                                                                                                  to your bank.
+12345 67890 1                                        Lekki · 2.8km · URGENT                        15,000.
+ Match: Tunde A.
+                                                    AC service                                     Acct: 9035*****12 · Ref JR-4427
+
+                                                     Yaba · 3.1km · 4.9                             Customer paid 15,000                    SETTLEMENT · T+1 · GTBANK   15,000
+                                                                                                    Worker accepted                                                     -1,050
+                                                    Errand · pickup                                3 Work in progress · ETA 4pm             Job earnings
+                                                                                                   4 Both confirm  release                  JARA fee (7%)                   -20
+                                                     Ikeja · 0.8km                                                                          Squad transfer
+
+                                                    Data entry · remote                                                                     JARA SCORE
+
+      Liveness check passed                          3-day · 4.7                                                                            682 +12
+
+                                                                                                                                            Eligible: 25k loan @ 4%/mo
+
+      CONTINUE                                                                                           PROTECTED BY SQUAD ESCROW
+
+01 · ONBOARD                                      02 · MATCH                                       03 · ESCROW                              04 · EARN + GROW
+
+NIN + selfie + liveness, in 30s.                  AI ranks by skill, distance, language.           Squad VA holds funds. Released on dual   Money in T+1. Credit grows.
+                                                                                                   confirm.
+No CV upload. No documents. Smile ID handles it.  Pidgin "I sabi gen"  "Generator repair, Lekki."                                           After 5 jobs, GT MFB approves a tools loan.
+                                                                                                   Webhook fires the moment customer pays.
+PRODUCT MOCKUPS
+                                                                                                                                                                                            10 / 37
+11 · ACT II -- THE SOLUTION                                                                                              A FOUR-LAYER CAKE
+
+The trust stack: four checks, four seconds, zero CV.
+
+04 Liveness check                                                                                   ~150­500/CHECK
+
+3D depth + blink + head-turn. ISO 30107-3:2023 Level 2 (Smile ID, 0% breach). Defeats deepfakes, photos, masks.          BLENDED COST · ONBOARDED USER
+
+03 Face match  NIN photo                                                                            ~100­300/MATCH       200.
+
+99.8% accuracy on African skin tones (Smile ID, 2.8m/month). 90% threshold to pass; 70­90% triggers manual review.       Amortised over ~10 jobs lifetime = 20/job. Volume discounts at 100k
+                                                                                                                         onboardings.
+02 BVN lookup  bank truth                                                                           ~40­100/LOOKUP
+                                                                                                                         REASON IT WORKS
+Confirms NIN-named person owns the payout account. Blocks 80% of mule-account fraud at onboarding.
+                                                                                                                         Each layer is cheap.
+01 NIN validation  identity truth                                                                         ~20­50/LOOKUP  Together they're unforgeable.
+
+Pulls name, DOB, photo from NIMC. 127m enrolled (Dec 2025). The single most important data point we own.                 A fraudster needs a real NIN, matching BVN, the actual face, and a live person. Each adds $0.05. Together: $0
+                                                                                                                         fakes.
+
+                                                                                                                         OUTCOME
+
+                                                                                                                         99.5% of fraud blocked at door.
+
+                                                                                                                         Smile ID 2024: 14% YoY fraud drop on properly-stacked KYC. Nigerian banks lost 42.6bn in 2024 -- we keep
+                                                                                                                         that out.
+
+TRUST STACK                                                                                                              11 / 37
+12 · ACT II -- THE SOLUTION                                                                                                                                      CONTINUOUS, POST-ONBOARDING
+
+Eight runtime fraud signals -- fed to a graph model that
+flags rings, not just users.
+
+01 · DEVICE                                                02 · GEO                                                 DETECTED FRAUD RING · LAGOS · MAY 2026
+
+Fingerprint reuse.                                         NIN-state vs IP-state.                                   14 accounts, 1 device, 3 phone numbers.
+
+Same device  5+ accounts in 30d. Auto-flag.                NIN says Edo, IP from Russia  review.
+
+                                                                                                                                M2
+
+                                                                                                                        M1                                       M3
+
+    03 · BANK                                              04 · SOCIAL                                                                                               M4
+
+   Payout churn.                                           Graph density.                                           M9              DEVICE
+
+     3+ account changes in 7d. Lock until BVN re-confirm.  Mule rings = low-density stars. Legit artisans cluster.                  A2-7F-3C
+
+    05 · MEDIA                                             06 · BEHAVIOUR                                           M8                                               M5
+
+   Deepfake check.                                         Velocity anomalies.                                                                                                       L
+
+     EXIF + reverse-image hash + GAN-detector on proofs.   100 applies in 2 minutes  bot. Rate-limit + CAPTCHA.             M7                               M6          L
+
+    07 · PAYMENT                                           08 · DISPUTE                                                                                                     L
+
+   Card BIN risk.                                          Chargeback velocity.                                                                                       legit cluster
+
+     Squad webhook payload + BIN reputation feed.          3+ chargebacks in 90d  escrow-only mode.
+
+FRAUD DETECTION                                                                                                     Visualised in operator dashboard. Auto-suspends entire ring on confirmation. Pattern: high-degree centre, no inter-mule
+                                                                                                                    edges.
+
+                                                                                                                                                                                                                                             12 / 37
+13 · ACT II -- THE SOLUTION                                                                                                                                                                                                   FOR BUILDERS + JUDGES
+
+High-level system architecture.
+
+CLIENTS                  Worker app                                             Customer app             USSD *347*JARA#                  Operator console             Regulator portal
+
+                     React Native · Android first                                RN · iOS + Android         Squad USSD shortcode           Next.js · disputes · fraud   NDPC + CBN read-only
+
+EDGE                                                                                                     API GATEWAY · auth · rate-limit · OWASP · WAF
+
+SERVICES             Identity                       Matching AI                 Job + Escrow             Squad orchestrator               Credit + Score               Fraud + Graph             Notify + Comms
+
+                 NIN · BVN · face                  embeddings · geo                state machine           VA · transfer · webhook            JARA Score                 device · velocity         Squad SMS · push
+                liveness · KYC tiers                  pidgin · skills           disputes · payouts                 idempotent              cash-flow  loan                 ring detection           WhatsApp Cloud
+
+                    FastAPI · Python                 Python · pgvector             Node + Temporal                       Node                Python · XGBoost               Neo4j · Python            Node · Bull queue
+
+D ATA                Postgres · TimescaleDB                                      Redis · queues          S3-compat object store             Neo4j · graph                                         Kafka event bus
+
+                         users · jobs · transactions                            cache · rate · sessions       selfies · job photos · KYC  device · account · bank                                job-state · audit · ML feed
+                           RLS + encrypted at rest                                                       KMS-encrypted, NDPA-compliant
+
+PA R T N E R S    SQUAD APIs                         Smile ID / Dojah                NIBSS               GTBank · GT MFB                  WhatsApp Cloud                Mapbox · OSM             OpenAI · Whisper
+
+                payments, VA, transfer             NIN · BVN · face · liveness  name lookup · NIP          CASA · loans · cards              notifs · 2FA · OTP        geo · routing · clusters      pidgin STT + LLM
+                     api-d.squadco.com
+
+SYSTEM ARCHITECTURE                                                                                                                                                                                                           13 / 37
+14 · ACT II -- THE SOLUTION                                                                                                                                                                                                 SERVICE CONTRACTS
+
+Seven services, each owns one job.
+
+01 · Identity Service   PYTHON · FASTAPI                                                                             02 · Matching AI                                                                                       PYTHON · PGVECTOR
+
+Owns NIN/BVN lookups, face match, liveness, KYC tiering. Caches 24h. Re-verifies on payout-account change.           Embeds jobs + workers into 768-dim space. Cosine + geo + language + reputation  ranked feed.
+Endpoints: POST /kyc/start · POST /kyc/face · GET /kyc/{user}/status                                                 Endpoints: GET /jobs/feed?lat,lng · POST /jobs/parse-pidgin
+SLO: 99.5% / 800ms p95. Replays Smile ID + Dojah on failover.                                                        Models: paraphrase-multilingual-mpnet · GPT-4o pidgin parse · XGBoost re-rank.
+
+03 · Job + Escrow       CORE · NODE · TEMPORAL                                                                       04 · Squad Orchestrator                                                                                     CORE · NODE
+
+The state machine. POSTED  APPLIED  ACCEPTED  FUNDED  IN_PROGRESS  COMPLETED  SETTLED w/ timeouts, retries, dispute  The only service that talks to Squad. Mints VAs, fires transfers, ingests webhooks, requeries on 424.
+paths.                                                                                                               Internal API: POST /squad/va · /squad/payout · /squad/webhook
+Endpoints: POST /jobs · PATCH /jobs/{id}/state · POST /disputes                                                      Idempotency: tx-ref = {merchantId}-{jobId}-{nonce}; HMAC-SHA512 webhook validation.
+Why Temporal: retries, idempotency, durable execution. Webhook-driven transitions.
+
+05 · Credit + Score     PYTHON · XGBOOST                                                                             06 · Fraud + Graph                                                                                          PYTHON · NEO4J
+
+Computes JARA Score 300­850. Features: completion-rate, on-time%, dispute-rate, earnings-velocity, geo-diversity.    Builds (User, Device, Bank, NIN, Phone) heterogeneous graph. Ring-detection via community-detection algos.
+Endpoints: GET /score/{user} · POST /loan/eligibility                                                                Endpoints: POST /signal · GET /risk/{user}
+Loop: retrain weekly; A/B test thresholds; monitor for ethnic bias.                                                  Latency: async -- 99% <5s; blocking only on hot path.
+
+07 · Notify + Comms                                                                                                                                                                                                              NODE · BULLMQ
+
+Routes notifications: push (FCM/APNs)  SMS (Squad VAS)  WhatsApp (Cloud API)  USSD callback. Delivery-tier policy: high-value job alerts always escalate to SMS within 30s if not opened. Endpoint: POST /notify -- channel-agnostic; Squad SMS API used for cost-
+efficient bulk.
+
+DETAILED MICROSERVICES                                                                                                                                                                                                           14 / 37
+15 · ACT III -- SQUAD INSIDE                                                                                                                                                              25% OF JUDGING SCORE LIVES HERE
+
+8 Squad products, woven through every user journey.
+
+Each Squad capability is the only realistic way to do that step at our scale and price-point.
+
+CUSTOMER JOURNEY                                  Pays via card            Funds escrowed        Picks worker            Confirms done        (Disputes if needed)  Tips · rates
+
+                         Posts a job             3DS, USSD, transfer          unique VA per job       from AI list
+
+                               "Fix my AC, 12k"
+
+SQUAD APIs · THE PLATFORM
+
+Payment Modal                                      Dynamic VA                 Webhooks           Account lookup           Transfer API           Refunds            USSD shortcode        VAS · SMS + Air
+
+ card · bank · USSD                                single-use NUBAN           HMAC-SHA512            name resolution       to any NG bank      source-account            offline workers    2% airtime rebate
+  /transaction/initiate                           /virtual-account/create    x-squad-signature   /payout/account/lookup     /payout/transfer  /transaction/refund          *347*JARA#      /vas/airtime · /vas/sms
+1.2% capped 1,500                                0.25% capped 1,000        + replay API on miss                          8­40 per payout      dispute outcomes           major-bank set
+                                                                                                        pre-payout                                                                           comms + loyalty
+
+WORKER JOURNEY                                   Sees + applies            Gets confirmed        Travels · works         Submits proof        Paid in T+1           Score grows
+
+                      Onboards (NIN)                                       SMS via Squad VAS                                                    Transfer API
+
+                            name lookup  Squad
+
+SQUAD API INTEGRATION MAP                                                                                                                                                                                           15 / 37
+16 · ACT III -- SQUAD INSIDE                                                                                                      VERBATIM FROM DOCS.SQUADCO.COM
+
+Endpoint cheat sheet -- every call we make.
+
+FUNCTION                  METHOD  ENDPOINT                                         NOTES                                          ENVIRONMENTS
+                                  /transaction/initiate                            Returns checkout_url; card+bank+USSD+transfer  // Sandbox
+Initiate payment (modal)  POST    /transaction/initiate/process-payment            Server-side card; 3DS challenge URL            https://sandbox-api-d.squadco.com
+Direct charge (PCI-DSS)   POST    /transaction/charge_card                         Recurring tips, subscriptions                  // Live
+Charge tokenised card     POST    /virtual-account/create-dynamic-virtual-account  Single-use NUBAN per job · GTBank for instant  https://api-d.squadco.com
+                          POST    /virtual-account/merchant/transactions           Reconciliation                                 // Console
+Create dynamic VA         GET     /payout/account/lookup                           ALWAYS before transfer                         sandbox.squadco.com
+                          POST    /payout/transfer                                 tx-ref MUST start w/ merchantId                dashboard.squadco.com
+List VA transactions      POST    /payout/requery                                  On HTTP 424 (pending) only
+                          POST    /merchant/balance                                Pre-flight check before bulk payout            AUTH HEADER
+Account name lookup       GET     /transaction/refund                              Dispute resolution path
+Single transfer           POST    /transaction/cancel/recurring                    User cancels tip schedule                         Authorization: Bearer
+                          PATCH   /vas/airtime · /vas/sms                          2% airtime rebate; bulk SMS for notifs            sandbox_sk_a3F2...
+Re-query transfer         POST
+Wallet balance                                                                                                                    Per-merchant secret. Webhooks signed HMAC-SHA512 in x-squad-signature.
+Refund a transaction
+Cancel recurring                                                                                                                  FEES (LIVE)
+Send airtime / SMS                                                                                                                Card / bank / USSD: 1.2%, capped 1,500
+                                                                                                                                  Virtual Account: 0.25%, capped 1,000
+                                                                                                                                  Transfer (payout): 8­40 each
+                                                                                                                                  Settlement: T+1 to bank, instant to wallet
+                                                                                                                                  Airtime rebate: 2%
+
+ENDPOINT CHEAT SHEET                                                                                                                                                                                      16 / 37
+17 · ACT III -- SQUAD INSIDE                                                                                                                                                                                                                          HAPPY-PATH JOB FLOW
+
+Escrow sequence: customer pays  worker paid, in 14 steps.
+
+CUSTOMER                               JARA APP                 JOB SVC                SQUAD ORCH     SQUAD APIs                                                         WORKER                                                               GTBANK
+
+          1. Posts job "Fix gen, 15k"
+
+                                                 2. POST /jobs
+
+                                                                         3. mintEscrowVA(jobId, 15k)
+
+                                                                                                            4. POST /virtual-account/create
+                                                                                                      5.  {nuban: 9035...12, ref: JR-4427}
+
+                                                                6.  VA NUBAN + amount
+
+7. Show "Pay 15k to 9035...12"
+
+                                                                                        8. Customer transfers 15k  VA (instant via NIP)
+                                                                                                                                 9. WEBHOOK charge_successful (HMAC)
+
+                                                                             10. job.state = FUNDED
+                                                                                                                    11. Push: "Job ready, ETA 4pm" (Squad SMS fallback)
+
+                                                                                         12. Worker submits proof; customer + worker confirm
+                                                                         13. payout(workerAcct, 13,950)
+
+                                                                                                                                           14. POST /payout/transfer
+
+                                                                                                                                                                         15. Transfer landed · T+1 to GTBank acct
+
+                                                                                                                                                                                                               16. Worker SMS: "13,950 paid"
+
+                                                                                                                                                                           Total elapsed (best case): ~4 hours job + 1 day settle.
+
+                                                                                                                                                                             Worst case (424 retry): +24h. Idempotent tx-ref keeps it safe.
+
+ESCROW SEQUENCE DIAGRAM                                                                                                                                                                                                                               17 / 37
+18 · ACT III -- SQUAD INSIDE                                                                                  BEYOND KEYWORD SEARCH
+
+Matching AI: Pidgin in, ranked workers out.
+
+PIPELINE · 5 STAGES, P95 <500MS                                                                               EXAMPLE · PIDGIN  STRUCTURED
+
+           INPUT · CUSTOMER POSTS A JOB                                                                           # Worker bio (input)
+                                                                                                                  "I sabi gen, AC, fridge.
+         "Gen no dey on, 5kVA Tiger model, abeg come Lekki by 6" + GPS + 15k offer                                Mostly Yaba and Ojuelegba.
+                                                                                                                  5 yrs experience for repair"
+       1. PIDGIN PARSE
+                                                                                                                  # GPT-4o output
+               GPT-4o  {skill: "generator_repair", brand: "Tiger 5kVA", urgency: 0.85, deadline: 6pm}             {
+
+       2. EMBED · multilingual MPNet 768d                                                                             "skills": ["generator","AC","refrigerator"],
+                                                                                                                      "experience_yrs": 5,
+               job_vec   · cosine search in pgvector over 50k worker profiles                                         "areas": ["yaba","ojuelegba"],
+                                                                                                                      "language": "pidgin_en"
+       3. RECALL · top-200 by skill, <5km, online, score >500                                                     }
+
+               PostGIS for geo, Postgres for filters, pgvector for similarity -- single query                 WHY IT GETS SMARTER
+                                                                                                              Every accepted job  +signal. Every dispute  -signal. Online learning loop retrains weekly. After 100k jobs: match-
+       4. RE-RANK · XGBoost on 22 features  top 20                                                            precision climbs 65%91%.
+
+               completion% · on-time% · disputes · avg-rating · price-fit · repeat-customer · language-match  FAIRNESS GUARDRAIL
+                                                                                                              Daily audit: P(match | northern_NIN) vs P(match | southern_NIN), holding skill+geo. 10% gap  halt re-rank, alert ops.
+       5. DIVERSITY + FAIRNESS                                                                                Required by NDPA Art. 24.
+
+               MMR diversification · cold-start exploration (10% slot) · ethnic/regional bias monitor
+
+AI MATCHING                                                                                                   18 / 37
+19 · ACT III -- SQUAD INSIDE                                                                                                                      CARBON-STYLE, ON SQUAD DATA
+
+No payslip. No bureau. Just cash flow that anyone can see.
+
+FairMoney does 5m collateral-free SME loans on transaction velocity. Carbon disbursed $200m on similar signals. We do the same -- using verified
+Squad escrow flows as substrate.
+
+JARA SCORE · 12 INGREDIENTS                                                     EXAMPLE · TUNDE A.
+   01 · Completion rate (20%)
+   03 · Avg customer rating (12%)   02 · On-time delivery (15%)                 682         87 jobs · 94% on-time · 4.7 · 0 disputes / 30d.
+   05 · Repeat-customer rate (10%)  04 · Earnings velocity (10%)                             Eligible: 25k tools loan @ 4%/mo
+   07 · Geo diversity (5%)          06 · Dispute rate (inverse) (10%)           JARA SCORE
+   09 · KYC strength (4%)           08 · Skill breadth (5%)
+   11 · Communication score (3%)    10 · Tenure on platform (3%)                LOAN LADDER · GT MFB                                                     5,000 · 6%/mo
+                                    12 · Savings deposit pattern (3%)           580­649                                                                25,000 · 4%/mo
+                                                                                650­699                                                              100,000 · 3%/mo
+OUTPUT                                                                          700­749                                                            500,000 · 2.5%/mo
+                                                                                750+
+Score 300­850 · loan eligibility · max ticket size
+
+Recomputed on every job-completion. Fair-lending audit log per CBN guidelines.
+
+ALT CREDIT SCORING                                                                                                                                19 / 37
+20 · ACT IV -- HOW TO BUILD                                                                                      FOR THE DEV TEAM
+
+Tech stack -- boring on purpose, ships in 6 weeks.
+
+CLIENTS                             SERVICES                DATA + ML                   INFRA + OPS
+
+Mobile + Web                        Polyglot                Boring DBs                  Cheap to start
+
+ React Native 0.74 + Expo            Node 20 + NestJS        Postgres 16 + TimescaleDB   AWS af-south-1
+ NativeWind (Tailwind RN)            Temporal (workflows)    pgvector (embeddings)       EKS (K8s) + ArgoCD
+ Reanimated 3                        Python 3.12 + FastAPI   PostGIS (geo)               Docker · Buildx
+ Zustand state                       Kong API Gateway        Redis 7                     GitHub Actions CI
+ React Hook Form                     Auth0 / WorkOS          S3-compat (R2)              Cloudflare WAF + DDoS
+ Next.js 14 (operator)               BullMQ for jobs         Neo4j (fraud graph)         Grafana + Loki + Tempo
+ shadcn/ui                           gRPC + REST             Kafka / Redpanda            Sentry + PagerDuty
+                                                             OpenAI · HuggingFace        Vault for secrets
+
+     THIRD-PARTY APIS · CONTRACTED                          Squad · payments, VA, transfer, USSD, SMS Smile ID · NIN/BVN/face/liveness Dojah · backup KYC WhatsApp · notifs Mapbox · geo OpenAI · GPT-4o + Whisper
+TECH STACK                                                                                                                                                                                                                                                                      20 / 37
+21 · ACT IV -- HOW TO BUILD                                                                                                                            POSTGRES 16 · 12 CORE TABLES
+
+Database schema -- what engineers ship Day 1.
+
+                  users                              worker_profiles                     jobs             escrow_accounts                transactions                kyc_records
+
+id uuid PK                               user_id FKusers              id uuid PK               id uuid PK                  id uuid PK                  user_id FK
+phone text UNIQUE                        skills text[]                customer_id FK           job_id FK                   type enum (in/out)          nin_match_score numeric
+nin_hash text                            bio text                     worker_id FK NULL        squad_va text               squad_ref text UNIQUE       bvn_match_score numeric
+bvn_hash text                            embedding vector(768)        title text               squad_ref text              amount bigint               face_match_score numeric
+role enum                                jara_score smallint          description text         amount bigint               fee bigint                  liveness_passed bool
+kyc_tier smallint                        avg_rating numeric(3,2)      amount_naira bigint      funded_at timestamptz       channel enum                vendor enum
+created_at timestamptz                   completed_jobs int           geo geography(Point)     state enum                  status enum                 verified_at timestamptz
+geo geography(Point)                                                  state enum                                           webhook_payload jsonb
+                                                                      embedding vector(768)                                created_at timestamptz
+
+                 devices                                  disputes                      loans                   reviews               webhook_events                   audit_log
+
+id uuid PK                               id uuid PK                   id uuid PK               id uuid PK                  id uuid PK                  id bigserial PK
+user_id FK                               job_id FK                    borrower_id FK           job_id FK                   source enum                 actor_id FK NULL
+fingerprint text                         opened_by FKusers            principal bigint         reviewer_id FK              event_type text             action text
+platform enum                            reason text                  apr_bps int              stars smallint              signature text              target_table text
+last_seen_geo geography                  resolution enum              tenor_days int           comment text                payload jsonb               diff jsonb
+risk_score smallint                      resolved_amount bigint       status enum                                          processed_at timestamptz
+
+LEGEND                    Profile / KYC  Money flow  Risk surface     Compliance                Encrypted at rest (KMS) for nin_hash, bvn_hash, payout_account, kyc photos · RLS by user_id · TimescaleDB hypertable on transactions · 6-yr audit retention per CBN.
+      Core entity
+
+DATABASE SCHEMA                                                                                                                                                                                                                                                       21 / 37
+22 · ACT IV -- HOW TO BUILD                                                                                                                                                                                                                                      DROP-IN FOR THE DEV TEAM
+
+Squad integration in 60 lines of TypeScript.                                                          02 · VERIFY WEBHOOK + RELEASE PAYOUT
+
+    01 · MINT ESCROW VA WHEN JOB POSTED                                                                  // app/api/webhooks/squad/route.ts
+                                                                                                         import crypto from 'crypto';
+        // services/squad/escrow.ts
+        import axios from 'axios';                                                                       export async function POST(req: Request) {
+                                                                                                             const raw = await req.text();
+        const SQUAD = axios.create({                                                                         const sig = req.headers.get('x-squad-signature');
+            baseURL: process.env.SQUAD_BASE!,
+            headers: {                                                                                       const mac = crypto
+               Authorization: `Bearer ${process.env.SQUAD_SECRET}`,                                             .createHmac('sha512', process.env.SQUAD_SECRET!)
+               'Content-Type': 'application/json',                                                              .update(raw).digest('hex');
+            },
+                                                                                                             if (mac !== sig) return new Response('bad sig', { status: 401 });
+        });
+                                                                                                             const e = JSON.parse(raw);
+        export async function mintEscrowVA(                                                                  if (e.Event === 'charge_successful') {
+            job: { id: string; amount: number; customerName: string },
+                                                                                                                await markFunded(e.TransactionRef, e.TransactionAmount);
+        ){                                                                                                      await notify.send(e.TransactionRef, 'JOB_FUNDED');
+            const ref = `${process.env.SQUAD_MERCHANT_ID}-${job.id}`;                                        }
+                                                                                                             return new Response('ok');
+            const { data } = await SQUAD.post(                                                           }
+               '/virtual-account/create-dynamic-virtual-account',
+               {                                                                                         export async function releasePayout(jobId: string) {
+                   transaction_ref: ref,                                                                     const j = await db.jobs.find(jobId);
+                   amount: job.amount * 100, // kobo                                                         const w = await db.workers.find(j.worker_id);
+                   currency_id: 'NGN',                                                                       const net = j.amount - feeOf(j.amount);
+                   customer_identifier: job.customerName,
+                   beneficiary_account: process.env.GTBANK_SETTLEMENT!,                                      await SQUAD.post('/payout/account/lookup', {
+                   expiry_seconds: 3600,                                                                        bank_code: w.bank_code, account_number: w.account,
+               },
+                                                                                                             });
+            );
+                                                                                                             return SQUAD.post('/payout/transfer', {
+            // idempotent persist                                                                               transaction_reference: `${process.env.SQUAD_MERCHANT_ID}-${jobId}-out`,
+            await db.escrowAccounts.upsert({                                                                    amount: net * 100,
+                                                                                                                bank_code: w.bank_code,
+               job_id: job.id,                                                                                  account_number: w.account,
+               squad_va: data.virtual_account_number,                                                           account_name: w.full_name,
+               squad_ref: ref,                                                                                  remark: `JARA ${jobId}`,
+               state: 'AWAITING_FUNDING',
+            });                                                                                              });
+            return data.virtual_account_number;                                                          }
+        }
+
+      HARDENED: idempotent tx-ref · HMAC verification · pre-payout name-lookup · webhook replay-safe  github.com/jara-team/squad-sdk-ts
+CODE · SQUAD IN 60 LINES                                                                                                                                       22 / 37
+23 · ACT IV -- HOW TO BUILD                                                                                                                                                             PRINT AND PIN TO THE WALL
+
+6-week sprint to a hackathon-winning demo.                                                                                                                                         W6
+
+W1                                     W2                                    W3                                               W4                     W5                            POLISH + DEMO
+
+FOUNDATIONS                            IDENTITY                              SQUAD CORE                                       JOB FLOW               INTELLIGENCE                   Demo data seed
+                                                                                                                                                                                    Stress-test webhooks
+ Squad sandbox keys                     Smile ID NIN flow                     Payment Modal embed                              Job state (Temporal)   Embedding (mpnet)             One-pager PDF
+ Repo · CI · Docker                     BVN lookup                            Dynamic VA mint                                  Post-a-job UI          pgvector recall               Pitch rehearsal ×10
+ Postgres + Temporal                    Selfie + liveness                     Webhook (HMAC)                                   Worker feed            Pidgin parse (GPT-4o)         Backup recorded demo
+ Auth (OTP)                             KYC tier model                        Transfer API payout                              Apply  accept          JARA Score v0                 GitHub README
+ RN shell                               Encrypted-at-rest                     Account name lookup                              Dispute happy path     Fraud-graph stub
+ Operator skeleton                      NDPA consent screens                  Reconciliation cron                              Squad SMS notifs       Operator dashboard
+
+     DELIVER · auth screen demo        DELIVER · 30s onboard video            JUDGE-LOCK WEEK                                 DELIVER · 100 e2e job  DELIVER · AI ranking demo                        HACKATHON DAY
+
+   ROLE 1                                          ROLE 2                                      ROLE 3                                                ROLE 4                        ROLE 5
+
+  Squad lead                                    Mobile lead                                    Backend lead                                          AI / Identity                 Pitch + Design
+
+    VA, transfer, webhook, reconcile.                RN screens, both apps.                    Postgres, services, Temporal.                         Smile ID, embeddings, score.  Deck, demo script, brand.
+
+6-WEEK BUILD SPRINT                                                                                                                                                                                                  23 / 37
+24 · ACT V -- WHY IT WINS                                                                                       ALL HAVE FAILED AT ONE OF THESE THINGS
+
+Competitive landscape -- and the gap we walk into.
+
+PLAYER             ESCROW    NIN/BVN  AI MATCH  CREDIT         FEE   STATUS                                     THE PATTERN
+                                                            project  4,500 artisans, 15 trades. KE expansion.
+LaborHack · Lagos                               tools fin.                                                      Everyone before us shipped half a stack.
+Wrkman                                                      10%      100k users. 30-day money-back.
+Wesabi                                                                                                          Some had escrow but no identity. Some had identity but no AI. None monetised float, none did
+GIDN                partial                                 ~10%     1,300 artisans. BACSAAN partner.           embedded credit, none used Squad-grade rails.
+ArtisanOga                                          
+SweepSouth · NG                                             freemium Vetting only on premium.                   SWEEPSOUTH'S LESSON
+Lynk · Kenya                                                                                                    Take rate >15% and slow refunds = death spiral. We charge 7% and refund through Squad in T+1.
+JARA · this team                                            subs     All 36 states. Light vetting.
+                                                                                                                LYNK'S LESSON
+                                                            15­20%   SHUT 2023. Take rate too high.             Without a credit/banking lock-in, the marketplace is replaceable. We build a credit history workers
+                                                                                                                cannot port elsewhere.
+                                                            15%      ABSORBED 2022. Pivoted 4×.
+
+                                                            7%       Squad-native · GTBank rails · NDPA-ready.
+
+COMPETITOR MATRIX                                                                                               24 / 37
+25 · ACT V -- WHY IT WINS                                                                                                                                                                        5 STREAMS STACKING MARGIN
+
+Five revenue streams -- three benefit GTCO, two benefit
+JARA, all stack.
+
+A single-stream commission business cannot survive Nigerian CAC. We layer escrow + float + credit + banking on every flow.
+
+01                                         02                                            03                                                 04                                       05
+
+Take rate                                  Squad fees                                    Float yield                                        CASA deposits                            Embedded credit
+
+7% commission per job. Below SweepSouth's  Every flow  Squad: 0.25% VA + 1.2% gateway +  3-day avg hold on escrow. At 17% T-bill = ~21/job  Workers open GTBank accounts to receive  GT MFB lends to top-scored workers. 2.5­6%/mo
+15%, above Wrkman's 10% -- sweet spot.     20 transfer. Captured by GTCO.                today. Compounds with scale.                       payouts. Cheap funding for the bank.     on alt-data -- Carbon's playbook.
+
+      ON 15K JOB                           PER 15K · TO SQUAD                            @ 1M MAU/MONTH                                     AT 100K USERS                            YEAR 3 NIM
+
+   +1,050                                  ~60                                           ~52m                                               2bn                                      ~4bn
+
+REVENUE STREAMS                                                                                                                                                                                  25 / 37
+26 · ACT V -- WHY IT WINS                                                                             A SINGLE 15,000 JOB, END-TO-END
+
+Unit economics: where every kobo goes.
+
+WATERFALL · 15,000 JOB                                                                                WORKER GETS
+
+                +15,000   -37.5                                                                       13,892
+                          14,963
+15,000                                                                                                After all fees. 93% of customer payment -- best in market by far.
+
+12,000                                    -1,050        -20            13,892                         PLATFORM CAPTURES
+                                          13,913       13,892
+9,000                                                                  93% retained                   1,108
+
+6,000                                                                                                 Of which: 1,011 to JARA · 97 to Squad/GTCO. Both win on every job.
+
+                                                                                                      CONTRAST
+                                                                                                      Upwork: 20% take. Fiverr: 20%. SweepSouth: ~20%. JARA at 7% leaves more in workers' pockets and
+                                                                                                      still profits.
+
+3,000
+
+0                         Squad VA 0.25%  JARA fee 7%  Squad transfer  WORKER nets       +1,011
+           Customer pays
+                                                                                         +float -KYC
+
+                                                                                         JARA net
+
+                           CONTRIBUTION MARGIN PER JOB: 1,011 (before CAC and overhead)
+
+UNIT ECONOMICS                                                                                        26 / 37
+27 · ACT V -- WHY IT WINS                                                             10K  100K  1M MAU
+
+3-year financial model -- three credible scenarios.
+
+METRIC                        YR 1 PILOT       YR 2 SCALE       YR 3 NATIONAL         BREAK-EVEN
+
+MAU                                   10,000         100,000             1,000,000    Month 18.
+Jobs/MAU/month                            2.0              2.2                   2.5
+Avg ticket size                                                                       Pilot is unprofitable by design. Scale unlocks float economics + lending. Year-3 EBITDA margin: ~80%.
+GMV / month                            12k              14k                   15k
+ Net revenue (annual)                240m            3.08bn               37.5bn      YEAR-3 IN CONTEXT
++ Take rate (7%)                     240m             3.0bn                           HabariPay 2024 PAT: 3.8bn. JARA Year-3 EBITDA at 28bn would push HabariPay's GTCO
++ Float yield (17%, 3d hold)         202m            2.59bn                  35bn     contribution from 0.17% to ~3% of group PBT.
++ Squad VAS rebates                   3.4m                                 31.5bn
++ Credit NIM (loans)                                    52m                 632m      SENSITIVITIES
+- OpEx (team, infra, KYC)               1m              15m                 200m      Cut take to 5%: Yr3 EBITDA falls to 18bn -- still profitable. Drop float yield to 12%: -185m. Kill credit line:
+EBITDA                                     --         240m                            -4bn. Resilient to all single-line failures.
+                                                    -1.4bn                    4bn
+                                   -300m            +1.5bn                   -8bn
+                                     -94m
+                                                                      +28bn
+
+FINANCIAL MODEL                                                                       27 / 37
+28 · ACT V -- WHY IT WINS                                                                                                 FOR HABARIPAY'S CEO
+
+How GTCO wins -- four strategic flywheels.
+
+JARA isn't just an app on Squad's rails. It's a customer-acquisition machine for the bank Squad's parent owns.
+
+01             Own the next-gen depositor.                                                                            02  Volume on Squad rails.
+
+               100,000 onboarded youth × 20k average balance = 2bn cheap CASA funding. GTBank does not                    Year-3 GMV  450bn flows through Squad. At blended 0.6%, that's 2.7bn direct gateway revenue --
+               currently own this segment -- informal, sub-25, no payslip.                                                pure margin to HabariPay.
+
+03 Lending margin on alt-data.                                                                                        04  Strategic optionality.
+                     GT MFB lends to JARA-scored workers. Carbon's $200m proves the unit economics. Year-3 JARA loan
+                     book: ~40bn at 30%+ NIM.                                                                             At 1M MAU, JARA is an acquisition candidate at 4­6× revenue (Mono / Flutterwave precedent).
+                                                                                                                          HabariPay buys the cohort it could not build organically. Optional 100bn+ exit.
+
+HOW GTCO WINS                                                                                                                                                                                                          28 / 37
+29 · ACT V -- WHY IT WINS                                                                        THE NUMBER EVERY VC ASKS FOR
+
+CAC vs LTV -- why we're not SweepSouth.
+
+PER-USER ECONOMICS · 24-MONTH WINDOW                                                             CAC LEVERS · 12K BLENDED
+                                                                                                 Referral (60%): existing workers refer, paid 500 each side via Squad Transfer.
+                                                                                                 GT Branch agents (25%): bank distributes onboarding kits.
+                                                                                                 Paid social (15%): Meta + TikTok, primarily for customers.
+
+60k                                       +84k c2rekdit                                          BENCHMARK
+                                                                                                 Tellimer: ~$50 acquisition + $55/yr servicing for emerging-market fintech. JARA wins via referral and embedded
+45k                                               3.5×                                           GTBank distribution -- 12k vs 67k industry benchmark.
+
+                                                                                                 PAYBACK
+                                                                                                 Month 7 at full activity. Compare: traditional Nigerian fintech consumer apps require 18­24 months to break even per
+                                                                                                 user.
+
+30k
+
+15k         12k
+
+0                                             LTV       LTV / CAC
+
+                         CAC              42 jobs × 1k   Year 2 target
+
+                        Referral + agent
+
+             3.5× is the threshold for venture-grade unit economics. SweepSouth crashed at <1×.
+
+CAC VS LTV                                                                                                                                                                       29 / 37
+30 · ACT V -- WHY IT WINS                                                                                                        THE HIDDEN MARGIN
+
+Float yield: the silent revenue line nobody else owns.
+
+Every escrowed naira earns yield while it waits. At 1M MAU we hold ~3.7bn average daily -- that's real money on Treasury rates.
+
+DAILY FLOAT @ SCALE                                                                                                      TREASURY STRATEGY
+                                                                                                                         When 364-day NTB >19%: lock 50% of float in long tenor. When yields compress: rotate to short OMO.
+                                                                                                                         Hedge against duration risk while capturing the spread.
+
+4bn                                      3.7bn                                                                           CURRENT NIGERIAN YIELDS
+3bn                                                                                                                      91-day: 15.32% · 182-day: 16.45% · 364-day: 17.69% · OMO 84-day: 26.40% (Nov 2025).
+
+                                                                                                                         CAVEAT
+                                                                                                                         CBN may require segregated escrow accounts (no commingling) at scale. We structure as a TBI sweep
+                                                                                                                         through GTBank's treasury -- fully compliant, fully captured.
+
+2bn                            1.85bn
+1bn
+       24m           308m
+   0
+      10K MAU        100K MAU
+                               500K MAU  1M MAU
+
+                                                  @ 17% T-bill yield · 1M MAU = 52m/month pure float income · 630m/year          30 / 37
+FLOAT YIELD ECONOMICS
+31 · ACT VI -- THE PLAN                                                                                                                                             HONEST ABOUT WHAT KILLS US
+
+Top 6 risks -- and how each is contained.
+
+RISK 01 · REGULATORY                                                              RISK 02 · DATA                                                                    RISK 03 · MARKETPLACE
+
+CBN PSSP rule changes.                                                            NIN/BVN breach.                                                                   Off-platform leakage.
+
+Threat: CBN bans non-MMOs from holding customer funds.                            Threat: Worst-case 10m or 2% revenue NDPA fine + reputation.                      Threat: Customer + worker meet, transact privately.
+Containment: We are a Squad merchant, not a wallet. HabariPay holds the licence.  Containment: Hash-only storage, KMS encryption, RLS, DPO from Day 1, NDPC audit-  Containment: Escrow protection + JARA Score lock-in + repeat-customer discount
+We never touch funds.                                                             ready.                                                                            makes leaving expensive.
+
+RISK 04 · FRAUD                                                                   RISK 05 · MACRO                                                                   RISK 06 · COMPETITION
+
+Chargeback ring scale.                                                            Naira volatility.                                                                 OPay/Moniepoint copy.
+
+Threat: Coordinated fraud at scale erodes float.                                  Threat: USD-priced costs (AWS, Smile ID) jump if naira drops.                     Threat: Larger fintechs build a clone after we prove the model.
+Containment: Graph fraud detection (slide 12) + escrow-only mode for high-risk    Containment: Stress-tested at 1,800 and 2,200/USD. Lock annual contracts in NGN   Containment: Squad/GTCO partnership = built-in distribution moat. They need us as
+customers + chargeback velocity caps.                                             where possible.                                                                   much as we need them.
+
+      WHAT WE'RE NOT WORRIED ABOUT: demand (92% informal) · identity rails (127m NIN) · payment rails (Squad live). What we ARE worried about: regulator surprise + macro shocks + execution speed.  31 / 37
+RISKS & MITIGATIONS
+32 · ACT VI -- THE PLAN                                                                                                                                                      NDPA + CBN, DAY ONE
+
+Regulatory positioning -- compliant by architecture, not retrofit.
+
+CBN · BANKING + PAYMENTS                                                                                                                     NDPA 2023 · DATA PROTECTION
+
+We don't need a licence. Squad does.                                                                                                         Compliant from line 1 of code.
+
+PSSP licence                              Not required (we don't hold funds)                                                                 DCPMI registration                          Before 200 users
+MMO licence                           Not required (Squad/HabariPay holds)                                                                   DPO appointed                   Day 1 (CCO/CTO doubles)
+Switching licence                                                                                                                            CAR filing
+CBN sandbox                                        Not required (Squad holds)                                                                72-hr breach notification                 31 March annually
+State Money Lender                                                                                                                           Cross-border transfer               Runbook + auto-paging
+                                                  Apply Year 1 for credit                                                                    Consent log + revocation UI
+                                                       Year 2 (50k cost)                                                                                                                   af-south-1 only
+                                                                                                                                                                                        In-app, exportable
+ The architecture choice IS the regulatory shield. By building on Squad rails as a merchant, we inherit HabariPay's CBN posture without the
+                                                                                                                                              NDPC has fined Multichoice 766m and Meta $220m. Our regulator-portal slide design means NDPC can audit our consent logs in 5 minutes
+100m+ capital lock-up.
+                                                                                                                                             -- that is what wins enterprise trust.
+
+REGULATORY POSITIONING                                                                                                                                                       32 / 37
+33 · ACT VI -- THE PLAN                                                                                                                                                                                       PILOT  1M USERS IN 36 MONTHS
+
+Roadmap to national scale.
+
+PHASE 0 · NOW                                                                             1  PHASE 2 · M7­18                                                     3                                            PHASE 4 · M36+
+
+Hackathon                                                                  PHASE 1 · M1­M6   3-city scale                                      PHASE 3 · M19­36                                               EXIT
+
+Win 5m grant                                                               Lagos pilot       100K MAU                                          National                                                       HabariPay M&A
+Working demo                                                                                 + Abuja, PH                                                                                                      or Series B
+Squad sandbox                                                              10K MAU           Credit live                                       1M MAU                                                         + regional
+                                                                           2 trades          Series A                                          All 36 states                                                  expansion
+               0                                                           Live Squad                                                          Insurance
+                                                                           First 1k jobs                       2                               Profitable                                                                     
+
+           Pilot KPIs                                                      Scale gate                                                          National gate                                                  Pivot rule
+           10K MAU · 5K artisans · 1K jobs · 30d retention >35% · LTV/CAC  Phase 2 only fires if Phase 1 hits 100m/mo GMV and 4.5+ avg rating  100K MAU + EBITDA-positive month before any push beyond top 3  If LTV/CAC <1.0 at month 9  cut take rate, switch to lead-gen, or
+           >1.5                                                                                                                                cities                                                         shut. No vanity scale.
+
+ROADMAP                                                                                                                                                                                                                                                                          33 / 37
+34 · ACT VI -- THE PLAN                                                                                                                                                                                                                                                                                                  HACKATHON JUDGMENT DAY
+
+                          5 THE ASK
+
+                           Win the
+                         5,000,000
+
+                            grant.
+
+                            "It's a dating app for jobs, with a bank inside, and Squad is the heart."
+SQUAD INTEGRATION        MARKET                   REVENUE             REGULATORY
+
+8 products, 25%+ depth   92% of Nigeria's labour  35bn Y3, 5 streams  NDPA-ready Day 1
+
+THE ASK                                                                                 34 / 37
+35 · ACT II -- THE SOLUTION                                                                                                                   THE ZERO-APP ENTRY POINT
+
+For the trader who won't download an app -- WhatsApp
+does it all.
+
+Most informal traders are reachable on WhatsApp before they're reachable anywhere else. So we meet them there. Send a voice note, get a job.
+
+                                                             SLM PIPELINE · UNDER THE HOOD                                     WHY IT WINS
+
+ J JARA Bot                                                  VOICE NOTE         PHOTO           NIN TEXT                       No CV. No form. No app.
+            online · verified                                    0:08 audio  workshop / tools      11-digit
+                                                                                                                               The trader who can't afford 5,000 of data to download an app can send a voice note
+ Welcome! Just send a voice note                                                                                               for free. Reach extends to feature-phone users via Squad's USSD shortcode as the
+                                                                                                                               backup channel.
+telling me what you do, and a photo of
+your work.                                                                                                                     DISCOVERY MODE
+
+                                        0:08                 Whisper-NG      CLIP / Vision        Smile ID                     Solves the cold-start.
+
+                                                               Pidgin text     scene labels      NIMC match                    New workers enter a protected pool: 10% of all matching slots are reserved for
+                                                              on-device SLM     tools detected    name + photo                 unrated workers. After 5 completed jobs, they graduate to the main pool with a real
+                                                                                                                               score. Solves the chicken-and-egg.
+                      work_photo.jpg
+                                                                                                                               REGULATORY NOTE
+Got it. Heard: "I sabi gen, AC, fridge -- Yaba                           GPT-4o · STRUCTURED EXTRACTION                        WhatsApp Cloud API is NDPA-acceptable for collection consent. Voice notes are deleted
+area"                                                                                                                          after SLM transcription (30s retention); only structured derivatives persist.
+                                                             { name: "Tunde A.", skills: ["gen","AC","fridge"],
+ Skills: generator, AC, fridge                               area: "yaba", workshop_photo: verified,
+ Area: Yaba                                                  nin_match: 0.97, kyc_tier: 2 }
+ Workshop photo verified
+                                                              FOLLOW-UP: 1-tap link for selfie + liveness (mandatory)
+ Now send your NIN
+                                                                                        Web-link, no install. 15 seconds.
+                                              12345 67890 1
+                                                              ONBOARDED · WORKER PROFILE LIVE
+ Tunde A. verified. You're live. First job
+                                                                                Total time: 90 seconds · zero app install
+available: Generator repair · 15k · 2km                             Pushed to matching pool · Discovery Mode for first 5 jobs
+away.
+
+Reply YES to apply.
+
+Type a message...                       
+
+WHATSAPP ONBOARDING                                                                                                                           35 / 37
+36 · ACT II -- THE SOLUTION                                                                                                                                                                                     BEYOND KYC · THE SOCIAL TRUST ENGINE
+
+Trust & Traction Score -- a self-policing graph, not a static
+badge.
+
+KYC tells us a worker is real. Trust & Traction tells us a worker is trusted by the people who know them best. Three signals fuse into a single score that
+the matching engine treats as gospel.
+
+01 · TRACTION SIGNAL                                                         02 · SENTIMENT FILTER                                                           VOUCHING GRAPH · LAGOS · MAY 2026
+
+Real activity, not vanity.                                                   Real words beat fake stars.                                                     A healthy network looks like trade lineages.
+
+Composite of jobs completed, distinct customers, geographic spread, and      SLM analyses every review comment. Generic emoji-only reviews and copy-
+Squad transaction volume. Filters out a worker pretending to be active with  paste praise are weighted ~0. Specific feedback ("fixed the kettle's element")
+self-jobs (same device  -100% weight).                                       earns full weight. Defeats review-farms.
+
+                                                                                                                                                                 VETERAN                                                     VETERAN
+
+                                                                                                                                                                     812                                                         756
+
+                                                                                                                                                                                                N3                                                               graduated
+
+                                                                                                                                                             N1  N2                                                                               N5
+                                                                                                                                                                                                                    N4
+
+03 · VERIFIED LEGACY                                                         04 · COMMUNITY VOUCHING                                                                                                                N6
+                                                                                                                                                                                                                         36 / 37
+Six-month digital footprint.                                                 Veterans put skin in the game.
+
+Scrape WhatsApp business listings, Instagram, Jiji ads. If name + phone +    A worker with score >700 can vouch for a newbie. If the newbie performs well
+service consistent across >6 months of public web data  earn "Verified        veteran's score rises +5. If newbie defrauds  veteran loses -30 points.
+Legacy" badge. Genuine traders have this; fraudsters can't fake it.          Self-policing. Costless to launch, brutal to game.
+
+                                                                                                                                                                                                    PENALISED
+
+                                                                                                                                                                                                         -30
+
+                                                                                                                                                                     F1                                     F2  F3
+
+                                                                                                                                                              green: positive vouch · graduated newbie
+                                                                                                                                                              red: vouched a fraudster · veteran takes -30
+
+TRUST & TRACTION SCORE
+37 · APPENDIX                                                                                                                                                                       SOURCES, CITATIONS, FINE PRINT
+
+Sources & references.                                                                                        COMPETITORS
+
+SQUAD / GTCO                               IDENTITY / KYC                                                    · LaborHack blog & LinkedIn
+                                                                                                             · Wrkman App marketing
+· docs.squadco.com (May 2026)              · NIMC: 127m enrolled (Dec 2025)                                  · TechCabal: SweepSouth NG/KE shutdown
+· squadco.com/pricing                      · TechCabal: 2026 NIN deadline                                    · TimesLIVE: SweepSouth abuse report
+· squadinc.gitbook.io (legacy)             · Smile ID: 99.8% accuracy claim                                  · Theflip: Lynk lessons learned
+· GTCO 2024 FY audited results             · Connecting Africa: Smile ID profile                             · TechCabal: Daibau.ng profile
+· Nairametrics: GTCO 1tn PAT               · Dojah API docs (BVN validate)
+· TechCabal: HabariPay 2025 strategy       · AWS Rekognition pricing 2026                                    CREDIT & FINTECH
+· Investing.com: GTCO FY 2025 slides       · BusinessDay: NIMC fee schedule
+                                                                                                             · Numeris: Carbon $200m loans
+MARKET DATA                                REGULATORY                                                        · MSME Africa: FairMoney alt-credit
+                                                                                                             · Technext: Nigerian fintech CAC math
+· NBS Q2 2024 NLFS                         · NDPA 2023 (Securiti, ICLG 2025)                                 · Nairametrics: japa wave
+· DataReportal Digital 2025 Nigeria        · SecurePrivacy NDPA guide                                        · ThisDayLive: T-bill auctions
+· NIBSS mobile money 2024                  · CookieYes NDPA 2023 guide
+· Moniepoint Informal Economy Report 2024  · CBN PSSP framework                                                   Full deep-research brief, including verbatim quotes and 80+ citations,
+· TC Insights: Nigeria's informal economy  · CBN macro indicators                                                available on request from the team.
+· ILO Nigeria informal employment data     · DMarketForces: T-bill rates
+· Africa Check: youth unemployment
+
+   JARA.                                   END OF DECK · 37 / 37 · BUILT FOR SQUAD HACKATHON 3.0 · MAY 2026  THANK YOU
+                                                                                                                         37 / 37
+SOURCES & APPENDIX
+

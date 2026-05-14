@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+
+html, body { height: 100%; }
+body {
+  background: #F4ECDF;
+  color: #0A0A0A;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "ss01", "cv01", "cv11";
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* { -webkit-tap-highlight-color: transparent; }
+input, textarea, select, button { font: inherit; color: inherit; }
+
+/* Page-level radial wash — warm, subtle */
+.page-bg {
+  background:
+    radial-gradient(900px 600px at 90% -10%, rgba(240, 160, 74, 0.18), transparent 60%),
+    radial-gradient(700px 500px at -10% 110%, rgba(224, 72, 72, 0.10), transparent 60%),
+    #F4ECDF;
+}
+
+/* Card surfaces — flat, hairline ink border */
+.card {
+  background: #FDF8EF;
+  border: 1px solid rgba(10, 10, 10, 0.10);
+  border-radius: 18px;
+}
+
+/* Hairline */
+.hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(10, 10, 10, 0.12), transparent);
+}
+
+/* Pulsing dot */
+.dot { position: relative; }
+.dot::after {
+  content: ""; position: absolute; inset: 0; border-radius: 9999px;
+  background: currentColor; opacity: 0.45; animation: ping2 1.6s ease-out infinite;
+}
+
+@keyframes ping2 { 75%, 100% { transform: scale(1.8); opacity: 0; } }
+
+/* Scrollbar — warm */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: rgba(10, 10, 10, 0.18); border-radius: 9999px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+.font-display { font-family: "Inter Display", Inter, -apple-system, sans-serif; letter-spacing: -0.03em; }
+
+section[id] { scroll-margin-top: 80px; }
+
+/* Strip legacy glass — make it harmless on the new theme */
+.glass {
+  background: #FDF8EF;
+  border: 1px solid rgba(10, 10, 10, 0.10);
+  border-radius: 18px;
+  backdrop-filter: none;
+}
+
+/* Step indicator dot */
+.step-dot {
+  display: inline-grid; place-items: center;
+  width: 24px; height: 24px; border-radius: 999px;
+  font-size: 11px; font-weight: 700;
+  background: rgba(10,10,10,0.08); color: rgba(10,10,10,0.45);
+}
+.step-dot.done { background: #3E8E5C; color: #FDF8EF; }
+.step-dot.active { background: #F0A04A; color: #0A0A0A; }
+
+/* Scroll-reveal animation — paired with the IntersectionObserver helper in app/page.tsx */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Bouncy spring animation — Snapchat-style entrance */
+@keyframes spring-in {
+  0%   { transform: scale(0.6) translateY(20px); opacity: 0; }
+  60%  { transform: scale(1.08) translateY(-4px); opacity: 1; }
+  80%  { transform: scale(0.96) translateY(2px); }
+  100% { transform: scale(1) translateY(0); }
+}
+.spring-in { animation: spring-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+/* Float — bobbing UI elements like in the Snap Map preview */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+.float { animation: float 4s ease-in-out infinite; }
+.float-slow { animation: float 6s ease-in-out infinite; }
+
+/* Confetti pop — for moments of celebration */
+@keyframes pop {
+  0%   { transform: scale(0); opacity: 0; }
+  50%  { transform: scale(1.18); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.pop { animation: pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+/* Marquee infinite scroll */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee {
+  display: inline-flex;
+  animation: marquee-x 28s linear infinite;
+}
+
+/* Wiggle — Snapchat pin tap feedback */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-3deg); }
+  75%      { transform: rotate(3deg); }
+}
+.wiggle { animation: wiggle 0.5s ease-in-out; }
+
+/* Gradient text shimmer */
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.text-shimmer {
+  background: linear-gradient(90deg, #E04848 0%, #F0A04A 25%, #3E8E5C 50%, #F0A04A 75%, #E04848 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Page-load hero rise */
+@keyframes hero-rise {
+  0%   { opacity: 0; transform: translateY(28px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.hero-rise { animation: hero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.hero-rise-delay-1 { animation-delay: 0.08s; }
+.hero-rise-delay-2 { animation-delay: 0.18s; }
+.hero-rise-delay-3 { animation-delay: 0.28s; }
+.hero-rise-delay-4 { animation-delay: 0.40s; }
+
+/* Snap-style ping ring */
+@keyframes snap-ping {
+  0%   { transform: scale(0.6); opacity: 0.55; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.snap-ping { animation: snap-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }

@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 440" role="img" aria-label="Squadco Escrow — Hire Nigeria's hustle. Pay only when it's done.">
+  <defs>
+    <radialGradient id="goldGlow" cx="92%" cy="-10%" r="60%">
+      <stop offset="0%" stop-color="#F0A04A" stop-opacity="0.28"/>
+      <stop offset="60%" stop-color="#F0A04A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="coralGlow" cx="-5%" cy="110%" r="55%">
+      <stop offset="0%" stop-color="#E04848" stop-opacity="0.16"/>
+      <stop offset="60%" stop-color="#E04848" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="coralGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F08A6E"/>
+      <stop offset="1" stop-color="#C73838"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F4C994"/>
+      <stop offset="1" stop-color="#E0892E"/>
+    </linearGradient>
+    <linearGradient id="forestGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5AA77E"/>
+      <stop offset="1" stop-color="#1F5234"/>
+    </linearGradient>
+    <pattern id="dots" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="0.7" fill="#0A0A0A" fill-opacity="0.06"/>
+    </pattern>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0A0A0A" flood-opacity="0.18"/>
+    </filter>
+    <filter id="pinShadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#0A0A0A" flood-opacity="0.25"/>
+    </filter>
+    <style>
+      .h1 { font: 800 86px/0.92 "Inter Display", Inter, -apple-system, system-ui, sans-serif; letter-spacing: -0.045em; }
+      .h2 { font: 800 56px/0.95 "Inter Display", Inter, -apple-system, system-ui, sans-serif; letter-spacing: -0.04em; }
+      .tag { font: 600 14px/1 "Inter", system-ui, sans-serif; letter-spacing: 0.22em; text-transform: uppercase; }
+      .sub { font: 500 18px/1.5 "Inter", system-ui, sans-serif; letter-spacing: -0.01em; }
+      .chip { font: 700 13px/1 "Inter", system-ui, sans-serif; letter-spacing: -0.005em; }
+      .small { font: 500 12px/1 "Inter", system-ui, sans-serif; letter-spacing: 0.05em; }
+      .price { font: 800 14px/1 "Inter", system-ui, sans-serif; letter-spacing: -0.02em; }
+      .name { font: 800 15px/1 "Inter", system-ui, sans-serif; letter-spacing: -0.02em; }
+      .meta { font: 500 11px/1.2 "Inter", system-ui, sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="440" fill="#F4ECDF"/>
+  <rect width="1280" height="440" fill="url(#goldGlow)"/>
+  <rect width="1280" height="440" fill="url(#coralGlow)"/>
+  <rect width="1280" height="440" fill="url(#dots)"/>
+
+  <!-- LEFT — branding + headline -->
+  <g transform="translate(64,64)">
+    <!-- Hackathon tag pill -->
+    <g>
+      <rect x="0" y="0" rx="999" ry="999" width="430" height="34" fill="#0A0A0A"/>
+      <circle cx="20" cy="17" r="5" fill="#E04848"/>
+      <text x="34" y="22" class="tag" fill="#FDF8EF">GTCO Squad Hackathon 3.0 · Challenge 02</text>
+    </g>
+
+    <!-- Brand mark + wordmark -->
+    <g transform="translate(0,52)">
+      <!-- coin/escrow icon -->
+      <rect x="0" y="0" rx="14" ry="14" width="62" height="62" fill="#0A0A0A"/>
+      <path d="M46 23 c-2 -3.2 -5.8 -5.2 -10.2 -5.2 -6.2 0 -10.8 3.4 -10.8 8.2 0 4.2 3.2 6.4 9.2 7.6 l3.6 0.6 c5 1 7.2 2.6 7.2 5.4 0 3.2 -3.6 5.4 -9 5.4 -4.8 0 -8.6 -1.8 -10.8 -5"
+            stroke="#FDF8EF" stroke-width="4.8" stroke-linecap="round" fill="none"/>
+      <circle cx="49" cy="17" r="6.5" fill="#E04848" stroke="#0A0A0A" stroke-width="2.4"/>
+      <!-- wordmark -->
+      <text x="80" y="44" font="900 52px Inter Display, Inter, sans-serif" font-weight="900" font-size="48" letter-spacing="-2" fill="#0A0A0A">Squadco</text>
+      <text x="298" y="44" font="600 38px Inter, sans-serif" font-weight="500" font-size="36" letter-spacing="-1" fill="#0A0A0A" fill-opacity="0.45">/ escrow</text>
+    </g>
+
+    <!-- Headline -->
+    <g transform="translate(0,150)">
+      <text class="h1" fill="#0A0A0A" x="0" y="60">Hire Nigeria's <tspan font-style="italic" fill="#E04848">hustle.</tspan></text>
+      <text class="h1" fill="#0A0A0A" x="0" y="148">Pay only when <tspan font-style="italic" fill="#1F5234">it's done.</tspan></text>
+      <!-- gold underline -->
+      <rect x="420" y="156" width="280" height="9" fill="#F0A04A"/>
+    </g>
+
+    <!-- Subtext -->
+    <text class="sub" x="0" y="318" fill="#0A0A0A" fill-opacity="0.72">
+      <tspan x="0" dy="0">Discovery-first job marketplace for the 92% of Nigerians who work</tspan>
+      <tspan x="0" dy="22">informally. 25,000+ artisans pinned. Funds locked in a Squad VA.</tspan>
+      <tspan x="0" dy="22">Released only when both sides confirm. T+1 to bank.</tspan>
+    </text>
+
+    <!-- Chips -->
+    <g transform="translate(0,400)">
+      <g>
+        <rect x="0" y="-22" width="118" height="28" rx="999" fill="#0A0A0A"/>
+        <text x="59" y="-3" class="chip" fill="#FDF8EF" text-anchor="middle">92.3% informal</text>
+      </g>
+      <g transform="translate(130,0)">
+        <rect x="0" y="-22" width="92" height="28" rx="999" fill="#FDF8EF" stroke="#0A0A0A" stroke-opacity="0.18"/>
+        <text x="46" y="-3" class="chip" fill="#0A0A0A" text-anchor="middle">127m NIN</text>
+      </g>
+      <g transform="translate(234,0)">
+        <rect x="0" y="-22" width="118" height="28" rx="999" fill="#E04848"/>
+        <text x="59" y="-3" class="chip" fill="#FDF8EF" text-anchor="middle">8 Squad APIs</text>
+      </g>
+      <g transform="translate(364,0)">
+        <rect x="0" y="-22" width="126" height="28" rx="999" fill="#0E2A1F"/>
+        <text x="63" y="-3" class="chip" fill="#FDF8EF" text-anchor="middle">25k+ artisans</text>
+      </g>
+      <g transform="translate(502,0)">
+        <rect x="0" y="-22" width="78" height="28" rx="999" fill="#F0A04A"/>
+        <text x="39" y="-3" class="chip" fill="#0A0A0A" text-anchor="middle">NDPA ✓</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- RIGHT — stylised Lagos map + pop card -->
+  <g transform="translate(810,44)">
+    <!-- Map card -->
+    <rect x="0" y="0" rx="22" ry="22" width="410" height="352" fill="#FDF8EF" stroke="#0A0A0A" stroke-opacity="0.10" filter="url(#cardShadow)"/>
+    <!-- Header strip -->
+    <rect x="0" y="0" rx="22" ry="22" width="410" height="38" fill="#0A0A0A"/>
+    <rect x="0" y="20" width="410" height="18" fill="#0A0A0A"/>
+    <circle cx="20" cy="19" r="5" fill="#E04848"/>
+    <circle cx="36" cy="19" r="5" fill="#F0A04A"/>
+    <circle cx="52" cy="19" r="5" fill="#5AA77E"/>
+    <text x="205" y="24" class="small" fill="#FDF8EF" text-anchor="middle">LAGOS · 25,427 artisans pinned</text>
+
+    <!-- Map body -->
+    <g transform="translate(0,38)">
+      <rect width="410" height="314" fill="#EDE5D4"/>
+      <!-- streets -->
+      <g stroke="rgba(10,10,10,0.10)" stroke-width="12" fill="none">
+        <path d="M0 60 L410 50"/>
+        <path d="M0 140 L410 160"/>
+        <path d="M0 230 L410 220"/>
+        <path d="M70 0 L80 314"/>
+        <path d="M210 0 L220 314"/>
+        <path d="M320 0 L335 314"/>
+      </g>
+      <!-- River -->
+      <path d="M0 200 Q140 188 220 210 T410 210" stroke="rgba(62,142,92,0.20)" stroke-width="22" fill="none"/>
+
+      <!-- Pins -->
+      <!-- Top-rated dark forest pins with gold dot -->
+      <g transform="translate(70,72)" filter="url(#pinShadow)">
+        <g transform="rotate(-8)">
+          <rect x="-18" y="-18" width="36" height="36" rx="13" ry="13" fill="#0E2A1F" stroke="#F0A04A" stroke-width="2"/>
+          <text x="0" y="6" text-anchor="middle" font-size="18" font-family="Inter">⚡</text>
+        </g>
+        <circle cx="14" cy="-14" r="5" fill="#F0A04A" stroke="#FDF8EF" stroke-width="1.8"/>
+      </g>
+      <g transform="translate(210,108)" filter="url(#pinShadow)">
+        <g transform="rotate(-8)">
+          <rect x="-18" y="-18" width="36" height="36" rx="13" ry="13" fill="#3E8E5C" stroke="#0A0A0A" stroke-width="2"/>
+          <text x="0" y="6" text-anchor="middle" font-size="18" font-family="Inter">❄️</text>
+        </g>
+      </g>
+      <g transform="translate(345,86)" filter="url(#pinShadow)">
+        <g transform="rotate(-8)">
+          <rect x="-18" y="-18" width="36" height="36" rx="13" ry="13" fill="#F0A04A" stroke="#0A0A0A" stroke-width="2"/>
+          <text x="0" y="6" text-anchor="middle" font-size="18" font-family="Inter">🪡</text>
+        </g>
+      </g>
+      <g transform="translate(110,176)" filter="url(#pinShadow)">
+        <g transform="rotate(-8)">
+          <rect x="-18" y="-18" width="36" height="36" rx="13" ry="13" fill="#0E2A1F" stroke="#F0A04A" stroke-width="2"/>
+          <text x="0" y="6" text-anchor="middle" font-size="18" font-family="Inter">💇</text>
+        </g>
+        <circle cx="14" cy="-14" r="5" fill="#F0A04A" stroke="#FDF8EF" stroke-width="1.8"/>
+      </g>
+      <g transform="translate(270,168)" filter="url(#pinShadow)">
+        <g transform="rotate(-8)">
+          <rect x="-18" y="-18" width="36" height="36" rx="13" ry="13" fill="#3E8E5C" stroke="#0A0A0A" stroke-width="2"/>
+          <text x="0" y="6" text-anchor="middle" font-size="18" font-family="Inter">🔧</text>
+        </g>
+      </g>
+      <g transform="translate(360,212)" filter="url(#pinShadow)">
+        <g transform="rotate(-8)">
+          <rect x="-18" y="-18" width="36" height="36" rx="13" ry="13" fill="#F0A04A" stroke="#0A0A0A" stroke-width="2"/>
+          <text x="0" y="6" text-anchor="middle" font-size="18" font-family="Inter">📸</text>
+        </g>
+      </g>
+
+      <!-- You-are-here pin (coral with pulse) -->
+      <g transform="translate(190,196)">
+        <circle r="22" fill="#E04848" fill-opacity="0.16"/>
+        <circle r="14" fill="#E04848" fill-opacity="0.28"/>
+        <circle r="7" fill="#E04848" stroke="#FDF8EF" stroke-width="3"/>
+      </g>
+
+      <!-- Pop-card overlay -->
+      <g transform="translate(14,236)" filter="url(#cardShadow)">
+        <rect width="382" height="62" rx="14" ry="14" fill="#FDF8EF" stroke="#0A0A0A" stroke-opacity="0.10"/>
+        <!-- avatar -->
+        <rect x="10" y="11" width="40" height="40" rx="10" ry="10" fill="#0A0A0A"/>
+        <text x="30" y="38" text-anchor="middle" font-size="20" font-family="Inter">⚡</text>
+        <!-- text -->
+        <text x="62" y="26" class="name" fill="#0A0A0A">Gen Genius Lagos</text>
+        <g transform="translate(204,12)">
+          <rect width="60" height="16" rx="999" fill="#F0A04A"/>
+          <text x="30" y="12" class="meta" font-weight="700" fill="#0A0A0A" text-anchor="middle">★ TOP 92</text>
+        </g>
+        <text x="62" y="46" class="meta" fill="#0A0A0A" fill-opacity="0.55">Lekki · ★ 4.8 · 132 jobs · @gengeniuslagos · WhatsApp ✓</text>
+        <!-- hire btn -->
+        <g transform="translate(312,15)">
+          <rect width="58" height="32" rx="999" fill="#E04848"/>
+          <text x="29" y="20" class="chip" fill="#FDF8EF" text-anchor="middle">Hire</text>
+        </g>
+      </g>
+    </g>
+  </g>
+
+  <!-- Footer hairline + sub-tag -->
+  <rect x="64" y="408" width="608" height="1" fill="#0A0A0A" fill-opacity="0.10"/>
+  <text x="64" y="430" class="small" fill="#0A0A0A" fill-opacity="0.45">Built end-to-end on Squad APIs · Dynamic VA escrow · HMAC webhooks · Transfer API · NDPA-ready Day 1</text>
+</svg>
