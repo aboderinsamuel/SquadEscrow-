@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import crypto from "node:crypto";
-import { mutate, readDB } from "./db";
+import { mutate, ensureHydrated } from "./db";
 import type { User } from "./types";
 
 const COOKIE = "jara_session";
@@ -22,10 +22,13 @@ export function clearSessionCookie() {
   cookies().delete(COOKIE);
 }
 
-export function getSessionUser(): User | null {
+// Async so it can wait for Supabase hydration on cold-start lambdas.
+// Without this, the first request after a deploy reads an empty cache,
+// finds no session, redirects to /auth, and the user gets stuck in a loop.
+export async function getSessionUser(): Promise<User | null> {
   const token = cookies().get(COOKIE)?.value;
   if (!token) return null;
-  const db = readDB();
+  const db = await ensureHydrated();
   const s = db.sessions[token];
   if (!s) return null;
   return db.users.find((u) => u.id === s.user_id) || null;

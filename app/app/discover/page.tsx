@@ -6,9 +6,9 @@ import { AppHeader } from "@/components/AppHeader";
 import { DiscoverGrid } from "./DiscoverGrid";
 import { DiscoverReels } from "./DiscoverReels";
 
-export default function DiscoverPage({ searchParams }: { searchParams: { q?: string; cat?: string } }) {
+export default async function DiscoverPage({ searchParams }: { searchParams: { q?: string; cat?: string } }) {
   seedIfEmpty();
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) redirect("/auth");
   const db = readDB();
 

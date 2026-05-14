@@ -4,7 +4,7 @@ import { mutate, readDB, id } from "@/lib/db";
 import { createDynamicVA } from "@/lib/squad";
 
 export async function POST(req: NextRequest) {
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
   const { job_id } = await req.json();
   const db = readDB();

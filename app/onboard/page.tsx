@@ -4,8 +4,8 @@ import { getSessionUser } from "@/lib/auth";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/Button";
 
-export default function OnboardChooser() {
-  const me = getSessionUser();
+export default async function OnboardChooser() {
+  const me = await getSessionUser();
   if (!me) redirect("/auth");
   return (
     <main className="relative min-h-[100dvh] page-bg">

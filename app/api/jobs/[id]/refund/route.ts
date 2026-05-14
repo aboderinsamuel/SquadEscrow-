@@ -6,7 +6,7 @@ import { refundTransaction, vaFee } from "@/lib/squad";
 // Refund the customer when a job is disputed and resolves in the customer's
 // favour (or is cancelled after funding). Calls Squad /transaction/refund.
 export async function POST(_req: NextRequest, { params }: { params: { id: string } }) {
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
 
   const db = readDB();
