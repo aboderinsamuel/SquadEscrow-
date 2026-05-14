@@ -24,7 +24,17 @@ export function setSessionCookie(token: string) {
 }
 
 export function clearSessionCookie() {
-  cookies().delete(COOKIE);
+  // Overwrite the cookie with an empty value + Max-Age=0 instead of relying on
+  // cookies().delete(name) — the latter omits path/secure/sameSite, so on HTTPS
+  // deploys the browser sees it as a *different* cookie and leaves the original
+  // (Secure, path=/) one in place. The user then stays "logged in" after logout.
+  cookies().set(COOKIE, "", {
+    httpOnly: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 0,
+    secure: !!process.env.VERCEL || process.env.NODE_ENV === "production",
+  });
 }
 
 // Async so it can wait for Supabase hydration on cold-start lambdas.
