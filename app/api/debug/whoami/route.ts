@@ -16,6 +16,15 @@ import { supabase, supabaseEnabled } from "@/lib/supabase";
 // Safe to leave deployed — returns no secrets. Remove or gate it later.
 export async function GET() {
   const out: any = {
+    // Pinned build marker — must match the commit you expect to be live.
+    // If this string changes in a later commit and Vercel still returns the
+    // old one, the deploy is stale.
+    build: "auth-supabase-fallback-add9933",
+    deploy: {
+      vercelGitCommit: process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || null,
+      vercelEnv: process.env.VERCEL_ENV || null,
+      vercelRegion: process.env.VERCEL_REGION || null,
+    },
     env: {
       supabaseEnabled,
       supabaseUrl: process.env.SUPABASE_URL ? "set" : "missing",
