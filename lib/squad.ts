@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import { recordSquadCall } from "./squad-log";
 
 // ─── Squad sandbox status (verified May 2026 against merchant SBHPM24ZVH) ───
 // ✅ /merchant/balance?currency_id=NGN              — works
@@ -64,7 +65,11 @@ async function callSquad<T = any>(
   path: string,
   body?: any,
 ): Promise<{ ok: boolean; data?: T; error?: string; raw?: string; status?: number }> {
-  if (!SECRET) return { ok: false, error: "no_secret" };
+  if (!SECRET) {
+    recordSquadCall({ method, path, ok: false, error: "no_secret", duration_ms: 0 });
+    return { ok: false, error: "no_secret" };
+  }
+  const t0 = Date.now();
   try {
     const res = await fetch(`${BASE}${path}`, {
       method,
@@ -77,10 +82,19 @@ async function callSquad<T = any>(
     const text = await res.text();
     let data: any = null;
     try { data = JSON.parse(text); } catch { data = { raw: text }; }
-    if (!res.ok) return { ok: false, error: data?.message || `http_${res.status}`, raw: text, data, status: res.status };
+    const duration_ms = Date.now() - t0;
+    if (!res.ok) {
+      const error = data?.message || `http_${res.status}`;
+      recordSquadCall({ method, path, status: res.status, ok: false, error, duration_ms });
+      return { ok: false, error, raw: text, data, status: res.status };
+    }
+    recordSquadCall({ method, path, status: res.status, ok: true, duration_ms });
     return { ok: true, data, raw: text, status: res.status };
   } catch (e: any) {
-    return { ok: false, error: e?.message || "fetch_failed" };
+    const duration_ms = Date.now() - t0;
+    const error = e?.message || "fetch_failed";
+    recordSquadCall({ method, path, ok: false, error, duration_ms });
+    return { ok: false, error };
   }
 }
 
