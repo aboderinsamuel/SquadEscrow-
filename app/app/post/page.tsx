@@ -3,8 +3,8 @@ import { redirect } from "next/navigation";
 import { AppHeader } from "@/components/AppHeader";
 import { PostJobForm } from "./PostJobForm";
 
-export default function PostPage() {
-  const me = getSessionUser();
+export default async function PostPage() {
+  const me = await getSessionUser();
   if (!me) redirect("/auth");
   return (
     <>

@@ -4,14 +4,18 @@ import { mutate, readDB, id } from "@/lib/db";
 import { transferPayout, transferFee } from "@/lib/squad";
 
 export async function POST(_req: NextRequest, { params }: { params: { id: string } }) {
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
 
   const db = readDB();
   const job = db.jobs.find((j) => j.id === params.id);
   if (!job) return NextResponse.json({ ok: false, error: "no_job" }, { status: 404 });
   if (job.customer_id !== me.id) return NextResponse.json({ ok: false, error: "not_owner" }, { status: 403 });
-  if (job.state !== "WORKER_COMPLETED") return NextResponse.json({ ok: false, error: "not_completed" }, { status: 400 });
+  // Allow release from WORKER_COMPLETED (normal happy path) or from DISPUTED
+  // (when the dispute resolves in the worker's favour).
+  if (job.state !== "WORKER_COMPLETED" && job.state !== "DISPUTED") {
+    return NextResponse.json({ ok: false, error: "not_completed" }, { status: 400 });
+  }
   if (!job.worker_id) return NextResponse.json({ ok: false, error: "no_worker" }, { status: 400 });
 
   const worker = db.users.find((u) => u.id === job.worker_id);

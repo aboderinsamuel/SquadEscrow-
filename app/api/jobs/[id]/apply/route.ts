@@ -3,7 +3,7 @@ import { getSessionUser } from "@/lib/auth";
 import { mutate, readDB, id } from "@/lib/db";
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
   if (me.role === "customer") return NextResponse.json({ ok: false, error: "customer_role" }, { status: 403 });
 

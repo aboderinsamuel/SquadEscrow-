@@ -15,7 +15,7 @@ const transitions: Record<JobState, JobState[]> = {
 };
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
   const { state } = await req.json();
 

@@ -9,9 +9,9 @@ import { Avatar } from "@/components/Avatar";
 import Link from "next/link";
 import { categoryLabel, naira } from "@/lib/utils";
 
-export default function FeedPage() {
+export default async function FeedPage() {
   seedIfEmpty();
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) redirect("/auth");
   const db = readDB();
   const isWorker = me.role !== "customer";
