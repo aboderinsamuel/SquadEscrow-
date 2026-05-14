@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mutate, readDB, id } from "@/lib/db";
+import { mutate, ensureHydrated, id } from "@/lib/db";
 import { loginUser } from "@/lib/auth";
 
 function normalizePhone(p: string) {
@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     if (!phone || !code) return NextResponse.json({ ok: false, error: "missing_fields" }, { status: 400 });
 
     const norm = normalizePhone(phone);
-    const db = readDB();
+    const db = await ensureHydrated();
     const otp = db.otps[norm];
     if (!otp || otp.expires_at < Date.now()) return NextResponse.json({ ok: false, error: "otp_expired" }, { status: 400 });
     if (otp.code !== code) return NextResponse.json({ ok: false, error: "bad_code" }, { status: 400 });

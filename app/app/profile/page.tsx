@@ -10,8 +10,8 @@ import { jaraScore } from "@/lib/score";
 import { LogoutButton } from "./LogoutButton";
 import { ProfileActivity } from "./ProfileActivity";
 
-export default function ProfilePage({ searchParams }: { searchParams: { u?: string } }) {
-  const me = getSessionUser();
+export default async function ProfilePage({ searchParams }: { searchParams: { u?: string } }) {
+  const me = await getSessionUser();
   if (!me) redirect("/auth");
   const db = readDB();
   const u = searchParams.u ? db.users.find((x) => x.id === searchParams.u) : me;

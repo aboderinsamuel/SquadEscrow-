@@ -4,9 +4,9 @@ import { readDB } from "@/lib/db";
 import { seedIfEmpty } from "@/lib/seed";
 import { MapView } from "./MapView";
 
-export default function MapPage() {
+export default async function MapPage() {
   seedIfEmpty();
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) redirect("/auth");
   const db = readDB();
   const artisans = db.users

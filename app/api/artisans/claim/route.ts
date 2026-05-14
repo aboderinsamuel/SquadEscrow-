@@ -7,7 +7,7 @@ import { mutate } from "@/lib/db";
 // (2) require account-name match against business name, (3) require a successful
 // liveness check, (4) optionally absorb the scraped profile into the claimant's user.
 export async function POST(req: NextRequest) {
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
   const { target_id } = await req.json();
   if (!target_id) return NextResponse.json({ ok: false, error: "missing_target" }, { status: 400 });

@@ -14,9 +14,9 @@ import { ClaimButton } from "./ClaimButton";
 import { LikeButton } from "./LikeButton";
 import { categoryLabel, naira } from "@/lib/utils";
 
-export default function ArtisanProfile({ params }: { params: { id: string } }) {
+export default async function ArtisanProfile({ params }: { params: { id: string } }) {
   seedIfEmpty();
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) redirect("/auth");
   const db = readDB();
   const a = db.users.find((u) => u.id === params.id && u.business_name);

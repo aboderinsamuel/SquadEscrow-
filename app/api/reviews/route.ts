@@ -4,7 +4,7 @@ import { mutate, id, readDB } from "@/lib/db";
 import type { Comment } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
   const { target_id, text, stars } = await req.json();
   if (!target_id || !text) return NextResponse.json({ ok: false, error: "missing_fields" }, { status: 400 });

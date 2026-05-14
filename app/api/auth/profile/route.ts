@@ -3,7 +3,7 @@ import { mutate } from "@/lib/db";
 import { getSessionUser } from "@/lib/auth";
 
 export async function POST(req: NextRequest) {
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
   const { name, role } = await req.json();
   mutate((db) => {

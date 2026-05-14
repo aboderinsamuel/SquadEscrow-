@@ -4,8 +4,8 @@ import { Logo } from "@/components/Logo";
 import { bankList } from "@/lib/squad";
 import { BusinessOnboard } from "./BusinessOnboard";
 
-export default function BusinessOnboardPage() {
-  const me = getSessionUser();
+export default async function BusinessOnboardPage() {
+  const me = await getSessionUser();
   if (!me) redirect("/auth");
   return (
     <main className="relative min-h-[100dvh] page-bg">

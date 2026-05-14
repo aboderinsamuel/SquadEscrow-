@@ -6,8 +6,8 @@ import { ScoreRing } from "@/components/ScoreRing";
 import { jaraScore } from "@/lib/score";
 import { naira, timeAgo } from "@/lib/utils";
 
-export default function WalletPage() {
-  const me = getSessionUser();
+export default async function WalletPage() {
+  const me = await getSessionUser();
   if (!me) redirect("/auth");
   const db = readDB();
   const myTx = db.transactions.filter((t) => t.user_id === me.id).sort((a, b) => b.created_at - a.created_at);

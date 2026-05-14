@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mutate, readDB } from "@/lib/db";
+import { mutate, ensureHydrated } from "@/lib/db";
 import { seedIfEmpty } from "@/lib/seed";
 import { sendSquadSms, isLive } from "@/lib/squad";
 
@@ -13,6 +13,10 @@ function normalizePhone(p: string) {
 
 export async function POST(req: NextRequest) {
   try {
+    // Wait for Supabase hydration on cold start so we read the same state
+    // every other lambda sees. Without this, the first request after deploy
+    // creates an OTP that the *next* request (different lambda) can't see.
+    const db = await ensureHydrated();
     seedIfEmpty();
 
     let body: any = null;
@@ -23,7 +27,6 @@ export async function POST(req: NextRequest) {
     if (norm.length < 10) return NextResponse.json({ ok: false, error: "phone_invalid" }, { status: 400 });
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
-    const db = readDB();
     const existing = !!db.users.find((u) => u.phone === norm);
 
     mutate((d) => {

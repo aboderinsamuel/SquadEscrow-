@@ -3,8 +3,8 @@ import { getSessionUser } from "@/lib/auth";
 import { AppHeader } from "@/components/AppHeader";
 import { EditForm } from "./EditForm";
 
-export default function ProfileEditPage() {
-  const me = getSessionUser();
+export default async function ProfileEditPage() {
+  const me = await getSessionUser();
   if (!me) redirect("/auth");
   return (
     <>

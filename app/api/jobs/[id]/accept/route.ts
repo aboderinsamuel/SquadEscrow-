@@ -3,7 +3,7 @@ import { getSessionUser } from "@/lib/auth";
 import { mutate } from "@/lib/db";
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
   const { application_id } = await req.json();
 

@@ -2,8 +2,8 @@ import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
 import { BottomNav } from "@/components/BottomNav";
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
-  const me = getSessionUser();
+export default async function AppLayout({ children }: { children: React.ReactNode }) {
+  const me = await getSessionUser();
   if (!me) redirect("/auth");
   return (
     <main className="relative min-h-[100dvh] overflow-x-hidden bg-cream-200 text-ink">

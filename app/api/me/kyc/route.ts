@@ -6,7 +6,7 @@ import { nameMatchScore } from "@/lib/discovery";
 import type { SocialHandle } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
-  const me = getSessionUser();
+  const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
   const body = await req.json();
   const {
