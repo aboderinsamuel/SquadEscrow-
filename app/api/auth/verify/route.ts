@@ -11,38 +11,51 @@ function normalizePhone(p: string) {
 }
 
 export async function POST(req: NextRequest) {
-  const { phone, code } = await req.json();
-  const norm = normalizePhone(phone);
-  const db = readDB();
-  const otp = db.otps[norm];
-  if (!otp || otp.expires_at < Date.now()) return NextResponse.json({ ok: false, error: "otp_expired" }, { status: 400 });
-  if (otp.code !== code) return NextResponse.json({ ok: false, error: "bad_code" }, { status: 400 });
+  try {
+    let body: any = null;
+    try { body = await req.json(); } catch {}
+    const phone = body?.phone;
+    const code = body?.code;
+    if (!phone || !code) return NextResponse.json({ ok: false, error: "missing_fields" }, { status: 400 });
 
-  let user = db.users.find((u) => u.phone === norm);
-  let new_user = false;
-  if (!user) {
-    new_user = true;
-    user = {
-      id: id("u"),
-      phone: norm,
-      name: "",
-      role: "worker",
-      kyc_tier: 0,
-      jara_score: 0,
-      jobs_completed: 0,
-      avg_rating: 0,
-      on_time_rate: 0,
-      disputes: 0,
-      created_at: Date.now(),
-    };
-    mutate((db) => {
-      db.users.push(user!);
-      delete db.otps[norm];
-    });
-  } else {
-    mutate((db) => { delete db.otps[norm]; });
+    const norm = normalizePhone(phone);
+    const db = readDB();
+    const otp = db.otps[norm];
+    if (!otp || otp.expires_at < Date.now()) return NextResponse.json({ ok: false, error: "otp_expired" }, { status: 400 });
+    if (otp.code !== code) return NextResponse.json({ ok: false, error: "bad_code" }, { status: 400 });
+
+    let user = db.users.find((u) => u.phone === norm);
+    let new_user = false;
+    if (!user) {
+      new_user = true;
+      user = {
+        id: id("u"),
+        phone: norm,
+        name: "",
+        role: "worker",
+        kyc_tier: 0,
+        jara_score: 0,
+        jobs_completed: 0,
+        avg_rating: 0,
+        on_time_rate: 0,
+        disputes: 0,
+        created_at: Date.now(),
+      };
+      mutate((db) => {
+        db.users.push(user!);
+        delete db.otps[norm];
+      });
+    } else {
+      mutate((db) => { delete db.otps[norm]; });
+    }
+
+    loginUser(user.id);
+    return NextResponse.json({ ok: true, new_user });
+  } catch (e: any) {
+    console.error("[/api/auth/verify] uncaught:", e);
+    return NextResponse.json(
+      { ok: false, error: "server_error", detail: e?.message || String(e) },
+      { status: 500 },
+    );
   }
-
-  loginUser(user.id);
-  return NextResponse.json({ ok: true, new_user });
 }
