@@ -22,13 +22,14 @@ interface ReelArtisan {
   claimed: boolean;
 }
 
-// Public CDN-hosted demo MP4s (Google's standard sample bucket — works without auth).
-// Swap to "/reels/<file>.mp4" later if you'd rather host real artisan footage.
+// Local mp4s served from /public/reels by Vercel's edge CDN. Same-origin =
+// no extra DNS/TLS hop, HTTP range requests work out of the box, first frame
+// typically renders in <100ms. See public/reels/README.md for encoding tips.
 const DEMO_VIDEOS = [
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+  "/reels/1.mp4",
+  "/reels/2.mp4",
+  "/reels/3.mp4",
+  "/reels/4.mp4",
 ];
 
 const CAPTIONS = [
@@ -217,7 +218,12 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
         className="absolute inset-0 overflow-y-auto snap-y snap-mandatory"
         style={{ scrollbarWidth: "none" }}
       >
-        {reels.map((r, i) => (
+        {reels.map((r, i) => {
+          // Preload the active video and the next one (modulo length so it
+          // also wraps 4 → 1) so scroll-to-next has the first chunk already.
+          // Other slots stay on metadata-only to keep memory pressure down.
+          const isActiveOrNext = i === active || i === (active + 1) % reels.length;
+          return (
           <div key={i} className="relative h-screen w-full snap-start snap-always">
             <video
               ref={(el) => { videoRefs.current[i] = el; }}
@@ -225,7 +231,7 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
               muted
               loop
               playsInline
-              preload="metadata"
+              preload={isActiveOrNext ? "auto" : "metadata"}
               className="absolute inset-0 w-full h-full object-cover"
               onClick={(e) => {
                 const v = e.currentTarget;
@@ -274,7 +280,8 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
               </div>
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>,
     document.body,
