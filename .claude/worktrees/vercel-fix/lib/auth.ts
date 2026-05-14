@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import crypto from "node:crypto";
-import { mutate, ensureHydrated } from "./db";
+import { mutate, mutateAndPersist, ensureHydrated, flushNow } from "./db";
 import type { User } from "./types";
 
 const COOKIE = "jara_session";
@@ -34,17 +34,21 @@ export async function getSessionUser(): Promise<User | null> {
   return db.users.find((u) => u.id === s.user_id) || null;
 }
 
-export function loginUser(userId: string) {
+// Awaits the Supabase write before returning the session token, so the
+// session row is durable across lambda instances. Without this, the next
+// request can hit a different lambda whose cache has no record of the
+// session (because process.nextTick flushes are dropped on lambda freeze).
+export async function loginUser(userId: string): Promise<string> {
   const token = newToken();
-  mutate((db) => {
+  await mutateAndPersist((db) => {
     db.sessions[token] = { user_id: userId, created_at: Date.now() };
   });
   setSessionCookie(token);
   return token;
 }
 
-export function logout() {
+export async function logout() {
   const token = cookies().get(COOKIE)?.value;
-  if (token) mutate((db) => { delete db.sessions[token]; });
+  if (token) await mutateAndPersist((db) => { delete db.sessions[token]; });
   clearSessionCookie();
 }

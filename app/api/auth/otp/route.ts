@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mutateAndPersist, ensureHydrated } from "@/lib/db";
+import { ensureHydrated, persistOtp } from "@/lib/db";
 import { seedIfEmpty } from "@/lib/seed";
 import { sendSquadSms, isLive } from "@/lib/squad";
 
@@ -29,11 +29,9 @@ export async function POST(req: NextRequest) {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const existing = !!db.users.find((u) => u.phone === norm);
 
-    // Persist OTP synchronously — must reach Supabase before we return,
-    // because the verify request will hit a different lambda.
-    await mutateAndPersist((d) => {
-      d.otps[norm] = { code, expires_at: Date.now() + 10 * 60_000 };
-    });
+    // Persist OTP synchronously — single-row write so it lands in Supabase
+    // before we return (verify will hit a different lambda).
+    await persistOtp(norm, code, Date.now() + 10 * 60_000);
 
     // Try to send via Squad VAS SMS if we have keys. If Squad refuses (e.g.
     // Sender ID not registered yet), fall back to showing the OTP on screen.

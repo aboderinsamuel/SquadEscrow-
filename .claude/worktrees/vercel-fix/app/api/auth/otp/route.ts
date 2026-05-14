@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mutate, ensureHydrated } from "@/lib/db";
+import { mutateAndPersist, ensureHydrated } from "@/lib/db";
 import { seedIfEmpty } from "@/lib/seed";
 import { sendSquadSms, isLive } from "@/lib/squad";
 
@@ -29,7 +29,9 @@ export async function POST(req: NextRequest) {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const existing = !!db.users.find((u) => u.phone === norm);
 
-    mutate((d) => {
+    // Persist OTP synchronously — must reach Supabase before we return,
+    // because the verify request will hit a different lambda.
+    await mutateAndPersist((d) => {
       d.otps[norm] = { code, expires_at: Date.now() + 10 * 60_000 };
     });
 

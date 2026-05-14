@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mutate, ensureHydrated, id } from "@/lib/db";
+import { mutateAndPersist, ensureHydrated, id } from "@/lib/db";
 import { loginUser } from "@/lib/auth";
 
 function normalizePhone(p: string) {
@@ -41,15 +41,18 @@ export async function POST(req: NextRequest) {
         disputes: 0,
         created_at: Date.now(),
       };
-      mutate((db) => {
+      // Persist user + drop OTP synchronously so the session that follows
+      // can reference a user that's already in Supabase.
+      await mutateAndPersist((db) => {
         db.users.push(user!);
         delete db.otps[norm];
       });
     } else {
-      mutate((db) => { delete db.otps[norm]; });
+      await mutateAndPersist((db) => { delete db.otps[norm]; });
     }
 
-    loginUser(user.id);
+    // Persist session synchronously — see loginUser() for why this matters.
+    await loginUser(user.id);
     return NextResponse.json({ ok: true, new_user });
   } catch (e: any) {
     console.error("[/api/auth/verify] uncaught:", e);

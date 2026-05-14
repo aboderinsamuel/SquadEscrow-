@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import crypto from "node:crypto";
-import { mutate, mutateAndPersist, ensureHydrated, flushNow } from "./db";
+import { mutate, mutateAndPersist, ensureHydrated, flushNow, persistSession, deleteSession } from "./db";
 import { supabase, supabaseEnabled } from "./supabase";
 import type { User } from "./types";
 
@@ -82,15 +82,16 @@ export async function getSessionUser(): Promise<User | null> {
 // session (because process.nextTick flushes are dropped on lambda freeze).
 export async function loginUser(userId: string): Promise<string> {
   const token = newToken();
-  await mutateAndPersist((db) => {
-    db.sessions[token] = { user_id: userId, created_at: Date.now() };
-  });
+  // Targeted write — only the session row, not the entire DB. Without
+  // this the auth flow re-upserts 1000+ users every login and hits
+  // Vercel's 10s function timeout.
+  await persistSession(token, userId);
   setSessionCookie(token);
   return token;
 }
 
 export async function logout() {
   const token = cookies().get(COOKIE)?.value;
-  if (token) await mutateAndPersist((db) => { delete db.sessions[token]; });
+  if (token) await deleteSession(token);
   clearSessionCookie();
 }

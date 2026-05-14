@@ -306,6 +306,74 @@ export async function mutateAndPersist<T>(fn: (db: DB) => T): Promise<T> {
   return result;
 }
 
+// ── Targeted writes ─────────────────────────────────────────────────────
+// flushNow() re-upserts the entire DB (1000+ rows) on every call — that's
+// what's making /api/auth/verify take 10 seconds and hit Vercel's function
+// timeout. These targeted writers upsert ONLY the row that changed, so
+// auth flow is fast and the session row reliably lands in Supabase before
+// the response goes out.
+
+export async function persistSession(token: string, userId: string): Promise<void> {
+  // Always update local cache first so the same-lambda reads see it.
+  const db = await ensureHydrated();
+  db.sessions[token] = { user_id: userId, created_at: Date.now() };
+  if (!supabaseEnabled) return;
+  try {
+    await supabase().from("sessions").upsert({
+      token,
+      user_id: userId,
+      created_at: Date.now(),
+    });
+  } catch (e: any) {
+    console.error("[db] persistSession failed:", e?.message);
+  }
+}
+
+export async function deleteSession(token: string): Promise<void> {
+  const db = await ensureHydrated();
+  delete db.sessions[token];
+  if (!supabaseEnabled) return;
+  try {
+    await supabase().from("sessions").delete().eq("token", token);
+  } catch (e: any) {
+    console.error("[db] deleteSession failed:", e?.message);
+  }
+}
+
+export async function persistOtp(phone: string, code: string, expiresAt: number): Promise<void> {
+  const db = await ensureHydrated();
+  db.otps[phone] = { code, expires_at: expiresAt };
+  if (!supabaseEnabled) return;
+  try {
+    await supabase().from("otps").upsert({ phone, code, expires_at: expiresAt });
+  } catch (e: any) {
+    console.error("[db] persistOtp failed:", e?.message);
+  }
+}
+
+export async function deleteOtp(phone: string): Promise<void> {
+  const db = await ensureHydrated();
+  delete db.otps[phone];
+  if (!supabaseEnabled) return;
+  try {
+    await supabase().from("otps").delete().eq("phone", phone);
+  } catch (e: any) {
+    console.error("[db] deleteOtp failed:", e?.message);
+  }
+}
+
+export async function persistUser(u: any): Promise<void> {
+  const db = await ensureHydrated();
+  const i = db.users.findIndex((x) => x.id === u.id);
+  if (i >= 0) db.users[i] = u; else db.users.push(u);
+  if (!supabaseEnabled) return;
+  try {
+    await supabase().from("users").upsert(sanitizeUser(u));
+  } catch (e: any) {
+    console.error("[db] persistUser failed:", e?.message);
+  }
+}
+
 export function mutate<T>(fn: (db: DB) => T): T {
   const db = readDB();
   const result = fn(db);
