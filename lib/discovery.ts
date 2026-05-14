@@ -633,22 +633,29 @@ function seedFrom(seeds: DiscoverySeed[]) {
   });
 }
 
-const PROC_FLAG = "__proc_seeded";
-
 export function seedDiscovery() {
   const db = readDB();
-  const hasSeed = db.users.some((u) => u.business_name);
-  const procSeeded = !!(db as any)[PROC_FLAG];
 
-  if (!hasSeed) {
+  // Count business artisans currently visible in the cache. The previous
+  // implementation gated on an in-memory `__proc_seeded` flag, which got
+  // wiped on every cold lambda — so every cold start re-ran the seed and
+  // pushed another 260 procedural rows into Supabase. The users table grew
+  // unbounded that way (3933 rows in production by the time we caught it).
+  //
+  // Replacing the flag with an empirical count makes the seed idempotent:
+  // once the discovery population is healthy, this is a no-op forever.
+  // Even with Supabase's 1000-row default page limit on hydration, a properly
+  // seeded DB yields far more than the threshold here.
+  const businessCount = db.users.filter((u) => u.business_name).length;
+
+  if (businessCount >= 50) return;
+
+  if (businessCount === 0) {
     seedFrom([...SEED, ...generateProceduralArtisans(260)]);
-    mutate((db) => { (db as any)[PROC_FLAG] = true; });
     return;
   }
 
-  if (!procSeeded) {
-    // Existing curated seed but no procedural: top up the map.
-    seedFrom(generateProceduralArtisans(260));
-    mutate((db) => { (db as any)[PROC_FLAG] = true; });
-  }
+  // Some curated rows present (e.g. an old partial run) but no procedural
+  // top-up. Add procedural once; the threshold above prevents repeats.
+  seedFrom(generateProceduralArtisans(260));
 }
