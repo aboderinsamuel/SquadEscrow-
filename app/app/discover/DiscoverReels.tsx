@@ -172,6 +172,9 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
   const scrollRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [active, setActive] = useState(startIndex);
+  // Start muted — autoplay policies on iOS Safari + Chrome Android require it.
+  // The toggle below is a user gesture, which permits unmuting from then on.
+  const [muted, setMuted] = useState(true);
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -209,6 +212,26 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
     });
   }, [active]);
 
+  // Keep the <video>.muted property in sync with the toggle. We bind it
+  // imperatively (not via the muted attribute) because changing the attribute
+  // after mount doesn't reliably propagate in some browsers.
+  useEffect(() => {
+    videoRefs.current.forEach((v) => { if (v) v.muted = muted; });
+  }, [muted]);
+
+  function toggleMute() {
+    setMuted((m) => {
+      const next = !m;
+      // If we're unmuting, kick the active video to play() inside the same
+      // synchronous user-gesture callback so Safari doesn't reject it.
+      if (!next) {
+        const v = videoRefs.current[active];
+        if (v) { v.muted = false; v.play().catch(() => {}); }
+      }
+      return next;
+    });
+  }
+
   if (!mounted || typeof document === "undefined") return null;
 
   return createPortal(
@@ -226,9 +249,8 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
           return (
           <div key={i} className="relative h-screen w-full snap-start snap-always">
             <video
-              ref={(el) => { videoRefs.current[i] = el; }}
+              ref={(el) => { videoRefs.current[i] = el; if (el) el.muted = muted; }}
               src={r.videoUrl}
-              muted
               loop
               playsInline
               preload={isActiveOrNext ? "auto" : "metadata"}
@@ -242,12 +264,31 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
 
             {/* Top bar */}
             <div className="absolute top-0 inset-x-0 z-10 px-4 pt-[max(env(safe-area-inset-top),16px)] pb-3 flex items-center justify-between">
-              <button onClick={onClose} className="grid h-10 w-10 place-items-center rounded-full bg-cream-50/15 backdrop-blur text-cream-50">
+              <button onClick={onClose} aria-label="Close reels" className="grid h-10 w-10 place-items-center rounded-full bg-cream-50/15 backdrop-blur text-cream-50">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
               </button>
               <div className="text-cream-50/85 text-[12px] font-semibold tracking-wide uppercase">{i + 1} / {reels.length}</div>
-              <div className="w-10" />
+              <button onClick={toggleMute} aria-label={muted ? "Unmute" : "Mute"} className="grid h-10 w-10 place-items-center rounded-full bg-cream-50/15 backdrop-blur text-cream-50">
+                {muted ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a9 9 0 0 1 0 14"/></svg>
+                )}
+              </button>
             </div>
+
+            {/* First-open hint: nudge the user to unmute. Shows only while
+                muted, on the active reel. Disappears as soon as they tap. */}
+            {muted && i === active && (
+              <button
+                onClick={toggleMute}
+                aria-label="Tap to unmute"
+                className="absolute z-10 top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-2 rounded-full bg-cream-50/20 backdrop-blur text-cream-50 text-[12px] font-semibold tracking-wide flex items-center gap-2 ring-1 ring-cream-50/25 animate-pulse"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>
+                Tap to unmute
+              </button>
+            )}
 
             {/* Right rail actions */}
             <div className="absolute right-3 bottom-[180px] z-10 flex flex-col gap-4 text-cream-50">
