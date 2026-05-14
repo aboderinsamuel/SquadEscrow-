@@ -160,3 +160,16 @@ section[id] { scroll-margin-top: 80px; }
   100% { transform: scale(2.4); opacity: 0; }
 }
 .snap-ping { animation: snap-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+
+/* ── Syntax highlight tokens for home-page code showcase ── */
+.tok-kw    { color: #ff7eb3; font-weight: 600; }                      /* await, const */
+.tok-fn    { color: #ffd166; }                                        /* SQUAD, post */
+.tok-str   { color: #8de4a3; }                                        /* "strings" */
+.tok-tpl   { color: #ffe08a; }                                        /* `templates` */
+.tok-key   { color: #f8efdc; }                                        /* object keys */
+.tok-num   { color: #f5a04a; }                                        /* numbers */
+.tok-cm    { color: rgba(248, 239, 220, 0.40); font-style: italic; }  /* comments */
+.tok-pn    { color: rgba(248, 239, 220, 0.55); }                      /* punctuation */
+.tok-id    { color: #f8efdc; }                                        /* identifiers */
+.tok-const { color: #c5a3ff; }                                        /* CONSTANTS */

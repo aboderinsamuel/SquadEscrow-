@@ -52,7 +52,7 @@ export default async function FeedPage() {
 
       {/* Stat row — mockup-aligned */}
       <div className="grid grid-cols-3 gap-2 mb-6">
-        <Stat label="JARA Score" value={me.jara_score || "—"} tone="cream" />
+        <Stat label="Squadco Score" value={me.jara_score || "—"} tone="cream" />
         <Stat label={isWorker ? "Jobs done" : "Posted"} value={isWorker ? me.jobs_completed : myJobs.length} tone="ink" />
         <Stat label="KYC" value={`Tier ${me.kyc_tier}`} tone={me.kyc_tier >= 2 ? "forest" : "coral"} />
       </div>

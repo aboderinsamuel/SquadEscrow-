@@ -100,7 +100,7 @@ export default async function ArtisanProfile({ params }: { params: { id: string 
                 <div className="grid h-9 w-9 place-items-center rounded-full bg-ink text-cream-50 text-sm shrink-0">!</div>
                 <div className="flex-1">
                   <div className="font-bold text-ink">This profile was scraped from public sources</div>
-                  <p className="text-[12.5px] text-ink/65 mt-1">We aggregated public Instagram/Jiji/WhatsApp Business listings to bootstrap the directory. Owner: claim it to get NIN verification, escrow payouts, and the JARA Score.</p>
+                  <p className="text-[12.5px] text-ink/65 mt-1">We aggregated public Instagram/Jiji/WhatsApp Business listings to bootstrap the directory. Owner: claim it to get NIN verification, escrow payouts, and the Squadco Score.</p>
                   <ClaimButton targetId={a.id} className="mt-3" />
                 </div>
               </div>

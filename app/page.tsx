@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Fragment } from "react";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/Button";
 import { Badge } from "@/components/Badge";
@@ -232,20 +233,68 @@ export default function Landing() {
               </div>
             </div>
 
-            <div className="rounded-3xl bg-forest-900 text-cream-50 p-6 lg:p-7 font-mono text-[12.5px] leading-relaxed overflow-x-auto ring-1 ring-ink/20">
-              <div className="text-gold-400 text-[10px] tracking-[0.18em] uppercase mb-3 font-sans font-semibold">POST /virtual-account/create-dynamic-virtual-account</div>
-              <pre className="text-cream-50/90 whitespace-pre">{`await SQUAD.post(
-  "/virtual-account/create-dynamic-virtual-account", {
-    transaction_ref: \`\${MERCHANT}-\${jobId}\`,
-    amount: 15000 * 100, // kobo
-    currency_id: "NGN",
-    customer_identifier: customer.name,
-    beneficiary_account: GTBANK_SETTLEMENT,
-    expiry_seconds: 3600,
-  });
-// → returns NUBAN. Customer transfers via NIP.
-// → webhook fires \`charge_successful\` w/ HMAC.
-// → job.state = FUNDED. Worker is dispatched.`}</pre>
+            {/* ── Premium code showcase: Mac chrome + line numbers + syntax highlight ── */}
+            <div className="group relative">
+              {/* Glow halo on hover */}
+              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-coral-500/20 via-gold-400/20 to-forest-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 pointer-events-none" />
+
+              <div className="relative rounded-2xl bg-[#0c1c17] text-cream-50 overflow-hidden ring-1 ring-cream-50/8 shadow-2xl shadow-ink/40">
+                {/* Window chrome */}
+                <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-[#081410] border-b border-cream-50/8">
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
+                    <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
+                    <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+                    <span className="ml-3 text-[11px] font-mono text-cream-50/55">lib/squad.ts <span className="text-cream-50/35">·</span> line 103</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="relative inline-flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full rounded-full bg-forest-400 opacity-75 animate-ping" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-forest-400" />
+                    </span>
+                    <span className="text-[10px] font-semibold tracking-[0.14em] uppercase text-forest-300">200 OK · 312ms</span>
+                  </div>
+                </div>
+
+                {/* Endpoint header */}
+                <div className="px-4 lg:px-6 pt-4 pb-1 flex items-center gap-2 border-b border-cream-50/5">
+                  <span className="rounded-md bg-coral-500/15 text-coral-300 px-1.5 py-0.5 text-[10px] font-mono font-bold tracking-wider">POST</span>
+                  <span className="font-mono text-[11px] text-cream-50/75 truncate">/virtual-account/create-dynamic-virtual-account</span>
+                </div>
+
+                {/* Code body with line numbers */}
+                <div className="px-4 lg:px-6 py-5 font-mono text-[12.5px] leading-[1.8] overflow-x-auto">
+                  <div className="grid grid-cols-[1.75rem_1fr] gap-x-3">
+                    {[
+                      <><span className="tok-kw">await</span> <span className="tok-fn">SQUAD</span><span className="tok-pn">.</span><span className="tok-fn">post</span><span className="tok-pn">(</span></>,
+                      <span className="pl-3"><span className="tok-str">{`"/virtual-account/create-dynamic-virtual-account"`}</span><span className="tok-pn">, {`{`}</span></span>,
+                      <span className="pl-6"><span className="tok-key">transaction_ref</span><span className="tok-pn">:</span> <span className="tok-tpl">{"`${MERCHANT}-${jobId}`"}</span><span className="tok-pn">,</span></span>,
+                      <span className="pl-6"><span className="tok-key">amount</span><span className="tok-pn">:</span> <span className="tok-num">15000</span> <span className="tok-pn">*</span> <span className="tok-num">100</span><span className="tok-pn">,</span> <span className="tok-cm">// kobo</span></span>,
+                      <span className="pl-6"><span className="tok-key">currency_id</span><span className="tok-pn">:</span> <span className="tok-str">{`"NGN"`}</span><span className="tok-pn">,</span></span>,
+                      <span className="pl-6"><span className="tok-key">customer_identifier</span><span className="tok-pn">:</span> <span className="tok-id">customer</span><span className="tok-pn">.</span><span className="tok-id">name</span><span className="tok-pn">,</span></span>,
+                      <span className="pl-6"><span className="tok-key">beneficiary_account</span><span className="tok-pn">:</span> <span className="tok-const">GTBANK_SETTLEMENT</span><span className="tok-pn">,</span></span>,
+                      <span className="pl-6"><span className="tok-key">expiry_seconds</span><span className="tok-pn">:</span> <span className="tok-num">3600</span><span className="tok-pn">,</span></span>,
+                      <span className="pl-3"><span className="tok-pn">{`}`});</span></span>,
+                      <span className="h-3" />,
+                      <span className="tok-cm">{`// → returns NUBAN. Customer transfers via NIP.`}</span>,
+                      <span className="tok-cm">{`// → webhook fires `}<span className="text-gold-300/90">charge_successful</span>{` w/ HMAC-SHA512.`}</span>,
+                      <span className="tok-cm">{`// → job.state = `}<span className="text-forest-300">FUNDED</span>{`. Worker dispatched.`}</span>,
+                    ].map((line, i) => (
+                      <Fragment key={i}>
+                        <span className="text-cream-50/25 select-none text-right tabular-nums">{i + 1}</span>
+                        <span className="whitespace-pre">{line}</span>
+                      </Fragment>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom info bar */}
+                <div className="px-4 lg:px-6 py-2.5 bg-[#081410] border-t border-cream-50/8 flex items-center justify-between text-[10px] text-cream-50/45 font-mono">
+                  <span>merchant <span className="text-gold-300">UE632HMD</span></span>
+                  <span>HMAC-SHA512 verified</span>
+                  <span className="hidden sm:inline">Idempotent ref</span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -298,9 +347,9 @@ export default function Landing() {
         {/* CLOSING CTA */}
         <section className="py-20 md:py-28 text-center">
           <h2 className="font-display text-4xl md:text-6xl font-bold leading-[0.95] tracking-tightest max-w-4xl mx-auto">
-            It's a dating app for jobs,<br />
-            with a <span className="italic text-coral-500">bank</span> inside,<br />
-            and <span className="underline decoration-gold-400 decoration-[6px] underline-offset-[10px]">Squad</span> is the heart.
+            Every handshake becomes <span className="italic text-coral-500">escrow.</span><br />
+            Every escrow becomes <span className="italic text-coral-500">credit data.</span><br />
+            <span className="underline decoration-gold-400 decoration-[6px] underline-offset-[10px]">Squad</span> is the engine.
           </h2>
           <div className="mt-10 flex justify-center gap-3 flex-wrap">
             <Link href="/auth"><Button size="lg">Open the app →</Button></Link>
