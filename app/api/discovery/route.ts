@@ -4,7 +4,7 @@ import { seedIfEmpty } from "@/lib/seed";
 
 // Lightweight public-ish discovery feed. Used by the map page and any external integration.
 export async function GET(req: NextRequest) {
-  seedIfEmpty();
+  await seedIfEmpty();
   const url = new URL(req.url);
   const cat = url.searchParams.get("cat");
   const area = url.searchParams.get("area");

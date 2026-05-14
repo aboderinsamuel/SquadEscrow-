@@ -10,7 +10,7 @@ import Link from "next/link";
 import { categoryLabel, naira } from "@/lib/utils";
 
 export default async function FeedPage() {
-  seedIfEmpty();
+  await seedIfEmpty();
   const me = await getSessionUser();
   if (!me) redirect("/auth");
   const db = readDB();

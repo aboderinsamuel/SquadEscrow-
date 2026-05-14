@@ -1,4 +1,4 @@
-import { mutate, readDB, id, hashPII } from "./db";
+import { mutateAndPersist, readDB, ensureHydrated, id, hashPII } from "./db";
 import type { User, SocialHandle, Comment } from "./types";
 
 // Fuzzy name-match score — simulates Squad account_name vs business_name check.
@@ -555,8 +555,8 @@ function generateProceduralArtisans(count: number): DiscoverySeed[] {
   return out;
 }
 
-function seedFrom(seeds: DiscoverySeed[]) {
-  mutate((db) => {
+async function seedFrom(seeds: DiscoverySeed[]) {
+  await mutateAndPersist((db) => {
     for (const s of seeds) {
       const [lat, lng] = LAGOS_AREAS[s.area];
       const uid = id("u");
@@ -633,8 +633,8 @@ function seedFrom(seeds: DiscoverySeed[]) {
   });
 }
 
-export function seedDiscovery() {
-  const db = readDB();
+export async function seedDiscovery() {
+  const db = await ensureHydrated();
 
   // Count business artisans currently visible in the cache. The previous
   // implementation gated on an in-memory `__proc_seeded` flag, which got
@@ -651,11 +651,11 @@ export function seedDiscovery() {
   if (businessCount >= 50) return;
 
   if (businessCount === 0) {
-    seedFrom([...SEED, ...generateProceduralArtisans(260)]);
+    await seedFrom([...SEED, ...generateProceduralArtisans(260)]);
     return;
   }
 
   // Some curated rows present (e.g. an old partial run) but no procedural
   // top-up. Add procedural once; the threshold above prevents repeats.
-  seedFrom(generateProceduralArtisans(260));
+  await seedFrom(generateProceduralArtisans(260));
 }

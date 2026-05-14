@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     // every other lambda sees. Without this, the first request after deploy
     // creates an OTP that the *next* request (different lambda) can't see.
     const db = await ensureHydrated();
-    seedIfEmpty();
+    await seedIfEmpty();
 
     let body: any = null;
     try { body = await req.json(); } catch {}

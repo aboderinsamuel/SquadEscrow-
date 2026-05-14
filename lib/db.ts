@@ -412,6 +412,48 @@ export async function findUserById(id: string): Promise<User | null> {
   }
 }
 
+// List every user that has a business profile, merging the in-memory cache
+// with a live Supabase scan. Used by Discover / Map / Operator pages so a
+// freshly-onboarded artisan always appears for the next page hit on any
+// lambda — even if THIS lambda's cache was hydrated before the new row was
+// written by a different lambda.
+export async function listBusinessUsers(): Promise<User[]> {
+  const db = await ensureHydrated();
+  const cacheUsers = db.users.filter((u) => !!u.business_name);
+  if (!supabaseEnabled) return cacheUsers;
+  try {
+    const sb = supabase();
+    // Pull every business row from Supabase. Default page limit is 1000;
+    // we page through if discovery grows past that.
+    const all: User[] = [];
+    const PAGE = 1000;
+    for (let from = 0; from < 5000; from += PAGE) {
+      const r = await sb
+        .from("users")
+        .select("*")
+        .not("business_name", "is", null)
+        .range(from, from + PAGE - 1);
+      if (r.error || !r.data || r.data.length === 0) break;
+      all.push(...(r.data as User[]));
+      if (r.data.length < PAGE) break;
+    }
+    // Merge: Supabase rows are authoritative for fields, but use cache rows
+    // for any IDs not yet in Supabase (extremely rare — only the few-ms gap
+    // before a fresh write lands).
+    const byId = new Map<string, User>();
+    for (const u of all) byId.set(u.id, u);
+    for (const u of cacheUsers) if (!byId.has(u.id)) byId.set(u.id, u);
+    // Backfill cache with anything Supabase gave us that the cache didn't have.
+    for (const u of all) {
+      if (!db.users.find((x) => x.id === u.id)) db.users.push(u);
+    }
+    return Array.from(byId.values());
+  } catch (e) {
+    console.error("[db] listBusinessUsers Supabase merge failed:", e);
+    return cacheUsers;
+  }
+}
+
 export async function findJobById(id: string): Promise<Job | null> {
   const db = await ensureHydrated();
   const hit = db.jobs.find((j) => j.id === id);

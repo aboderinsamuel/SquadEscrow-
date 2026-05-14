@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
-import { mutate } from "@/lib/db";
+import { mutateAndPersist } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   const me = await getSessionUser();
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
   const { target_id, liked } = await req.json();
   if (!target_id) return NextResponse.json({ ok: false, error: "missing_target" }, { status: 400 });
-  mutate((db) => {
+  await mutateAndPersist((db) => {
     const idx = db.likes.findIndex((l) => l.user_id === me.id && l.target_id === target_id);
     const u = db.users.find((u) => u.id === target_id);
     if (liked && idx === -1) {

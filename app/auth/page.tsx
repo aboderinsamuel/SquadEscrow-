@@ -25,11 +25,11 @@ export default async function AuthPage({ searchParams }: { searchParams: { role?
       <div className="flex-1 grid place-items-center px-5 relative z-10">
         <div className="w-full max-w-[420px] py-10">
           <div className="mb-8 animate-rise">
-            <div className="text-coral-500 text-[11px] font-semibold uppercase tracking-[0.18em]">Sign in</div>
+            <div className="text-coral-500 text-[11px] font-semibold uppercase tracking-[0.18em]">Sign in · Sign up</div>
             <h1 className="font-display text-[40px] font-bold mt-2 tracking-tightest leading-[0.95]">
-              {role === "worker" ? "Get hired today." : role === "customer" ? "Hire a verified Nigerian." : "Welcome to jara."}
+              {role === "worker" ? "Get hired today." : role === "customer" ? "Hire a verified Nigerian." : "Welcome to Squadco."}
             </h1>
-            <p className="text-ink/60 mt-3 text-[15px]">Phone number only. No password. OTP in seconds.</p>
+            <p className="text-ink/60 mt-3 text-[15px]">Phone number only. No password. OTP in seconds. Pick a tab below to choose your path.</p>
           </div>
           <AuthForm initialRole={role} />
           <p className="mt-6 text-[12px] text-ink/45 leading-relaxed">

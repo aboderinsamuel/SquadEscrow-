@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
-import { mutate } from "@/lib/db";
+import { mutateAndPersist } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
   const me = await getSessionUser();
@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => ({}));
   const { name, area, bio, skills, hourly_rate, business_name } = body || {};
 
-  mutate((db) => {
+  await mutateAndPersist((db) => {
     const u = db.users.find((x) => x.id === me.id);
     if (!u) return;
     if (typeof name === "string") u.name = name.slice(0, 80).trim() || u.name;

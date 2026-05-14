@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
-import { mutate, readDB, id } from "@/lib/db";
+import { mutateAndPersist, readDB, id } from "@/lib/db";
 import { createDynamicVA, createBusinessVA, merchantId } from "@/lib/squad";
 
 export async function POST(req: NextRequest) {
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  mutate((db) => {
+  await mutateAndPersist((db) => {
     const j = db.jobs.find((x) => x.id === job.id);
     if (j) { j.escrow_va = nuban!; j.escrow_ref = ref; }
   });

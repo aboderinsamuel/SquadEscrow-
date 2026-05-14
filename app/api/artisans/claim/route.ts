@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
-import { mutate } from "@/lib/db";
+import { mutateAndPersist } from "@/lib/db";
 
 // Demo-friendly claim: marks the discovered profile as claimed.
 // In production this would: (1) verify NIN matches the social handle owner,
@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   const { target_id } = await req.json();
   if (!target_id) return NextResponse.json({ ok: false, error: "missing_target" }, { status: 400 });
   let ok = false;
-  mutate((db) => {
+  await mutateAndPersist((db) => {
     const t = db.users.find((u) => u.id === target_id);
     if (!t) return;
     if (t.source !== "discovered") return;

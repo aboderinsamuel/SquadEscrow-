@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
-import { mutate, id, readDB } from "@/lib/db";
+import { mutateAndPersist, id, readDB } from "@/lib/db";
 import type { Comment } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
     created_at: Date.now(),
   };
 
-  mutate((db) => {
+  await mutateAndPersist((db) => {
     db.comments.push(c);
     // Recompute avg_rating quickly
     const inApp = db.comments.filter((x) => x.target_id === target_id && x.stars);

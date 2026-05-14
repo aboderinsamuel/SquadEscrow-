@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
-import { mutate, readDB, id } from "@/lib/db";
+import { mutateAndPersist, readDB, id } from "@/lib/db";
 import { transferPayout, transferFee } from "@/lib/squad";
 
 export async function POST(_req: NextRequest, { params }: { params: { id: string } }) {
@@ -41,7 +41,7 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
     return NextResponse.json({ ok: false, error: r.error || "transfer_failed" }, { status: 502 });
   }
 
-  mutate((db) => {
+  await mutateAndPersist((db) => {
     const j = db.jobs.find((x) => x.id === job.id);
     if (!j) return;
     j.state = "SETTLED";

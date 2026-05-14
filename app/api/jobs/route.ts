@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
-import { mutate, id } from "@/lib/db";
+import { mutateAndPersist, id } from "@/lib/db";
 
 const allowedCats = new Set(["generator","plumbing","electrical","ac_hvac","carpentry","painting","tiling","cleaning","errand","delivery","hairstyling","tailoring","photography","data_entry","graphic_design","social_media","transcription","tutoring","other"]);
 
@@ -13,7 +13,11 @@ export async function POST(req: NextRequest) {
   if (typeof amount !== "number" || amount < 500) return NextResponse.json({ ok: false, error: "bad_amount" }, { status: 400 });
 
   const jobId = id("j");
-  mutate((db) => {
+  // mutateAndPersist (not mutate) — on Vercel, fire-and-forget process.nextTick
+  // flushes get dropped when the lambda freezes after the response goes out,
+  // and the redirect to /app/jobs/<id>?fund=1 then 404s on the next lambda
+  // because Supabase never received the row.
+  await mutateAndPersist((db) => {
     db.jobs.push({
       id: jobId,
       customer_id: me.id,

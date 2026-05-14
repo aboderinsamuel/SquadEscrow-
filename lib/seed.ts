@@ -1,4 +1,4 @@
-import { mutate, readDB, id, hashPII } from "./db";
+import { mutateAndPersist, readDB, id, hashPII, ensureHydrated } from "./db";
 import type { User, Job, Application } from "./types";
 import { seedDiscovery } from "./discovery";
 
@@ -27,15 +27,15 @@ const sampleJobs: (Partial<Job> & { customer_phone: string })[] = [
   { customer_phone: "+2348088901234", title: "Social-media graphics — 10 posts", description: "Instagram product posts for phone accessories. Templates available.", category: "graphic_design", amount: 35000, area: "Remote", urgency: "flexible" },
 ];
 
-export function seedIfEmpty() {
-  const db = readDB();
-  if ((db as any)[SEEDED_FLAG]) { seedDiscovery(); return; }
+export async function seedIfEmpty() {
+  const db = await ensureHydrated();
+  if ((db as any)[SEEDED_FLAG]) { await seedDiscovery(); return; }
   if (db.users.length > 0) {
     (db as any)[SEEDED_FLAG] = true;
-    seedDiscovery();
+    await seedDiscovery();
     return;
   }
-  mutate((db) => {
+  await mutateAndPersist((db) => {
     const phoneToId = new Map<string, string>();
     for (const w of sampleWorkers) {
       const uid = id("u");
@@ -148,5 +148,5 @@ export function seedIfEmpty() {
 
     (db as any)[SEEDED_FLAG] = true;
   });
-  seedDiscovery();
+  await seedDiscovery();
 }

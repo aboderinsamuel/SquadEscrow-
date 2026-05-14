@@ -1,16 +1,16 @@
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
-import { readDB } from "@/lib/db";
+import { listBusinessUsers } from "@/lib/db";
 import { seedIfEmpty } from "@/lib/seed";
 import { MapView } from "./MapView";
 
 export default async function MapPage() {
-  seedIfEmpty();
+  await seedIfEmpty();
   const me = await getSessionUser();
   if (!me) redirect("/auth");
-  const db = readDB();
-  const artisans = db.users
-    .filter((u) => u.geo && u.business_name)
+  const businessUsers = await listBusinessUsers();
+  const artisans = businessUsers
+    .filter((u) => u.geo)
     .map((u) => ({
       id: u.id,
       name: u.business_name || u.name,

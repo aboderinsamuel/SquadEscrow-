@@ -16,13 +16,16 @@ import { BitmojiAvatar } from "@/components/BitmojiAvatar";
 import { categoryLabel, naira } from "@/lib/utils";
 
 export default async function ArtisanProfile({ params }: { params: { id: string } }) {
-  seedIfEmpty();
+  await seedIfEmpty();
   const me = await getSessionUser();
   if (!me) redirect("/auth");
   // Use the Supabase-fallback helper so we don't 404 when the artisan record
-  // exists in Supabase but is missing from this lambda's partial cache.
+  // exists in Supabase but is missing from this lambda's partial cache. We
+  // accept any existing user — a freshly-onboarded artisan may not have a
+  // business_name yet (worker without business setup) but their profile
+  // should still render rather than 404. We fall back to their display name.
   const a = await findUserById(params.id);
-  if (!a || !a.business_name) notFound();
+  if (!a) notFound();
   const db = readDB();
 
   const comments = db.comments.filter((c) => c.target_id === a.id);
@@ -55,8 +58,8 @@ export default async function ArtisanProfile({ params }: { params: { id: string 
           <div className="p-5">
             <div className="flex items-start justify-between gap-2 flex-wrap">
               <div>
-                <h1 className="text-[26px] font-bold tracking-tightest leading-[1.05]">{a.business_name}</h1>
-                <div className="text-[13px] text-cream-50/70 mt-1">{categoryLabel[a.skills?.[0] || "other"] || "Service"} · {a.area}</div>
+                <h1 className="text-[26px] font-bold tracking-tightest leading-[1.05]">{a.business_name || a.name || "Profile"}</h1>
+                <div className="text-[13px] text-cream-50/70 mt-1">{categoryLabel[a.skills?.[0] || "other"] || "Service"} · {a.area || "Lagos"}</div>
               </div>
               <div className="flex flex-wrap items-center gap-1.5">
                 {a.credibility && a.credibility >= 85 && <Badge tone="gold">★ Top {a.credibility}</Badge>}

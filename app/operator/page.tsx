@@ -7,8 +7,8 @@ import { isLive } from "@/lib/squad";
 
 export const dynamic = "force-dynamic";
 
-export default function OperatorConsole() {
-  seedIfEmpty();
+export default async function OperatorConsole() {
+  await seedIfEmpty();
   const db = readDB();
   const stats = computeStats(db);
 

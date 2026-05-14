@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
-import { mutate } from "@/lib/db";
+import { mutateAndPersist } from "@/lib/db";
 import type { JobState } from "@/lib/types";
 
 const transitions: Record<JobState, JobState[]> = {
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const { state } = await req.json();
 
   let err: string | null = null;
-  mutate((db) => {
+  await mutateAndPersist((db) => {
     const job = db.jobs.find((j) => j.id === params.id);
     if (!job) { err = "no_job"; return; }
     if (job.customer_id !== me.id && job.worker_id !== me.id) { err = "not_participant"; return; }
