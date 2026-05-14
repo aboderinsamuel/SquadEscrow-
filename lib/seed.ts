@@ -105,7 +105,7 @@ export async function seedIfEmpty() {
       firstJob.state = "FUNDED";
       firstJob.funded_at = Date.now() - 8 * 60_000;
       firstJob.escrow_va = "9035120048";
-      firstJob.escrow_ref = "JARA-" + firstJob.id;
+      firstJob.escrow_ref = "SQUADCO-" + firstJob.id;
       db.transactions.push({
         id: id("tx"),
         job_id: firstJob.id,
