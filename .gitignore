@@ -4,7 +4,5 @@ node_modules/
 data/
 *.log
 .DS_Store
-<<<<<<< HEAD
-ai_service/data/.venv/  
-=======
->>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
+ai_service/data/.venv/
+ai_service/venv/
