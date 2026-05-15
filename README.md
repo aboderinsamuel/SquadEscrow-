@@ -20,11 +20,19 @@
 </p>
 
 <p align="center">
+<<<<<<< HEAD
+  <img alt="Status" src="https://img.shields.io/badge/status-hackathon%20demo-E04848?style=flat-square"/>
+  <img alt="Squad" src="https://img.shields.io/badge/Squad-APIs-0E2A1F?style=flat-square"/>
+  <img alt="NDPA" src="https://img.shields.io/badge/NDPA-ready-3E8E5C?style=flat-square"/>
+  <img alt="Next.js" src="https://img.shields.io/badge/Next.js-14-0A0A0A?style=flat-square"/>
+  <img alt="Built for" src="https://img.shields.io/badge/built%20for-GTCO%20Squad%20Hackathon%203.0-F0A04A?style=flat-square"/>
+=======
   <img alt="Status" src="https://img.shields.io/badge/status-beta-E04848?style=flat-square"/>
   <img alt="Squad" src="https://img.shields.io/badge/powered%20by-Squad%20APIs-0E2A1F?style=flat-square"/>
   <img alt="NDPA" src="https://img.shields.io/badge/NDPA-ready-3E8E5C?style=flat-square"/>
   <img alt="Next.js" src="https://img.shields.io/badge/Next.js-14-0A0A0A?style=flat-square"/>
   <img alt="Region" src="https://img.shields.io/badge/Lagos-%C2%B7%20Nigeria-F0A04A?style=flat-square"/>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 </p>
 
 ---
@@ -251,7 +259,11 @@ All jobs in their states · float-yield estimator · live HMAC-verified webhook 
 
 ## 🛣️ Roadmap
 
+<<<<<<< HEAD
+- **Phase 0** *(now)* — Hackathon demo · 10k MAU pilot
+=======
 - **Phase 0** *(now)* — Beta · 10k MAU pilot
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 - **Phase 1** *(months 1–6)* — Lagos pilot, 2 trades, 500 vetted artisans, first 1k jobs at ≥4.5★
 - **Phase 2** *(months 7–18)* — Add Abuja + PH, 100k MAU, embedded credit live, Series A
 - **Phase 3** *(months 19–36)* — National scale, 1M MAU, micro-insurance distribution
@@ -289,7 +301,11 @@ Fonts: Inter Display (display) + Inter (body). Tracking is tighter than default 
 
 ## 📜 License & credits
 
+<<<<<<< HEAD
+Submitted for evaluation as part of the **GTCO Squad Hackathon 3.0 · Challenge 02 · Smart Systems for the Intelligent Economy**.
+=======
 Built end-to-end on Squad APIs for Nigeria's 92.3% informal workforce.
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
 - Squad API documentation: <https://docs.squadco.com>
 - NIN coverage data: NIMC (Dec 2025)

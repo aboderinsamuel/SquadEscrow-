@@ -7,7 +7,10 @@ import { Button } from "@/components/Button";
 import { Badge } from "@/components/Badge";
 import { categoryLabel, naira } from "@/lib/utils";
 import { SocialChip } from "@/components/SocialChip";
+<<<<<<< HEAD
+=======
 import { BitmojiAvatar } from "@/components/BitmojiAvatar";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
 interface ArtisanPin {
   id: string;
@@ -126,7 +129,11 @@ export function MapView({ artisans }: { artisans: ArtisanPin[] }) {
     meMarker.current = L.marker(me, { icon }).addTo(mapInstance.current);
   }, [me]);
 
+<<<<<<< HEAD
+  // Re-render markers when filter changes
+=======
   // Re-render markers when filter changes — Snap-Map-style Bitmoji characters
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   useEffect(() => {
     const L = window.L;
     if (!L || !markerLayer.current) return;
@@ -134,6 +141,19 @@ export function MapView({ artisans }: { artisans: ArtisanPin[] }) {
     for (const a of filtered) {
       const top = a.credibility >= 85;
       const isReg = a.source === "registered" || a.claimed;
+<<<<<<< HEAD
+      const bg = top ? "#0E2A1F" : isReg ? "#3E8E5C" : "#F0A04A";
+      const ring = top ? "#F0A04A" : isReg ? "#0E2A1F" : "#0A0A0A";
+      const photoChar = a.photos[0] || "•";
+      const icon = L.divIcon({
+        className: "",
+        html: `<div style="position:relative;cursor:pointer">
+          <div style="width:36px;height:36px;border-radius:14px 14px 14px 4px;background:${bg};border:2px solid ${ring};box-shadow:0 6px 12px rgba(0,0,0,0.25);display:grid;place-items:center;font-size:18px;line-height:1;transform:rotate(-8deg)"><span style="transform:rotate(8deg)">${photoChar}</span></div>
+          ${top ? `<div style="position:absolute;top:-4px;right:-4px;width:14px;height:14px;border-radius:50%;background:#F0A04A;border:2px solid #FDF8EF"></div>` : ""}
+        </div>`,
+        iconSize: [36, 36],
+        iconAnchor: [18, 36],
+=======
       const ringColor = top ? "#F0A04A" : isReg ? "#3E8E5C" : "#0A0A0A";
       const badgeChar = a.photos[0] || "";
       // DiceBear cartoon avatar (deterministic by id, no API key)
@@ -154,6 +174,7 @@ export function MapView({ artisans }: { artisans: ArtisanPin[] }) {
         </div>`,
         iconSize: [54, 54],
         iconAnchor: [27, 54],
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
       });
       const m = L.marker([a.geo.lat, a.geo.lng], { icon }).addTo(markerLayer.current);
       m.on("click", () => setSelected(a));
@@ -235,7 +256,13 @@ function BottomSheet({ artisan, onClose }: { artisan: ArtisanPin; onClose: () =>
     >
       <div className="mx-auto max-w-[480px] pointer-events-auto rounded-3xl bg-cream-50 ring-1 ring-ink/10 shadow-card overflow-hidden">
         <div className="flex items-start gap-3 p-4">
+<<<<<<< HEAD
+          <div className="grid h-14 w-14 place-items-center rounded-2xl bg-ink text-cream-50 text-2xl shrink-0">
+            {artisan.photos[0] || "•"}
+          </div>
+=======
           <BitmojiAvatar seed={artisan.id} size={56} ring online={top || isReg} />
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5 flex-wrap">
               <h3 className="font-bold text-[17px] tracking-tight text-ink truncate">{artisan.name}</h3>

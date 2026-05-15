@@ -22,6 +22,15 @@ interface ReelArtisan {
   claimed: boolean;
 }
 
+<<<<<<< HEAD
+// Public CDN-hosted demo MP4s (Google's standard sample bucket — works without auth).
+// Swap to "/reels/<file>.mp4" later if you'd rather host real artisan footage.
+const DEMO_VIDEOS = [
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+=======
 // Local mp4s served from /public/reels by Vercel's edge CDN. Same-origin =
 // no extra DNS/TLS hop, HTTP range requests work out of the box, first frame
 // typically renders in <100ms. See public/reels/README.md for encoding tips.
@@ -30,6 +39,7 @@ const DEMO_VIDEOS = [
   "/reels/2.mp4",
   "/reels/3.mp4",
   "/reels/4.mp4",
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 ];
 
 const CAPTIONS = [
@@ -172,9 +182,12 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
   const scrollRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const [active, setActive] = useState(startIndex);
+<<<<<<< HEAD
+=======
   // Start muted — autoplay policies on iOS Safari + Chrome Android require it.
   // The toggle below is a user gesture, which permits unmuting from then on.
   const [muted, setMuted] = useState(true);
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
   useEffect(() => { setMounted(true); }, []);
 
@@ -212,6 +225,8 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
     });
   }, [active]);
 
+<<<<<<< HEAD
+=======
   // Keep the <video>.muted property in sync with the toggle. We bind it
   // imperatively (not via the muted attribute) because changing the attribute
   // after mount doesn't reliably propagate in some browsers.
@@ -232,6 +247,7 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
     });
   }
 
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   if (!mounted || typeof document === "undefined") return null;
 
   return createPortal(
@@ -241,6 +257,17 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
         className="absolute inset-0 overflow-y-auto snap-y snap-mandatory"
         style={{ scrollbarWidth: "none" }}
       >
+<<<<<<< HEAD
+        {reels.map((r, i) => (
+          <div key={i} className="relative h-screen w-full snap-start snap-always">
+            <video
+              ref={(el) => { videoRefs.current[i] = el; }}
+              src={r.videoUrl}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+=======
         {reels.map((r, i) => {
           // Preload the active video and the next one (modulo length so it
           // also wraps 4 → 1) so scroll-to-next has the first chunk already.
@@ -254,6 +281,7 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
               loop
               playsInline
               preload={isActiveOrNext ? "auto" : "metadata"}
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
               className="absolute inset-0 w-full h-full object-cover"
               onClick={(e) => {
                 const v = e.currentTarget;
@@ -264,6 +292,15 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
 
             {/* Top bar */}
             <div className="absolute top-0 inset-x-0 z-10 px-4 pt-[max(env(safe-area-inset-top),16px)] pb-3 flex items-center justify-between">
+<<<<<<< HEAD
+              <button onClick={onClose} className="grid h-10 w-10 place-items-center rounded-full bg-cream-50/15 backdrop-blur text-cream-50">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              </button>
+              <div className="text-cream-50/85 text-[12px] font-semibold tracking-wide uppercase">{i + 1} / {reels.length}</div>
+              <div className="w-10" />
+            </div>
+
+=======
               <button onClick={onClose} aria-label="Close reels" className="grid h-10 w-10 place-items-center rounded-full bg-cream-50/15 backdrop-blur text-cream-50">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
               </button>
@@ -290,6 +327,7 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
               </button>
             )}
 
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
             {/* Right rail actions */}
             <div className="absolute right-3 bottom-[180px] z-10 flex flex-col gap-4 text-cream-50">
               <RailAction icon="heart" label={String(Math.max(120, Math.round(r.artisan.followers / 90)))} />
@@ -321,8 +359,12 @@ function ReelsViewer({ reels, startIndex, onClose }: { reels: { artisan: ReelArt
               </div>
             </div>
           </div>
+<<<<<<< HEAD
+        ))}
+=======
           );
         })}
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
       </div>
     </div>,
     document.body,

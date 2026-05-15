@@ -1,13 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
+<<<<<<< HEAD
+import { mutate } from "@/lib/db";
+=======
 import { mutateAndPersist } from "@/lib/db";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 import { hashPII } from "@/lib/db";
 import { nameMatchScore } from "@/lib/discovery";
 import type { SocialHandle } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
+<<<<<<< HEAD
+  const me = await getSessionUser();
+=======
   try {
   const me = await await getSessionUser();
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   if (!me) return NextResponse.json({ ok: false, error: "unauth" }, { status: 401 });
   const body = await req.json();
   const {
@@ -27,7 +35,11 @@ export async function POST(req: NextRequest) {
     }
   }
 
+<<<<<<< HEAD
+  mutate((db) => {
+=======
   await mutateAndPersist((db) => {
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     const u = db.users.find((x) => x.id === me.id);
     if (!u) return;
     u.nin_hash = hashPII(String(nin));
@@ -70,9 +82,13 @@ export async function POST(req: NextRequest) {
     };
   });
 
+<<<<<<< HEAD
+  return NextResponse.json({ ok: true });
+=======
     return NextResponse.json({ ok: true });
   } catch (e: any) {
     console.error("[/api/me/kyc] uncaught:", e);
     return NextResponse.json({ ok: false, error: "server_error", detail: e?.message || String(e) }, { status: 500 });
   }
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 }

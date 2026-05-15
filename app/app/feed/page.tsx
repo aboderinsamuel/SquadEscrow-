@@ -10,7 +10,11 @@ import Link from "next/link";
 import { categoryLabel, naira } from "@/lib/utils";
 
 export default async function FeedPage() {
+<<<<<<< HEAD
+  seedIfEmpty();
+=======
   await seedIfEmpty();
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   const me = await getSessionUser();
   if (!me) redirect("/auth");
   const db = readDB();
@@ -52,7 +56,11 @@ export default async function FeedPage() {
 
       {/* Stat row — mockup-aligned */}
       <div className="grid grid-cols-3 gap-2 mb-6">
+<<<<<<< HEAD
+        <Stat label="JARA Score" value={me.jara_score || "—"} tone="cream" />
+=======
         <Stat label="Squadco Score" value={me.jara_score || "—"} tone="cream" />
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
         <Stat label={isWorker ? "Jobs done" : "Posted"} value={isWorker ? me.jobs_completed : myJobs.length} tone="ink" />
         <Stat label="KYC" value={`Tier ${me.kyc_tier}`} tone={me.kyc_tier >= 2 ? "forest" : "coral"} />
       </div>

@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+import { mutate, readDB, id, hashPII } from "./db";
+=======
 import { mutateAndPersist, readDB, ensureHydrated, id, hashPII } from "./db";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 import type { User, SocialHandle, Comment } from "./types";
 
 // Fuzzy name-match score — simulates Squad account_name vs business_name check.
@@ -555,8 +559,13 @@ function generateProceduralArtisans(count: number): DiscoverySeed[] {
   return out;
 }
 
+<<<<<<< HEAD
+function seedFrom(seeds: DiscoverySeed[]) {
+  mutate((db) => {
+=======
 async function seedFrom(seeds: DiscoverySeed[]) {
   await mutateAndPersist((db) => {
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     for (const s of seeds) {
       const [lat, lng] = LAGOS_AREAS[s.area];
       const uid = id("u");
@@ -633,6 +642,26 @@ async function seedFrom(seeds: DiscoverySeed[]) {
   });
 }
 
+<<<<<<< HEAD
+const PROC_FLAG = "__proc_seeded";
+
+export function seedDiscovery() {
+  const db = readDB();
+  const hasSeed = db.users.some((u) => u.business_name);
+  const procSeeded = !!(db as any)[PROC_FLAG];
+
+  if (!hasSeed) {
+    seedFrom([...SEED, ...generateProceduralArtisans(260)]);
+    mutate((db) => { (db as any)[PROC_FLAG] = true; });
+    return;
+  }
+
+  if (!procSeeded) {
+    // Existing curated seed but no procedural: top up the map.
+    seedFrom(generateProceduralArtisans(260));
+    mutate((db) => { (db as any)[PROC_FLAG] = true; });
+  }
+=======
 export async function seedDiscovery() {
   const db = await ensureHydrated();
 
@@ -658,4 +687,5 @@ export async function seedDiscovery() {
   // Some curated rows present (e.g. an old partial run) but no procedural
   // top-up. Add procedural once; the threshold above prevents repeats.
   await seedFrom(generateProceduralArtisans(260));
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 }

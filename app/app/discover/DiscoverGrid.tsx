@@ -4,7 +4,10 @@ import Link from "next/link";
 import { Badge } from "@/components/Badge";
 import { Input } from "@/components/Input";
 import { SocialChip } from "@/components/SocialChip";
+<<<<<<< HEAD
+=======
 import { BitmojiAvatar } from "@/components/BitmojiAvatar";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 import { categoryLabel, naira } from "@/lib/utils";
 
 interface A {
@@ -68,12 +71,18 @@ export function DiscoverGrid({ all }: { all: A[] }) {
 
       <div className="mt-5 grid grid-cols-2 gap-3">
         {filtered.map((a) => (
+<<<<<<< HEAD
+          <Link key={a.id} href={`/app/artisans/${a.id}`} className="rounded-2xl bg-cream-50 ring-1 ring-ink/10 p-3 hover:-translate-y-0.5 transition-transform animate-rise">
+            <div className="aspect-square rounded-xl bg-cream-200 ring-1 ring-ink/8 grid place-items-center text-4xl mb-3 relative overflow-hidden">
+              <span>{a.photos[0] || "•"}</span>
+=======
           <Link key={a.id} href={`/app/artisans/${a.id}`} className="rounded-2xl bg-cream-50 ring-1 ring-ink/10 p-3 hover:-translate-y-1 hover:shadow-card transition-all duration-200 animate-rise">
             <div className="aspect-square rounded-xl bg-gradient-to-br from-cream-200 to-cream-300 ring-1 ring-ink/8 grid place-items-center mb-3 relative overflow-hidden">
               <BitmojiAvatar seed={a.id} size={104} />
               {a.photos[0] && (
                 <span className="absolute bottom-2 right-2 grid h-9 w-9 place-items-center rounded-xl bg-cream-50 ring-1 ring-ink/10 text-xl shadow-card">{a.photos[0]}</span>
               )}
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
               {a.credibility >= 85 && <span className="absolute top-2 right-2"><Badge tone="gold">★ Top</Badge></span>}
               {a.source === "discovered" && !a.claimed && <span className="absolute top-2 left-2"><Badge tone="outline">Scraped</Badge></span>}
               {(a.source === "registered" || a.claimed) && <span className="absolute top-2 left-2"><Badge tone="forest">Verified</Badge></span>}

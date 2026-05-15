@@ -13,7 +13,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+<<<<<<< HEAD
+import type { DB } from "./types";
+=======
 import type { DB, User, Job } from "./types";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 import { supabase, supabaseEnabled } from "./supabase";
 
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -275,6 +279,8 @@ export function writeDB() {
   });
 }
 
+<<<<<<< HEAD
+=======
 // Synchronous flush — awaitable. Use in critical paths (auth, OTP, KYC)
 // where the response MUST NOT be sent before Supabase has the row, because
 // Vercel can freeze the lambda the instant the HTTP response goes out and
@@ -374,6 +380,7 @@ export async function persistUser(u: any): Promise<void> {
   }
 }
 
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 export function mutate<T>(fn: (db: DB) => T): T {
   const db = readDB();
   const result = fn(db);
@@ -388,6 +395,8 @@ export function id(prefix = "id") {
 export function hashPII(v: string) {
   return crypto.createHash("sha256").update(v).digest("hex").slice(0, 32);
 }
+<<<<<<< HEAD
+=======
 
 // Cache-aware lookups with Supabase fallback. Server-rendered pages used to
 // 404 when the looked-up record was beyond Supabase's 1000-row default page
@@ -471,3 +480,4 @@ export async function findJobById(id: string): Promise<Job | null> {
     return null;
   }
 }
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293

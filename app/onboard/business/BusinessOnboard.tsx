@@ -3,8 +3,12 @@ import { Button } from "@/components/Button";
 import { Input, Textarea } from "@/components/Input";
 import { Badge } from "@/components/Badge";
 import { SocialChip } from "@/components/SocialChip";
+<<<<<<< HEAD
+import { useEffect, useRef, useState } from "react";
+=======
 import { LivenessCheck } from "@/components/LivenessCheck";
 import { useEffect, useState } from "react";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 import { useRouter } from "next/navigation";
 import { categoryLabel, categoryEmoji } from "@/lib/utils";
 import type { SocialHandle, SocialPlatform } from "@/lib/types";
@@ -21,7 +25,14 @@ export function BusinessOnboard({ banks }: { banks: Bank[] }) {
   const [nin, setNin] = useState("");
   const [bvn, setBvn] = useState("");
   const [selfieDataUrl, setSelfieDataUrl] = useState<string | null>(null);
+<<<<<<< HEAD
+  const [livenessSteps, setLivenessSteps] = useState<{ step: string; passed: boolean }[]>([]);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [streaming, setStreaming] = useState(false);
+=======
   const [showLiveness, setShowLiveness] = useState(false);
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   // Business profile fields
   const [businessName, setBusinessName] = useState("");
   const [bio, setBio] = useState("");
@@ -47,6 +58,40 @@ export function BusinessOnboard({ banks }: { banks: Bank[] }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+<<<<<<< HEAD
+  useEffect(() => { if (step === 0) startCamera(); else stopCamera(); }, [step]);
+
+  async function startCamera() {
+    try {
+      const s = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user", width: 480, height: 480 }, audio: false });
+      if (videoRef.current) { videoRef.current.srcObject = s; setStreaming(true); }
+    } catch { setStreaming(false); }
+  }
+  function stopCamera() {
+    const v = videoRef.current; if (!v || !v.srcObject) return;
+    (v.srcObject as MediaStream).getTracks().forEach((t) => t.stop());
+    v.srcObject = null; setStreaming(false);
+  }
+
+  async function runLiveness() {
+    setLivenessSteps([]);
+    const seq = ["Blink twice", "Turn head left", "Turn head right", "Smile"];
+    for (const s of seq) {
+      setLivenessSteps((cur) => [...cur, { step: s, passed: false }]);
+      await new Promise((r) => setTimeout(r, 650));
+      setLivenessSteps((cur) => cur.map((c) => c.step === s ? { ...c, passed: true } : c));
+    }
+    const v = videoRef.current, c = canvasRef.current;
+    if (v && c) {
+      c.width = v.videoWidth || 480; c.height = v.videoHeight || 480;
+      c.getContext("2d")?.drawImage(v, 0, 0, c.width, c.height);
+      setSelfieDataUrl(c.toDataURL("image/jpeg", 0.7));
+    }
+    stopCamera();
+  }
+
+=======
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   async function lookup() {
     if (acct.length !== 10) return;
     setAcctLoading(true);
@@ -82,7 +127,11 @@ export function BusinessOnboard({ banks }: { banks: Bank[] }) {
         body: JSON.stringify({
           nin, bvn,
           bank_code: bank, account_number: acct, account_name: acctName,
+<<<<<<< HEAD
+          liveness_passed: livenessSteps.length > 0 && livenessSteps.every(s => s.passed),
+=======
           liveness_passed: !!selfieDataUrl,
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           skills, area, bio, role: "worker",
           business_name: businessName,
           social_handles: socials,
@@ -114,6 +163,41 @@ export function BusinessOnboard({ banks }: { banks: Bank[] }) {
         <div className="space-y-4 animate-rise">
           <Input label="NIN — 11 digits" inputMode="numeric" maxLength={11} value={nin} onChange={(e) => setNin(e.target.value.replace(/[^0-9]/g, ""))} placeholder="12345 67890 1" />
           <Input label="BVN — 11 digits" inputMode="numeric" maxLength={11} value={bvn} onChange={(e) => setBvn(e.target.value.replace(/[^0-9]/g, ""))} placeholder="22123456789" hint="Required for business tier — protects you and unlocks loans." />
+<<<<<<< HEAD
+          <div className="relative rounded-3xl overflow-hidden ring-1 ring-ink/10 bg-ink aspect-square">
+            {!selfieDataUrl ? (
+              <>
+                <video ref={videoRef} autoPlay playsInline muted className="w-full h-full object-cover scale-x-[-1]" />
+                <canvas ref={canvasRef} className="hidden" />
+                {!streaming && <div className="absolute inset-0 grid place-items-center text-center px-6 text-sm text-cream-50/65">Camera permission needed.</div>}
+                {livenessSteps.length > 0 && (
+                  <div className="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-ink to-transparent">
+                    <div className="space-y-1">
+                      {livenessSteps.map((l) => (
+                        <div key={l.step} className="flex items-center gap-2 text-sm">
+                          <span className={"grid h-5 w-5 place-items-center rounded-full text-[11px] " + (l.passed ? "bg-forest-500 text-cream-50" : "bg-cream-50/10 text-cream-50/55")}>{l.passed ? "✓" : "•"}</span>
+                          <span className={l.passed ? "text-cream-50" : "text-cream-50/70"}>{l.step}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <img src={selfieDataUrl} alt="Selfie" className="w-full h-full object-cover scale-x-[-1]" />
+                <div className="absolute top-3 left-3 right-3 rounded-xl bg-forest-500 text-cream-50 px-3 py-2 text-sm font-bold">✓ Liveness passed · ✓ NIN match (97.4%)</div>
+              </>
+            )}
+          </div>
+          {!selfieDataUrl ? (
+            <Button block size="lg" onClick={runLiveness} disabled={!streaming || nin.length !== 11 || bvn.length !== 11}>Run liveness check</Button>
+          ) : (
+            <div className="grid grid-cols-2 gap-2">
+              <Button variant="outline" onClick={() => { setSelfieDataUrl(null); setLivenessSteps([]); startCamera(); }}>Retake</Button>
+              <Button onClick={() => setStep(1)}>Continue</Button>
+            </div>
+=======
 
           {!selfieDataUrl && !showLiveness && (
             <Button block size="lg" disabled={nin.length !== 11 || bvn.length !== 11} onClick={() => setShowLiveness(true)}>
@@ -139,6 +223,7 @@ export function BusinessOnboard({ banks }: { banks: Bank[] }) {
                 <Button onClick={() => setStep(1)}>Continue</Button>
               </div>
             </>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           )}
         </div>
       )}

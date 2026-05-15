@@ -187,7 +187,11 @@ export function JobDetail({ meId, meRole, job: jobIn, customer, worker: workerIn
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-bold tracking-tight">{a.worker.name}</span>
                       <span className="rounded-full bg-forest-500 text-cream-50 px-2 py-0.5 text-[10.5px] font-semibold">★ {a.worker.avg_rating.toFixed(1)}</span>
+<<<<<<< HEAD
+                      <span className="rounded-full bg-ink text-cream-50 px-2 py-0.5 text-[10.5px] font-semibold">JARA {a.worker.jara_score}</span>
+=======
                       <span className="rounded-full bg-ink text-cream-50 px-2 py-0.5 text-[10.5px] font-semibold">Score {a.worker.jara_score}</span>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
                     </div>
                     <div className="text-[12px] text-ink/55 mt-1">{a.worker.area} · {a.worker.jobs_completed} jobs done</div>
                     {a.message && <p className="mt-2 text-[13.5px] text-ink/75">"{a.message}"</p>}
@@ -273,7 +277,11 @@ export function JobDetail({ meId, meRole, job: jobIn, customer, worker: workerIn
         <div className="rounded-2xl bg-cream-100 ring-1 ring-ink/10 p-5">
           <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/55">Settlement · T+1 · GTBank</div>
           <Row k="Job earnings" v={naira(job.amount)} />
+<<<<<<< HEAD
+          <Row k="JARA fee (7%)" v={`− ${naira(platformFee)}`} tone="coral" />
+=======
           <Row k="Squadco fee (7%)" v={`− ${naira(platformFee)}`} tone="coral" />
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <Row k="Squad transfer" v={`− ₦20`} />
           <div className="mt-3 border-t border-ink/10 pt-3 flex justify-between font-bold text-[17px]"><span>Worker received</span><span>{naira(workerNet)}</span></div>
           {job.payout_ref && <div className="text-[10.5px] text-ink/45 mt-3 font-mono break-all">payout ref: {job.payout_ref}</div>}
@@ -288,7 +296,11 @@ export function JobDetail({ meId, meRole, job: jobIn, customer, worker: workerIn
             <Avatar name={worker.name} size={48} verified={worker.kyc_tier >= 2} />
             <div className="flex-1">
               <div className="font-bold tracking-tight">{worker.name}</div>
+<<<<<<< HEAD
+              <div className="text-[12px] text-ink/55">{worker.area} · JARA {worker.jara_score} · ★ {worker.avg_rating.toFixed(1)}</div>
+=======
               <div className="text-[12px] text-ink/55">{worker.area} · Score {worker.jara_score} · ★ {worker.avg_rating.toFixed(1)}</div>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
               {worker.bio && <p className="text-[13px] text-ink/75 mt-2">{worker.bio}</p>}
             </div>
           </div>

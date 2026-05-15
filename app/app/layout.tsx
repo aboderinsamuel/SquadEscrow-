@@ -1,12 +1,21 @@
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
 import { BottomNav } from "@/components/BottomNav";
+<<<<<<< HEAD
+=======
 import { SideNav } from "@/components/SideNav";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const me = await getSessionUser();
   if (!me) redirect("/auth");
   return (
+<<<<<<< HEAD
+    <main className="relative min-h-[100dvh] overflow-x-hidden bg-cream-200 text-ink">
+      <div className="relative z-10 mx-auto max-w-[440px] px-5 pb-32 pt-2">
+        {children}
+      </div>
+=======
     <main className="relative min-h-[100dvh] bg-cream-200 text-ink">
       {/* Desktop side nav — hidden on mobile/tablet */}
       <SideNav userName={me.name || me.phone} />
@@ -18,6 +27,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         </div>
       </div>
 
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
       <BottomNav />
     </main>
   );

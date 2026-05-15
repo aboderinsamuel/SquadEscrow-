@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
+<<<<<<< HEAD
+import { mutate, readDB, id } from "@/lib/db";
+=======
 import { mutateAndPersist, readDB, id } from "@/lib/db";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   const me = await getSessionUser();
@@ -18,7 +22,11 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   if (existing) return NextResponse.json({ ok: false, error: "already_applied" }, { status: 400 });
 
   const appId = id("a");
+<<<<<<< HEAD
+  mutate((db) => {
+=======
   await mutateAndPersist((db) => {
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     db.applications.push({
       id: appId,
       job_id: job.id,

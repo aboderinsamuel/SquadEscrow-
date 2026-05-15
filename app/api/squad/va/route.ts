@@ -1,7 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
+<<<<<<< HEAD
+import { mutate, readDB, id } from "@/lib/db";
+import { createDynamicVA } from "@/lib/squad";
+=======
 import { mutateAndPersist, readDB, id } from "@/lib/db";
 import { createDynamicVA, createBusinessVA, merchantId } from "@/lib/squad";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
 export async function POST(req: NextRequest) {
   const me = await getSessionUser();
@@ -13,6 +18,17 @@ export async function POST(req: NextRequest) {
   if (job.customer_id !== me.id) return NextResponse.json({ ok: false, error: "not_owner" }, { status: 403 });
   if (job.escrow_va) return NextResponse.json({ ok: true, va: job.escrow_va, ref: job.escrow_ref, source: "stored" });
 
+<<<<<<< HEAD
+  const r = await createDynamicVA({ jobId: job.id, amountNaira: job.amount, customerName: me.name || "Customer" });
+  if (!r.ok) return NextResponse.json({ ok: false, error: r.error || "squad_failed" }, { status: 502 });
+
+  mutate((db) => {
+    const j = db.jobs.find((x) => x.id === job.id);
+    if (j) { j.escrow_va = r.va; j.escrow_ref = r.ref; }
+  });
+
+  return NextResponse.json({ ok: true, va: r.va, ref: r.ref, source: r.source });
+=======
   // Preferred path: Squad Dynamic VA — one NUBAN per job. Falls through to the
   // static Business VA below when the merchant doesn't have the dynamic-VA
   // entitlement enabled yet (sandbox returns 200 + empty data in that case).
@@ -48,4 +64,5 @@ export async function POST(req: NextRequest) {
   });
 
   return NextResponse.json({ ok: true, va: nuban, ref, source });
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 }

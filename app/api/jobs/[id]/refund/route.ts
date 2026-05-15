@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
+<<<<<<< HEAD
+import { mutate, readDB, id } from "@/lib/db";
+=======
 import { mutateAndPersist, readDB, id } from "@/lib/db";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 import { refundTransaction, vaFee } from "@/lib/squad";
 
 // Refund the customer when a job is disputed and resolves in the customer's
@@ -46,7 +50,11 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
     return NextResponse.json({ ok: false, error: r.error || "refund_failed", source: r.source }, { status: 502 });
   }
 
+<<<<<<< HEAD
+  mutate((db) => {
+=======
   await mutateAndPersist((db) => {
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     const j = db.jobs.find((x) => x.id === job.id);
     if (!j) return;
     j.state = "CANCELLED";

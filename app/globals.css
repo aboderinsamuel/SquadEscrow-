@@ -73,6 +73,8 @@ section[id] { scroll-margin-top: 80px; }
 }
 .step-dot.done { background: #3E8E5C; color: #FDF8EF; }
 .step-dot.active { background: #F0A04A; color: #0A0A0A; }
+<<<<<<< HEAD
+=======
 
 /* Scroll-reveal animation — paired with the IntersectionObserver helper in app/page.tsx */
 .reveal {
@@ -173,3 +175,4 @@ section[id] { scroll-margin-top: 80px; }
 .tok-pn    { color: rgba(248, 239, 220, 0.55); }                      /* punctuation */
 .tok-id    { color: #f8efdc; }                                        /* identifiers */
 .tok-const { color: #c5a3ff; }                                        /* CONSTANTS */
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293

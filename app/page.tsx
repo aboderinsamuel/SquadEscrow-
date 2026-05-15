@@ -1,32 +1,59 @@
 import Link from "next/link";
+<<<<<<< HEAD
+import { Logo } from "@/components/Logo";
+import { Button } from "@/components/Button";
+import { Badge } from "@/components/Badge";
+=======
 import { Fragment } from "react";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/Button";
 import { Badge } from "@/components/Badge";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { bitmojiUrl } from "@/components/BitmojiAvatar";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
 export default function Landing() {
   return (
     <main className="relative overflow-hidden text-ink">
+<<<<<<< HEAD
+=======
       <ScrollReveal />
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
       {/* Top navigation */}
       <div className="relative mx-auto max-w-6xl px-5">
         <header className="flex items-center justify-between pt-6">
           <Logo size={30} />
           <nav className="hidden md:flex items-center gap-7 text-sm text-ink/65">
+<<<<<<< HEAD
+            <a href="#discover" className="hover:text-ink">Discovery</a>
+            <a href="#how" className="hover:text-ink">How it works</a>
+            <a href="#trust" className="hover:text-ink">Trust stack</a>
+            <a href="#squad" className="hover:text-ink">Squad inside</a>
+            <a href="#economics" className="hover:text-ink">Economics</a>
+            <Link href="/operator" className="hover:text-ink">Operator</Link>
+=======
             <a href="#discover" className="hover:text-ink transition-colors">Discovery</a>
             <a href="#watch" className="hover:text-ink transition-colors">Watch</a>
             <a href="#how" className="hover:text-ink transition-colors">How it works</a>
             <a href="#trust" className="hover:text-ink transition-colors">Trust</a>
             <a href="#squad" className="hover:text-ink transition-colors">Squad inside</a>
             <Link href="/operator" className="hover:text-ink transition-colors">Operator</Link>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           </nav>
           <Link href="/auth"><Button size="sm">Open app</Button></Link>
         </header>
 
         {/* HERO — tells the story in 3 seconds */}
         <section className="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 lg:gap-16 items-center pt-12 lg:pt-20 pb-20">
+<<<<<<< HEAD
+          <div className="animate-rise">
+            <div className="inline-flex items-center gap-2 rounded-full bg-ink/8 px-3 py-1.5 text-[11px] font-semibold tracking-wider uppercase">
+              <span className="h-1.5 w-1.5 rounded-full bg-coral-500 dot" />
+              <span>Squad Hackathon 3.0 · Challenge 02</span>
+            </div>
+
+            <h1 className="mt-6 font-display text-[44px] sm:text-[56px] lg:text-[80px] font-bold leading-[0.92] tracking-tightest text-ink">
+=======
           <div>
             <div className="hero-rise inline-flex items-center gap-2 rounded-full bg-ink/8 px-3 py-1.5 text-[11px] font-semibold tracking-wider uppercase">
               <span className="h-1.5 w-1.5 rounded-full bg-coral-500 dot" />
@@ -34,22 +61,35 @@ export default function Landing() {
             </div>
 
             <h1 className="hero-rise hero-rise-delay-1 mt-6 font-display text-[44px] sm:text-[56px] lg:text-[80px] font-bold leading-[0.92] tracking-tightest text-ink">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
               Hire Nigeria's <span className="italic text-coral-500">hustle.</span>
               <br />
               Pay only when <span className="underline decoration-gold-400 decoration-[6px] underline-offset-[10px]">it's done.</span>
             </h1>
 
+<<<<<<< HEAD
+            <p className="mt-7 max-w-xl text-ink/70 text-[17px] leading-relaxed">
+              <b className="text-ink">Squadco Escrow</b> is the discovery + escrow-protected job marketplace for the <b className="text-ink">92% of Nigerians</b> who work informally. 25,000+ artisans already pinned on the map. NIN-verified. Funds locked in a Squad Virtual Account. T+1 to bank, every time.
+            </p>
+
+            <div className="mt-9 flex flex-wrap items-center gap-3">
+=======
             <p className="hero-rise hero-rise-delay-2 mt-7 max-w-xl text-ink/70 text-[17px] leading-relaxed">
               The discovery + escrow-protected job marketplace for the <b className="text-ink">92% of Nigerians</b> who work informally. 25,000+ artisans already pinned on the map. NIN-verified. Funds locked in a Squad Virtual Account. T+1 to bank, every time.
             </p>
 
             <div className="hero-rise hero-rise-delay-3 mt-9 flex flex-wrap items-center gap-3">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
               <Link href="/auth?role=customer"><Button size="lg">Post a job →</Button></Link>
               <Link href="/auth?role=worker"><Button size="lg" variant="outline">Get hired today</Button></Link>
             </div>
 
             {/* Trust strip */}
+<<<<<<< HEAD
+            <div className="mt-10 flex items-center gap-5 flex-wrap text-[12px] text-ink/55">
+=======
             <div className="hero-rise hero-rise-delay-4 mt-10 flex items-center gap-5 flex-wrap text-[12px] text-ink/55">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
               <span className="font-semibold uppercase tracking-[0.15em] text-ink/40">Powered by</span>
               <BrandPill label="Squad" />
               <BrandPill label="HabariPay" />
@@ -59,23 +99,37 @@ export default function Landing() {
             </div>
           </div>
 
+<<<<<<< HEAD
+          {/* PHONE MOCK — directly mirrors deck screen 2 (Today's jobs feed) */}
+          <div className="relative lg:justify-self-end">
+            <div className="absolute -inset-12 bg-gold-grad opacity-30 blur-3xl rounded-full" aria-hidden />
+=======
           {/* PHONE MOCK with Snap-style avatars floating around */}
           <div className="relative lg:justify-self-end hero-rise hero-rise-delay-2">
             <div className="absolute -inset-12 bg-gold-grad opacity-30 blur-3xl rounded-full" aria-hidden />
             {/* Floating avatars circling the phone */}
             <FloatingAvatars />
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
             <PhoneMock />
           </div>
         </section>
 
         {/* STATS STRIP */}
+<<<<<<< HEAD
+        <section className="-mt-6 mb-20">
+=======
         <section className="-mt-6 mb-20 reveal">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <div className="grid grid-cols-2 md:grid-cols-4 rounded-3xl bg-ink text-cream-50 ring-1 ring-ink/10 overflow-hidden">
             {[
               { v: "92.3%", t: "of NG workers are informal" },
               { v: "127m", t: "Nigerians on NIN (Dec 2025)" },
               { v: "₦70k", t: "monthly minimum wage" },
+<<<<<<< HEAD
+              { v: "8", t: "Squad products woven in" },
+=======
               { v: "25k+", t: "artisans pre-mapped" },
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
             ].map((x, i) => (
               <div key={i} className={"px-5 py-6 sm:px-7 sm:py-8 " + (i > 0 ? "md:border-l border-cream-50/10" : "") + (i > 0 && i < 2 ? " border-l border-cream-50/10" : "")}>
                 <div className="text-[40px] sm:text-[52px] font-bold tracking-tightest leading-none text-cream-50">{x.v}</div>
@@ -85,6 +139,10 @@ export default function Landing() {
           </div>
         </section>
 
+<<<<<<< HEAD
+        {/* DISCOVERY — the new headline feature */}
+        <section id="discover" className="py-16 md:py-24">
+=======
         {/* DEMO VIDEO */}
         <section id="watch" className="mb-20 reveal">
           <div className="text-center mb-6">
@@ -138,6 +196,7 @@ export default function Landing() {
 
         {/* DISCOVERY — the new headline feature */}
         <section id="discover" className="py-16 md:py-24 reveal">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <div className="grid lg:grid-cols-[1fr_0.9fr] gap-10 lg:gap-16 items-center">
             <div>
               <SectionLabel>Discovery</SectionLabel>
@@ -162,13 +221,77 @@ export default function Landing() {
               </div>
             </div>
 
+<<<<<<< HEAD
+            {/* Stylised map preview */}
+            <div className="relative">
+              <div className="rounded-3xl bg-cream-50 ring-1 ring-ink/10 shadow-card p-3 overflow-hidden">
+                <div className="relative h-[420px] rounded-2xl bg-[#EDE5D4] overflow-hidden">
+                  {/* Faux streets */}
+                  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 420" preserveAspectRatio="none">
+                    <path d="M0 80 L400 60" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+                    <path d="M0 180 L400 200" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+                    <path d="M0 290 L400 280" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+                    <path d="M0 380 L400 360" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+                    <path d="M70 0 L90 420" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+                    <path d="M210 0 L230 420" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+                    <path d="M330 0 L340 420" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+                    <path d="M0 230 Q150 220 220 240 T400 240" stroke="rgba(62,142,92,0.18)" strokeWidth="22" fill="none" />
+                  </svg>
+                  {/* Pins */}
+                  {[
+                    { x: 70, y: 90, c: "#0E2A1F", r: "#F0A04A", emoji: "⚡", label: "Gen Genius" },
+                    { x: 200, y: 150, c: "#3E8E5C", emoji: "❄️" },
+                    { x: 320, y: 110, c: "#F0A04A", emoji: "🪡" },
+                    { x: 130, y: 230, c: "#0E2A1F", r: "#F0A04A", emoji: "💇" },
+                    { x: 260, y: 220, c: "#3E8E5C", emoji: "🔧" },
+                    { x: 80, y: 320, c: "#F0A04A", emoji: "📸" },
+                    { x: 220, y: 320, c: "#0E2A1F", r: "#F0A04A", emoji: "🎨" },
+                    { x: 340, y: 280, c: "#3E8E5C", emoji: "⌨️" },
+                  ].map((p, i) => (
+                    <div key={i} className="absolute" style={{ left: p.x, top: p.y, transform: "translate(-50%, -100%)" }}>
+                      <div className="relative" style={{ filter: "drop-shadow(0 4px 8px rgba(0,0,0,0.18))" }}>
+                        <div style={{ width: 36, height: 36, borderRadius: "14px 14px 14px 4px", background: p.c, border: `2px solid ${p.r || "#0A0A0A"}`, transform: "rotate(-8deg)", display: "grid", placeItems: "center" }}>
+                          <span style={{ fontSize: 18, transform: "rotate(8deg)" }}>{p.emoji}</span>
+                        </div>
+                        {p.r && <span className="absolute top-[-4px] right-[-4px] h-3.5 w-3.5 rounded-full bg-gold-400 border-2 border-cream-50" />}
+                      </div>
+                    </div>
+                  ))}
+                  {/* "You" pin */}
+                  <div className="absolute" style={{ left: 180, top: 260 }}>
+                    <span className="absolute -inset-3 rounded-full bg-coral-500/30 animate-ping" />
+                    <span className="block h-4 w-4 rounded-full bg-coral-500 ring-[3px] ring-cream-50" />
+                  </div>
+                  {/* Pop card */}
+                  <div className="absolute left-3 right-3 bottom-3 rounded-2xl bg-cream-50 ring-1 ring-ink/10 p-3 shadow-card">
+                    <div className="flex items-center gap-3">
+                      <div className="grid h-10 w-10 place-items-center rounded-xl bg-ink text-cream-50 text-lg shrink-0">⚡</div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-bold text-[13px] tracking-tight truncate">Gen Genius Lagos</span>
+                          <span className="rounded-full bg-gold-400 text-ink text-[9px] font-bold px-1.5 py-0.5">★ TOP 92</span>
+                        </div>
+                        <div className="text-[11px] text-ink/55">Lekki · ★ 4.8 · 132 jobs · @gengeniuslagos · WhatsApp ✓</div>
+                      </div>
+                      <span className="rounded-full bg-coral-500 text-cream-50 text-[11px] font-bold px-3 py-1.5 shrink-0">Hire</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+=======
             {/* Stylised map preview — Snap-Map style with avatar pins */}
             <SnapMapPreview />
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           </div>
         </section>
 
         {/* HOW IT WORKS */}
+<<<<<<< HEAD
+        <section id="how" className="py-16 md:py-24">
+=======
         <section id="how" className="py-16 md:py-24 reveal">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <SectionLabel>How it works</SectionLabel>
           <h2 className="mt-3 font-display text-4xl md:text-5xl font-bold tracking-tightest max-w-3xl">A bank account is the bonus for showing up.</h2>
           <p className="mt-4 text-ink/65 max-w-2xl leading-relaxed">No CV. No upfront deposit risk. No payment anxiety. The four-step flow that makes 8k–60k jobs safe enough for both sides to actually transact.</p>
@@ -186,7 +309,11 @@ export default function Landing() {
         </section>
 
         {/* WHY IT WINS — Trust stack */}
+<<<<<<< HEAD
+        <section id="trust" className="py-16 md:py-24">
+=======
         <section id="trust" className="py-16 md:py-24 reveal">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16 items-start">
             <div>
               <SectionLabel>Why it wins</SectionLabel>
@@ -220,7 +347,11 @@ export default function Landing() {
         </section>
 
         {/* SQUAD INSIDE */}
+<<<<<<< HEAD
+        <section id="squad" className="py-16 md:py-24">
+=======
         <section id="squad" className="py-16 md:py-24 reveal">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
               <SectionLabel>Squad inside</SectionLabel>
@@ -233,6 +364,22 @@ export default function Landing() {
               </div>
             </div>
 
+<<<<<<< HEAD
+            <div className="rounded-3xl bg-forest-900 text-cream-50 p-6 lg:p-7 font-mono text-[12.5px] leading-relaxed overflow-x-auto ring-1 ring-ink/20">
+              <div className="text-gold-400 text-[10px] tracking-[0.18em] uppercase mb-3 font-sans font-semibold">POST /virtual-account/create-dynamic-virtual-account</div>
+              <pre className="text-cream-50/90 whitespace-pre">{`await SQUAD.post(
+  "/virtual-account/create-dynamic-virtual-account", {
+    transaction_ref: \`\${MERCHANT}-\${jobId}\`,
+    amount: 15000 * 100, // kobo
+    currency_id: "NGN",
+    customer_identifier: customer.name,
+    beneficiary_account: GTBANK_SETTLEMENT,
+    expiry_seconds: 3600,
+  });
+// → returns NUBAN. Customer transfers via NIP.
+// → webhook fires \`charge_successful\` w/ HMAC.
+// → job.state = FUNDED. Worker is dispatched.`}</pre>
+=======
             {/* ── Premium code showcase: Mac chrome + line numbers + syntax highlight ── */}
             <div className="group relative">
               {/* Glow halo on hover */}
@@ -295,12 +442,17 @@ export default function Landing() {
                   <span className="hidden sm:inline">Idempotent ref</span>
                 </div>
               </div>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
             </div>
           </div>
         </section>
 
         {/* ECONOMICS */}
+<<<<<<< HEAD
+        <section id="economics" className="py-16 md:py-24">
+=======
         <section id="economics" className="py-16 md:py-24 reveal">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <SectionLabel>The math</SectionLabel>
           <h2 className="mt-3 font-display text-4xl md:text-5xl font-bold tracking-tightest max-w-3xl">Five revenue streams stack. Commission alone can't survive Nigerian CAC.</h2>
 
@@ -347,16 +499,26 @@ export default function Landing() {
         {/* CLOSING CTA */}
         <section className="py-20 md:py-28 text-center">
           <h2 className="font-display text-4xl md:text-6xl font-bold leading-[0.95] tracking-tightest max-w-4xl mx-auto">
+<<<<<<< HEAD
+            It's a dating app for jobs,<br />
+            with a <span className="italic text-coral-500">bank</span> inside,<br />
+            and <span className="underline decoration-gold-400 decoration-[6px] underline-offset-[10px]">Squad</span> is the heart.
+=======
             Every handshake becomes <span className="italic text-coral-500">escrow.</span><br />
             Every escrow becomes <span className="italic text-coral-500">credit data.</span><br />
             <span className="underline decoration-gold-400 decoration-[6px] underline-offset-[10px]">Squad</span> is the engine.
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           </h2>
           <div className="mt-10 flex justify-center gap-3 flex-wrap">
             <Link href="/auth"><Button size="lg">Open the app →</Button></Link>
             <Link href="/operator"><Button size="lg" variant="outline">Operator console</Button></Link>
           </div>
           <p className="mt-8 text-[12px] text-ink/45 max-w-md mx-auto">
+<<<<<<< HEAD
+            Built for GTCO Squad Hackathon 3.0 · Challenge 02 · Smart Systems for the Intelligent Economy
+=======
             Built on Squad APIs for Nigeria's 92.3% informal workforce.
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           </p>
         </section>
 
@@ -379,6 +541,8 @@ function BrandPill({ label }: { label: string }) {
   return <span className="rounded-full bg-cream-50 ring-1 ring-ink/12 px-3 py-1 font-semibold text-ink">{label}</span>;
 }
 
+<<<<<<< HEAD
+=======
 // Floating Bitmoji avatars around the phone in the hero
 function FloatingAvatars() {
   const items = [
@@ -488,6 +652,7 @@ function SnapMapPreview() {
   );
 }
 
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl bg-cream-50 ring-1 ring-ink/10 p-4">

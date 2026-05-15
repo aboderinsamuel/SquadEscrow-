@@ -3,6 +3,17 @@ import { seedIfEmpty } from "@/lib/seed";
 import { Logo } from "@/components/Logo";
 import Link from "next/link";
 import { naira, stateColor, stateLabel, timeAgo, categoryLabel } from "@/lib/utils";
+<<<<<<< HEAD
+import { isLive } from "@/lib/squad";
+
+export const dynamic = "force-dynamic";
+
+export default function OperatorConsole() {
+  seedIfEmpty();
+  const db = readDB();
+  const stats = computeStats(db);
+
+=======
 import { isLive, walletBalance, merchantId } from "@/lib/squad";
 import { getSquadCalls } from "@/lib/squad-log";
 
@@ -39,6 +50,7 @@ export default async function OperatorConsole() {
     }
   }
 
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   return (
     <main className="min-h-[100dvh] page-bg text-ink">
       <header className="border-b border-ink/8 px-6 py-4 flex items-center justify-between bg-cream-200/85 backdrop-blur sticky top-0 z-20">
@@ -70,6 +82,8 @@ export default async function OperatorConsole() {
           <Stat label="Webhooks rx" v={String(stats.webhooks)} tone="ink" />
         </section>
 
+<<<<<<< HEAD
+=======
         {/* ── SQUAD INTEGRATION PANEL — judge proof ── */}
         <section className="rounded-3xl bg-cream-50 ring-1 ring-ink/10 p-6 md:p-8">
           <div className="flex items-baseline justify-between flex-wrap gap-3 mb-5">
@@ -132,6 +146,7 @@ export default async function OperatorConsole() {
           </div>
         </section>
 
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
         {/* Float yield */}
         <section className="rounded-3xl bg-ink-900 text-cream-50 p-6 md:p-8">
           <div className="flex items-baseline justify-between flex-wrap gap-3 mb-5">
@@ -219,7 +234,11 @@ export default async function OperatorConsole() {
       </div>
 
       <footer className="py-10 text-center text-[12px] text-ink/45">
+<<<<<<< HEAD
+        Built for GTCO Squad Hackathon 3.0 · NDPA-ready Day 1
+=======
         NDPA-ready · powered by Squad APIs
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
       </footer>
     </main>
   );
