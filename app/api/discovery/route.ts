@@ -4,11 +4,16 @@ import { seedIfEmpty } from "@/lib/seed";
 
 // Lightweight public-ish discovery feed. Used by the map page and any external integration.
 export async function GET(req: NextRequest) {
+<<<<<<< HEAD
   seedIfEmpty();
+=======
+  await seedIfEmpty();
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   const url = new URL(req.url);
   const cat = url.searchParams.get("cat");
   const area = url.searchParams.get("area");
   const minCred = parseInt(url.searchParams.get("min_credibility") || "0", 10);
+<<<<<<< HEAD
   const q = url.searchParams.get("q");
   
   let aiMatchedIds: string[] | null = null;
@@ -51,6 +56,11 @@ export async function GET(req: NextRequest) {
   }
 
   const results = list
+=======
+  const db = readDB();
+  const list = db.users
+    .filter((u) => u.business_name)
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     .filter((u) => !cat || u.skills?.[0] === cat)
     .filter((u) => !area || (u.area || "").toLowerCase().includes(area.toLowerCase()))
     .filter((u) => (u.credibility || 0) >= minCred)
@@ -68,6 +78,10 @@ export async function GET(req: NextRequest) {
       socials: u.social_handles?.map((h) => ({ platform: h.platform, handle: h.handle, verified: h.verified })) || [],
     }))
     .sort((a, b) => (b.credibility || 0) - (a.credibility || 0));
+<<<<<<< HEAD
     
   return NextResponse.json({ ok: true, count: results.length, items: results });
+=======
+  return NextResponse.json({ ok: true, count: list.length, items: list });
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 }

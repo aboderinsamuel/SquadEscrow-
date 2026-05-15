@@ -1,12 +1,17 @@
 import { redirect } from "next/navigation";
 import { getSessionUser } from "@/lib/auth";
+<<<<<<< HEAD
 import { readDB } from "@/lib/db";
+=======
+import { listBusinessUsers } from "@/lib/db";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 import { seedIfEmpty } from "@/lib/seed";
 import { AppHeader } from "@/components/AppHeader";
 import { DiscoverGrid } from "./DiscoverGrid";
 import { DiscoverReels } from "./DiscoverReels";
 
 export default async function DiscoverPage({ searchParams }: { searchParams: { q?: string; cat?: string } }) {
+<<<<<<< HEAD
   seedIfEmpty();
   const me = await getSessionUser();
   if (!me) redirect("/auth");
@@ -14,6 +19,17 @@ export default async function DiscoverPage({ searchParams }: { searchParams: { q
 
   const artisans = db.users
     .filter((u) => u.business_name)
+=======
+  await seedIfEmpty();
+  const me = await getSessionUser();
+  if (!me) redirect("/auth");
+  // Source: Supabase + cache merge. Ensures a freshly-onboarded artisan from
+  // a different lambda still shows up — without this, the writing lambda's
+  // cache had the user but the lambda serving Discover did not.
+  const businessUsers = await listBusinessUsers();
+
+  const artisans = businessUsers
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     .map((u) => ({
       id: u.id,
       name: u.business_name || u.name,

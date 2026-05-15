@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSessionUser } from "@/lib/auth";
+<<<<<<< HEAD
 import { mutate } from "@/lib/db";
+=======
+import { mutateAndPersist } from "@/lib/db";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   const me = await getSessionUser();
@@ -8,7 +12,11 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const { application_id } = await req.json();
 
   let err: string | null = null;
+<<<<<<< HEAD
   mutate((db) => {
+=======
+  await mutateAndPersist((db) => {
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     const job = db.jobs.find((j) => j.id === params.id);
     if (!job) { err = "no_job"; return; }
     if (job.customer_id !== me.id) { err = "not_owner"; return; }

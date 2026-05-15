@@ -1,28 +1,51 @@
 import Link from "next/link";
+<<<<<<< HEAD
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/Button";
 import { Badge } from "@/components/Badge";
+=======
+import { Fragment } from "react";
+import { Logo } from "@/components/Logo";
+import { Button } from "@/components/Button";
+import { Badge } from "@/components/Badge";
+import { ScrollReveal } from "@/components/ScrollReveal";
+import { bitmojiUrl } from "@/components/BitmojiAvatar";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
 export default function Landing() {
   return (
     <main className="relative overflow-hidden text-ink">
+<<<<<<< HEAD
+=======
+      <ScrollReveal />
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
       {/* Top navigation */}
       <div className="relative mx-auto max-w-6xl px-5">
         <header className="flex items-center justify-between pt-6">
           <Logo size={30} />
           <nav className="hidden md:flex items-center gap-7 text-sm text-ink/65">
+<<<<<<< HEAD
             <a href="#discover" className="hover:text-ink">Discovery</a>
             <a href="#how" className="hover:text-ink">How it works</a>
             <a href="#trust" className="hover:text-ink">Trust stack</a>
             <a href="#squad" className="hover:text-ink">Squad inside</a>
             <a href="#economics" className="hover:text-ink">Economics</a>
             <Link href="/operator" className="hover:text-ink">Operator</Link>
+=======
+            <a href="#discover" className="hover:text-ink transition-colors">Discovery</a>
+            <a href="#watch" className="hover:text-ink transition-colors">Watch</a>
+            <a href="#how" className="hover:text-ink transition-colors">How it works</a>
+            <a href="#trust" className="hover:text-ink transition-colors">Trust</a>
+            <a href="#squad" className="hover:text-ink transition-colors">Squad inside</a>
+            <Link href="/operator" className="hover:text-ink transition-colors">Operator</Link>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           </nav>
           <Link href="/auth"><Button size="sm">Open app</Button></Link>
         </header>
 
         {/* HERO — tells the story in 3 seconds */}
         <section className="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 lg:gap-16 items-center pt-12 lg:pt-20 pb-20">
+<<<<<<< HEAD
           <div className="animate-rise">
             <div className="inline-flex items-center gap-2 rounded-full bg-ink/8 px-3 py-1.5 text-[11px] font-semibold tracking-wider uppercase">
               <span className="h-1.5 w-1.5 rounded-full bg-coral-500 dot" />
@@ -30,22 +53,43 @@ export default function Landing() {
             </div>
 
             <h1 className="mt-6 font-display text-[44px] sm:text-[56px] lg:text-[80px] font-bold leading-[0.92] tracking-tightest text-ink">
+=======
+          <div>
+            <div className="hero-rise inline-flex items-center gap-2 rounded-full bg-ink/8 px-3 py-1.5 text-[11px] font-semibold tracking-wider uppercase">
+              <span className="h-1.5 w-1.5 rounded-full bg-coral-500 dot" />
+              <span>Now in beta · Lagos</span>
+            </div>
+
+            <h1 className="hero-rise hero-rise-delay-1 mt-6 font-display text-[44px] sm:text-[56px] lg:text-[80px] font-bold leading-[0.92] tracking-tightest text-ink">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
               Hire Nigeria's <span className="italic text-coral-500">hustle.</span>
               <br />
               Pay only when <span className="underline decoration-gold-400 decoration-[6px] underline-offset-[10px]">it's done.</span>
             </h1>
 
+<<<<<<< HEAD
             <p className="mt-7 max-w-xl text-ink/70 text-[17px] leading-relaxed">
               <b className="text-ink">Squadco Escrow</b> is the discovery + escrow-protected job marketplace for the <b className="text-ink">92% of Nigerians</b> who work informally. 25,000+ artisans already pinned on the map. NIN-verified. Funds locked in a Squad Virtual Account. T+1 to bank, every time.
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">
+=======
+            <p className="hero-rise hero-rise-delay-2 mt-7 max-w-xl text-ink/70 text-[17px] leading-relaxed">
+              The discovery + escrow-protected job marketplace for the <b className="text-ink">92% of Nigerians</b> who work informally. 25,000+ artisans already pinned on the map. NIN-verified. Funds locked in a Squad Virtual Account. T+1 to bank, every time.
+            </p>
+
+            <div className="hero-rise hero-rise-delay-3 mt-9 flex flex-wrap items-center gap-3">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
               <Link href="/auth?role=customer"><Button size="lg">Post a job →</Button></Link>
               <Link href="/auth?role=worker"><Button size="lg" variant="outline">Get hired today</Button></Link>
             </div>
 
             {/* Trust strip */}
+<<<<<<< HEAD
             <div className="mt-10 flex items-center gap-5 flex-wrap text-[12px] text-ink/55">
+=======
+            <div className="hero-rise hero-rise-delay-4 mt-10 flex items-center gap-5 flex-wrap text-[12px] text-ink/55">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
               <span className="font-semibold uppercase tracking-[0.15em] text-ink/40">Powered by</span>
               <BrandPill label="Squad" />
               <BrandPill label="HabariPay" />
@@ -55,21 +99,37 @@ export default function Landing() {
             </div>
           </div>
 
+<<<<<<< HEAD
           {/* PHONE MOCK — directly mirrors deck screen 2 (Today's jobs feed) */}
           <div className="relative lg:justify-self-end">
             <div className="absolute -inset-12 bg-gold-grad opacity-30 blur-3xl rounded-full" aria-hidden />
+=======
+          {/* PHONE MOCK with Snap-style avatars floating around */}
+          <div className="relative lg:justify-self-end hero-rise hero-rise-delay-2">
+            <div className="absolute -inset-12 bg-gold-grad opacity-30 blur-3xl rounded-full" aria-hidden />
+            {/* Floating avatars circling the phone */}
+            <FloatingAvatars />
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
             <PhoneMock />
           </div>
         </section>
 
         {/* STATS STRIP */}
+<<<<<<< HEAD
         <section className="-mt-6 mb-20">
+=======
+        <section className="-mt-6 mb-20 reveal">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <div className="grid grid-cols-2 md:grid-cols-4 rounded-3xl bg-ink text-cream-50 ring-1 ring-ink/10 overflow-hidden">
             {[
               { v: "92.3%", t: "of NG workers are informal" },
               { v: "127m", t: "Nigerians on NIN (Dec 2025)" },
               { v: "₦70k", t: "monthly minimum wage" },
+<<<<<<< HEAD
               { v: "8", t: "Squad products woven in" },
+=======
+              { v: "25k+", t: "artisans pre-mapped" },
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
             ].map((x, i) => (
               <div key={i} className={"px-5 py-6 sm:px-7 sm:py-8 " + (i > 0 ? "md:border-l border-cream-50/10" : "") + (i > 0 && i < 2 ? " border-l border-cream-50/10" : "")}>
                 <div className="text-[40px] sm:text-[52px] font-bold tracking-tightest leading-none text-cream-50">{x.v}</div>
@@ -79,8 +139,64 @@ export default function Landing() {
           </div>
         </section>
 
+<<<<<<< HEAD
         {/* DISCOVERY — the new headline feature */}
         <section id="discover" className="py-16 md:py-24">
+=======
+        {/* DEMO VIDEO */}
+        <section id="watch" className="mb-20 reveal">
+          <div className="text-center mb-6">
+            <SectionLabel>Watch · 90 seconds</SectionLabel>
+            <h2 className="mt-3 font-display text-4xl md:text-5xl font-bold tracking-tightest">See it in motion.</h2>
+          </div>
+          <div className="relative rounded-[28px] bg-ink ring-1 ring-ink/15 overflow-hidden shadow-card group">
+            {/* Aspect-ratio 16/9 video container */}
+            <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+              {/*
+                ┌─────────────────────────────────────────────────────────────┐
+                │ DROP YOUR DEMO VIDEO HERE                                   │
+                │                                                             │
+                │ Replace the <div> below with one of:                       │
+                │                                                             │
+                │ 1. <video src="/demo.mp4" controls autoPlay muted loop ... />│
+                │ 2. <iframe src="https://www.youtube.com/embed/VIDEO_ID" ... />│
+                │ 3. <iframe src="https://player.vimeo.com/video/ID" ... />  │
+                │                                                             │
+                │ Keep the className for sizing.                              │
+                └─────────────────────────────────────────────────────────────┘
+              */}
+              <div className="absolute inset-0 grid place-items-center bg-gradient-to-br from-ink-900 via-forest-900 to-ink overflow-hidden">
+                {/* Animated background */}
+                <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(rgba(180,255,57,0.18) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
+                <div className="absolute inset-x-0 -top-1/2 h-full bg-gradient-radial from-coral-500/30 via-transparent to-transparent blur-3xl" />
+
+                {/* Big play button — animates on hover */}
+                <button className="relative grid place-items-center">
+                  <span className="absolute inset-0 rounded-full bg-coral-500/30 animate-ping" style={{ animationDuration: "2s" }} />
+                  <span className="absolute -inset-4 rounded-full bg-coral-500/15" />
+                  <span className="relative grid h-20 w-20 md:h-28 md:w-28 place-items-center rounded-full bg-coral-500 text-cream-50 shadow-pop transition-transform group-hover:scale-110">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                  </span>
+                </button>
+                <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between text-cream-50">
+                  <div>
+                    <div className="text-[10px] uppercase tracking-[0.18em] text-cream-50/55">Product walkthrough</div>
+                    <div className="text-lg font-bold mt-0.5">Sign up · hire · escrow · payout</div>
+                  </div>
+                  <div className="hidden md:flex items-center gap-1.5 text-[12px] text-cream-50/65">
+                    <span className="h-2 w-2 rounded-full bg-coral-400" />
+                    <span>1:32</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p className="mt-4 text-center text-[12px] text-ink/45">Coming soon. Real-time recording of a customer hiring an artisan, escrow funding through Squad, and a worker getting paid in T+1.</p>
+        </section>
+
+        {/* DISCOVERY — the new headline feature */}
+        <section id="discover" className="py-16 md:py-24 reveal">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <div className="grid lg:grid-cols-[1fr_0.9fr] gap-10 lg:gap-16 items-center">
             <div>
               <SectionLabel>Discovery</SectionLabel>
@@ -105,6 +221,7 @@ export default function Landing() {
               </div>
             </div>
 
+<<<<<<< HEAD
             {/* Stylised map preview */}
             <div className="relative">
               <div className="rounded-3xl bg-cream-50 ring-1 ring-ink/10 shadow-card p-3 overflow-hidden">
@@ -162,11 +279,19 @@ export default function Landing() {
                 </div>
               </div>
             </div>
+=======
+            {/* Stylised map preview — Snap-Map style with avatar pins */}
+            <SnapMapPreview />
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           </div>
         </section>
 
         {/* HOW IT WORKS */}
+<<<<<<< HEAD
         <section id="how" className="py-16 md:py-24">
+=======
+        <section id="how" className="py-16 md:py-24 reveal">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <SectionLabel>How it works</SectionLabel>
           <h2 className="mt-3 font-display text-4xl md:text-5xl font-bold tracking-tightest max-w-3xl">A bank account is the bonus for showing up.</h2>
           <p className="mt-4 text-ink/65 max-w-2xl leading-relaxed">No CV. No upfront deposit risk. No payment anxiety. The four-step flow that makes 8k–60k jobs safe enough for both sides to actually transact.</p>
@@ -184,7 +309,11 @@ export default function Landing() {
         </section>
 
         {/* WHY IT WINS — Trust stack */}
+<<<<<<< HEAD
         <section id="trust" className="py-16 md:py-24">
+=======
+        <section id="trust" className="py-16 md:py-24 reveal">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 lg:gap-16 items-start">
             <div>
               <SectionLabel>Why it wins</SectionLabel>
@@ -218,7 +347,11 @@ export default function Landing() {
         </section>
 
         {/* SQUAD INSIDE */}
+<<<<<<< HEAD
         <section id="squad" className="py-16 md:py-24">
+=======
+        <section id="squad" className="py-16 md:py-24 reveal">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
               <SectionLabel>Squad inside</SectionLabel>
@@ -231,6 +364,7 @@ export default function Landing() {
               </div>
             </div>
 
+<<<<<<< HEAD
             <div className="rounded-3xl bg-forest-900 text-cream-50 p-6 lg:p-7 font-mono text-[12.5px] leading-relaxed overflow-x-auto ring-1 ring-ink/20">
               <div className="text-gold-400 text-[10px] tracking-[0.18em] uppercase mb-3 font-sans font-semibold">POST /virtual-account/create-dynamic-virtual-account</div>
               <pre className="text-cream-50/90 whitespace-pre">{`await SQUAD.post(
@@ -245,12 +379,80 @@ export default function Landing() {
 // → returns NUBAN. Customer transfers via NIP.
 // → webhook fires \`charge_successful\` w/ HMAC.
 // → job.state = FUNDED. Worker is dispatched.`}</pre>
+=======
+            {/* ── Premium code showcase: Mac chrome + line numbers + syntax highlight ── */}
+            <div className="group relative">
+              {/* Glow halo on hover */}
+              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-coral-500/20 via-gold-400/20 to-forest-500/20 opacity-0 group-hover:opacity-100 blur-xl transition-opacity duration-500 pointer-events-none" />
+
+              <div className="relative rounded-2xl bg-[#0c1c17] text-cream-50 overflow-hidden ring-1 ring-cream-50/8 shadow-2xl shadow-ink/40">
+                {/* Window chrome */}
+                <div className="flex items-center justify-between gap-3 px-4 py-2.5 bg-[#081410] border-b border-cream-50/8">
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
+                    <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
+                    <span className="h-3 w-3 rounded-full bg-[#28c840]" />
+                    <span className="ml-3 text-[11px] font-mono text-cream-50/55">lib/squad.ts <span className="text-cream-50/35">·</span> line 103</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="relative inline-flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full rounded-full bg-forest-400 opacity-75 animate-ping" />
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-forest-400" />
+                    </span>
+                    <span className="text-[10px] font-semibold tracking-[0.14em] uppercase text-forest-300">200 OK · 312ms</span>
+                  </div>
+                </div>
+
+                {/* Endpoint header */}
+                <div className="px-4 lg:px-6 pt-4 pb-1 flex items-center gap-2 border-b border-cream-50/5">
+                  <span className="rounded-md bg-coral-500/15 text-coral-300 px-1.5 py-0.5 text-[10px] font-mono font-bold tracking-wider">POST</span>
+                  <span className="font-mono text-[11px] text-cream-50/75 truncate">/virtual-account/create-dynamic-virtual-account</span>
+                </div>
+
+                {/* Code body with line numbers */}
+                <div className="px-4 lg:px-6 py-5 font-mono text-[12.5px] leading-[1.8] overflow-x-auto">
+                  <div className="grid grid-cols-[1.75rem_1fr] gap-x-3">
+                    {[
+                      <><span className="tok-kw">await</span> <span className="tok-fn">SQUAD</span><span className="tok-pn">.</span><span className="tok-fn">post</span><span className="tok-pn">(</span></>,
+                      <span className="pl-3"><span className="tok-str">{`"/virtual-account/create-dynamic-virtual-account"`}</span><span className="tok-pn">, {`{`}</span></span>,
+                      <span className="pl-6"><span className="tok-key">transaction_ref</span><span className="tok-pn">:</span> <span className="tok-tpl">{"`${MERCHANT}-${jobId}`"}</span><span className="tok-pn">,</span></span>,
+                      <span className="pl-6"><span className="tok-key">amount</span><span className="tok-pn">:</span> <span className="tok-num">15000</span> <span className="tok-pn">*</span> <span className="tok-num">100</span><span className="tok-pn">,</span> <span className="tok-cm">// kobo</span></span>,
+                      <span className="pl-6"><span className="tok-key">currency_id</span><span className="tok-pn">:</span> <span className="tok-str">{`"NGN"`}</span><span className="tok-pn">,</span></span>,
+                      <span className="pl-6"><span className="tok-key">customer_identifier</span><span className="tok-pn">:</span> <span className="tok-id">customer</span><span className="tok-pn">.</span><span className="tok-id">name</span><span className="tok-pn">,</span></span>,
+                      <span className="pl-6"><span className="tok-key">beneficiary_account</span><span className="tok-pn">:</span> <span className="tok-const">GTBANK_SETTLEMENT</span><span className="tok-pn">,</span></span>,
+                      <span className="pl-6"><span className="tok-key">expiry_seconds</span><span className="tok-pn">:</span> <span className="tok-num">3600</span><span className="tok-pn">,</span></span>,
+                      <span className="pl-3"><span className="tok-pn">{`}`});</span></span>,
+                      <span className="h-3" />,
+                      <span className="tok-cm">{`// → returns NUBAN. Customer transfers via NIP.`}</span>,
+                      <span className="tok-cm">{`// → webhook fires `}<span className="text-gold-300/90">charge_successful</span>{` w/ HMAC-SHA512.`}</span>,
+                      <span className="tok-cm">{`// → job.state = `}<span className="text-forest-300">FUNDED</span>{`. Worker dispatched.`}</span>,
+                    ].map((line, i) => (
+                      <Fragment key={i}>
+                        <span className="text-cream-50/25 select-none text-right tabular-nums">{i + 1}</span>
+                        <span className="whitespace-pre">{line}</span>
+                      </Fragment>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom info bar */}
+                <div className="px-4 lg:px-6 py-2.5 bg-[#081410] border-t border-cream-50/8 flex items-center justify-between text-[10px] text-cream-50/45 font-mono">
+                  <span>merchant <span className="text-gold-300">UE632HMD</span></span>
+                  <span>HMAC-SHA512 verified</span>
+                  <span className="hidden sm:inline">Idempotent ref</span>
+                </div>
+              </div>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
             </div>
           </div>
         </section>
 
         {/* ECONOMICS */}
+<<<<<<< HEAD
         <section id="economics" className="py-16 md:py-24">
+=======
+        <section id="economics" className="py-16 md:py-24 reveal">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <SectionLabel>The math</SectionLabel>
           <h2 className="mt-3 font-display text-4xl md:text-5xl font-bold tracking-tightest max-w-3xl">Five revenue streams stack. Commission alone can't survive Nigerian CAC.</h2>
 
@@ -297,16 +499,26 @@ export default function Landing() {
         {/* CLOSING CTA */}
         <section className="py-20 md:py-28 text-center">
           <h2 className="font-display text-4xl md:text-6xl font-bold leading-[0.95] tracking-tightest max-w-4xl mx-auto">
+<<<<<<< HEAD
             It's a dating app for jobs,<br />
             with a <span className="italic text-coral-500">bank</span> inside,<br />
             and <span className="underline decoration-gold-400 decoration-[6px] underline-offset-[10px]">Squad</span> is the heart.
+=======
+            Every handshake becomes <span className="italic text-coral-500">escrow.</span><br />
+            Every escrow becomes <span className="italic text-coral-500">credit data.</span><br />
+            <span className="underline decoration-gold-400 decoration-[6px] underline-offset-[10px]">Squad</span> is the engine.
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           </h2>
           <div className="mt-10 flex justify-center gap-3 flex-wrap">
             <Link href="/auth"><Button size="lg">Open the app →</Button></Link>
             <Link href="/operator"><Button size="lg" variant="outline">Operator console</Button></Link>
           </div>
           <p className="mt-8 text-[12px] text-ink/45 max-w-md mx-auto">
+<<<<<<< HEAD
             Built for GTCO Squad Hackathon 3.0 · Challenge 02 · Smart Systems for the Intelligent Economy
+=======
+            Built on Squad APIs for Nigeria's 92.3% informal workforce.
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           </p>
         </section>
 
@@ -329,6 +541,118 @@ function BrandPill({ label }: { label: string }) {
   return <span className="rounded-full bg-cream-50 ring-1 ring-ink/12 px-3 py-1 font-semibold text-ink">{label}</span>;
 }
 
+<<<<<<< HEAD
+=======
+// Floating Bitmoji avatars around the phone in the hero
+function FloatingAvatars() {
+  const items = [
+    { seed: "Tunde", x: -38, y: 30, delay: 0, size: 56, bg: "F0A04A" },
+    { seed: "Aisha", x: 88, y: 8, delay: 1, size: 48, bg: "3E8E5C" },
+    { seed: "Chioma", x: 96, y: 78, delay: 2, size: 52, bg: "E04848" },
+    { seed: "Folake", x: -42, y: 88, delay: 0.5, size: 44, bg: "F4C994" },
+  ];
+  return (
+    <div className="absolute inset-0 pointer-events-none hidden md:block" aria-hidden>
+      {items.map((it, i) => (
+        <div key={i} className="absolute float" style={{ left: `${it.x}%`, top: `${it.y}%`, animationDelay: `${it.delay}s` }}>
+          <div className="relative">
+            <img
+              src={bitmojiUrl(it.seed, "notionists", it.size * 2, it.bg)}
+              width={it.size}
+              height={it.size}
+              alt=""
+              className="rounded-full ring-[3px] ring-cream-50 shadow-card"
+              style={{ animation: `wiggle ${3 + i}s ease-in-out infinite` }}
+            />
+            <span className="absolute -bottom-1 -right-1 grid h-5 w-5 place-items-center rounded-full bg-forest-500 ring-2 ring-cream-50 text-cream-50 text-[10px] font-bold">✓</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Snap-Map-style preview for the Discovery section
+function SnapMapPreview() {
+  const pins = [
+    { seed: "Tunde",   x: 70,  y: 90,  badge: "⚡", top: true,  verified: false },
+    { seed: "Musa",    x: 200, y: 150, badge: "❄️", top: false, verified: true },
+    { seed: "Sade",    x: 320, y: 110, badge: "🪡", top: false, verified: false },
+    { seed: "Folake",  x: 130, y: 230, badge: "💇", top: true,  verified: false },
+    { seed: "Emeka",   x: 260, y: 220, badge: "🔧", top: false, verified: true },
+    { seed: "Tobi",    x: 80,  y: 320, badge: "📸", top: false, verified: false },
+    { seed: "Bola",    x: 220, y: 320, badge: "🎨", top: true,  verified: false },
+    { seed: "Aisha",   x: 340, y: 280, badge: "⌨️", top: false, verified: true },
+  ];
+  return (
+    <div className="relative">
+      <div className="rounded-3xl bg-cream-50 ring-1 ring-ink/10 shadow-card p-3 overflow-hidden">
+        <div className="relative h-[460px] rounded-2xl bg-[#EDE5D4] overflow-hidden">
+          {/* Faux streets */}
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 460" preserveAspectRatio="none">
+            <path d="M0 80 L400 60" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+            <path d="M0 180 L400 200" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+            <path d="M0 290 L400 280" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+            <path d="M0 410 L400 390" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+            <path d="M70 0 L90 460" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+            <path d="M210 0 L230 460" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+            <path d="M330 0 L340 460" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
+            <path d="M0 230 Q150 220 220 240 T400 240" stroke="rgba(62,142,92,0.20)" strokeWidth="22" fill="none" />
+          </svg>
+
+          {/* Avatar pins, Snapchat-style */}
+          {pins.map((p, i) => (
+            <div
+              key={i}
+              className="absolute float"
+              style={{ left: p.x, top: p.y, transform: "translate(-50%, -100%)", animationDelay: `${i * 0.4}s`, animationDuration: `${3 + (i % 3)}s` }}
+            >
+              <div className="relative" style={{ filter: "drop-shadow(0 6px 12px rgba(0,0,0,0.22))" }}>
+                <div className={"h-12 w-12 rounded-full overflow-hidden ring-[3px] " + (p.top ? "ring-gold-400" : p.verified ? "ring-forest-500" : "ring-ink")}>
+                  <img src={bitmojiUrl(p.seed, "notionists", 96)} width={48} height={48} alt="" className="block" />
+                </div>
+                {p.top && (
+                  <span className="absolute -top-1 -right-1 grid h-5 px-1 min-w-[20px] place-items-center rounded-full bg-gold-400 ring-2 ring-cream-50 text-ink text-[9px] font-bold">★</span>
+                )}
+                {p.badge && (
+                  <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full bg-ink ring-2 ring-cream-50 text-cream-50 text-[12px]">{p.badge}</span>
+                )}
+              </div>
+            </div>
+          ))}
+
+          {/* "You" pin */}
+          <div className="absolute" style={{ left: 180, top: 270 }}>
+            <span className="absolute -inset-3 rounded-full bg-coral-500/30 snap-ping" />
+            <span className="block h-4 w-4 rounded-full bg-coral-500 ring-[3px] ring-cream-50" />
+          </div>
+
+          {/* Pop card with Bitmoji */}
+          <div className="absolute left-3 right-3 bottom-3 rounded-2xl bg-cream-50 ring-1 ring-ink/10 p-3 shadow-card pop">
+            <div className="flex items-center gap-3">
+              <img src={bitmojiUrl("Tunde", "notionists", 88, "F0A04A")} width={44} height={44} alt="" className="rounded-full ring-[3px] ring-cream-50 shadow-card shrink-0" />
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-bold text-[13px] tracking-tight truncate">Gen Genius Lagos</span>
+                  <span className="rounded-full bg-gold-400 text-ink text-[9px] font-bold px-1.5 py-0.5">★ TOP 92</span>
+                </div>
+                <div className="text-[11px] text-ink/55">Lekki · ★ 4.8 · 132 jobs · @gengeniuslagos · WhatsApp ✓</div>
+              </div>
+              <span className="rounded-full bg-coral-500 text-cream-50 text-[11px] font-bold px-3 py-1.5 shrink-0">Hire</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Floating "Online now" mini-pill */}
+      <div className="absolute -top-2 -right-2 rounded-full bg-forest-500 text-cream-50 text-[11px] font-bold px-3 py-1.5 shadow-card spring-in flex items-center gap-1.5">
+        <span className="relative grid h-2 w-2"><span className="absolute inset-0 rounded-full bg-cream-50 animate-ping" /><span className="relative h-2 w-2 rounded-full bg-cream-50" /></span>
+        24 online near you
+      </div>
+    </div>
+  );
+}
+
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-2xl bg-cream-50 ring-1 ring-ink/10 p-4">

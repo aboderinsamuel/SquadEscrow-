@@ -1,11 +1,23 @@
 "use client";
 import { Button } from "@/components/Button";
 import { Input } from "@/components/Input";
+<<<<<<< HEAD
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
 export function AuthForm({ initialRole }: { initialRole?: "worker" | "customer" }) {
   const router = useRouter();
+=======
+import { useState, useEffect, useRef } from "react";
+
+type Mode = "signin" | "signup";
+
+export function AuthForm({ initialRole }: { initialRole?: "worker" | "customer" }) {
+  // Default mode is informed by ?role= — coming in via "Get hired today" or
+  // "Post a job" buttons usually means the user is signing up for the first
+  // time. Otherwise default to sign-in because that's the more common case.
+  const [mode, setMode] = useState<Mode>(initialRole ? "signup" : "signin");
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   const [step, setStep] = useState<"phone" | "otp" | "name" | "role">("phone");
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -13,6 +25,10 @@ export function AuthForm({ initialRole }: { initialRole?: "worker" | "customer" 
   const [role, setRole] = useState<"worker" | "customer" | "both">(initialRole || "worker");
   const [hintOtp, setHintOtp] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+<<<<<<< HEAD
+=======
+  const [demoLoading, setDemoLoading] = useState<string | null>(null);
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   const [error, setError] = useState<string | null>(null);
   const [existing, setExisting] = useState(false);
   const otpRef = useRef<HTMLInputElement>(null);
@@ -21,6 +37,15 @@ export function AuthForm({ initialRole }: { initialRole?: "worker" | "customer" 
     if (step === "otp") setTimeout(() => otpRef.current?.focus(), 50);
   }, [step]);
 
+<<<<<<< HEAD
+=======
+  // If the mode the user picked doesn't match the truth from the server,
+  // we surface a friendly inline warning rather than just silently doing the
+  // opposite of what they asked for.
+  const modeMismatch =
+    step === "otp" && ((mode === "signin" && !existing) || (mode === "signup" && existing));
+
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   async function sendOtp() {
     setError(null); setLoading(true);
     try {
@@ -40,7 +65,13 @@ export function AuthForm({ initialRole }: { initialRole?: "worker" | "customer" 
       const r = await fetch("/api/auth/verify", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ phone, code: otp }) });
       const d = await r.json();
       if (!d.ok) throw new Error(d.error || "Bad code");
+<<<<<<< HEAD
       if (d.new_user) setStep("name"); else router.push("/app/feed");
+=======
+      // Hard navigation (not router.push) so the browser does a fresh request
+      // that's guaranteed to include the just-set jara_session cookie.
+      if (d.new_user) setStep("name"); else window.location.href = "/app/feed";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     } catch (e: any) { setError(e.message); }
     finally { setLoading(false); }
   }
@@ -51,15 +82,77 @@ export function AuthForm({ initialRole }: { initialRole?: "worker" | "customer" 
       const r = await fetch("/api/auth/profile", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name, role }) });
       const d = await r.json();
       if (!d.ok) throw new Error(d.error || "Failed");
+<<<<<<< HEAD
       router.push("/onboard");
+=======
+      window.location.href = "/onboard";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     } catch (e: any) { setError(e.message); }
     finally { setLoading(false); }
   }
 
+<<<<<<< HEAD
   return (
     <div className="rounded-3xl bg-cream-50 ring-1 ring-ink/10 p-6 animate-rise">
       {step === "phone" && (
         <div className="space-y-5">
+=======
+  async function demoSignIn(demoPhone: string, label: string) {
+    setError(null); setDemoLoading(label);
+    try {
+      const r = await fetch("/api/auth/demo", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ phone: demoPhone }) });
+      const d = await r.json();
+      if (!d.ok) throw new Error(d.error || "Demo sign-in failed");
+      window.location.href = "/app/feed";
+    } catch (e: any) {
+      setError(e.message);
+      setDemoLoading(null);
+    }
+  }
+
+  const signinAccent = mode === "signin";
+
+  return (
+    <div className={"rounded-3xl bg-cream-50 ring-1 p-6 animate-rise transition-colors " + (signinAccent ? "ring-ink/10" : "ring-coral-500/30")}>
+      {/* Mode toggle — purely a UI affordance so the user knows what they're doing.
+          The phone+OTP flow handles both cases transparently regardless of mode. */}
+      {step === "phone" && (
+        <>
+          <div className="mb-5 rounded-2xl bg-cream-100 ring-1 ring-ink/10 p-1 grid grid-cols-2 gap-1 text-[14px] font-semibold">
+            <button
+              type="button"
+              onClick={() => setMode("signin")}
+              className={"rounded-xl py-2.5 transition " + (mode === "signin" ? "bg-ink text-cream-50 shadow-card" : "text-ink/55 hover:text-ink")}
+            >
+              Sign in
+            </button>
+            <button
+              type="button"
+              onClick={() => setMode("signup")}
+              className={"rounded-xl py-2.5 transition " + (mode === "signup" ? "bg-coral-500 text-cream-50 shadow-card" : "text-ink/55 hover:text-ink")}
+            >
+              Sign up
+            </button>
+          </div>
+          <div className="mb-4 text-[10.5px] uppercase tracking-[0.18em] font-semibold text-center text-ink/45">
+            {mode === "signin" ? "Returning to Squadco" : "Brand-new account"}
+          </div>
+        </>
+      )}
+
+      {step === "phone" && (
+        <div className="space-y-5">
+          <div>
+            <h2 className="font-display text-[22px] font-bold tracking-tightest">
+              {mode === "signin" ? "Welcome back." : "Let's get you started."}
+            </h2>
+            <p className="text-[13px] text-ink/60 mt-1">
+              {mode === "signin"
+                ? "Enter the phone you signed up with — we'll text you a 6-digit code."
+                : "Just your phone to begin. Profile setup takes ~3 minutes."}
+            </p>
+          </div>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <Input
             label="Phone number"
             type="tel"
@@ -70,6 +163,7 @@ export function AuthForm({ initialRole }: { initialRole?: "worker" | "customer" 
             onChange={(e) => setPhone(e.target.value)}
             hint="We'll send a 6-digit code by SMS (Squad VAS in production)"
           />
+<<<<<<< HEAD
           <Button block size="lg" loading={loading} onClick={sendOtp} disabled={phone.length < 6}>Continue</Button>
           {error && <p className="text-coral-600 text-sm text-center">{error}</p>}
           <div className="hairline" />
@@ -78,13 +172,73 @@ export function AuthForm({ initialRole }: { initialRole?: "worker" | "customer" 
             <DemoQuickButton phone="+2348011234567" label="Tunde · worker" setPhone={setPhone} />
             <DemoQuickButton phone="+2348022345678" label="Aisha · worker" setPhone={setPhone} />
             <DemoQuickButton phone="+2348077890123" label="Mrs. Okonkwo · customer" setPhone={setPhone} />
+=======
+          <Button block size="lg" loading={loading} onClick={sendOtp} disabled={phone.length < 6} variant={mode === "signup" ? "primary" : "dark"}>
+            {mode === "signin" ? "Send sign-in code →" : "Create account →"}
+          </Button>
+          {error && <p className="text-coral-600 text-sm text-center">{error}</p>}
+
+          <div className="hairline" />
+
+          {/* One-tap demo sign-in — judges' fast path */}
+          <div>
+            <div className="text-[10.5px] uppercase tracking-[0.18em] font-semibold text-ink/45 text-center mb-2">
+              Hackathon demo · one-tap sign in
+            </div>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => demoSignIn("+2348077890123", "hire")}
+                disabled={!!demoLoading}
+                className="rounded-2xl ring-1 ring-ink/10 bg-cream-50 px-3 py-3 hover:bg-ink/5 transition text-left disabled:opacity-50"
+              >
+                <div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-coral-600">For hire</div>
+                <div className="font-bold text-[14px] tracking-tight mt-0.5">Mrs. Okonkwo</div>
+                <div className="text-[11px] text-ink/55 mt-0.5">Customer · post jobs, fund escrow{demoLoading === "hire" ? " · loading…" : ""}</div>
+              </button>
+              <button
+                type="button"
+                onClick={() => demoSignIn("+2348011234567", "apply")}
+                disabled={!!demoLoading}
+                className="rounded-2xl ring-1 ring-ink/10 bg-cream-50 px-3 py-3 hover:bg-ink/5 transition text-left disabled:opacity-50"
+              >
+                <div className="text-[10px] uppercase tracking-[0.14em] font-semibold text-forest-700">For apply</div>
+                <div className="font-bold text-[14px] tracking-tight mt-0.5">Tunde Adeleke</div>
+                <div className="text-[11px] text-ink/55 mt-0.5">Worker · apply, deliver, get paid{demoLoading === "apply" ? " · loading…" : ""}</div>
+              </button>
+            </div>
+            <div className="text-[10.5px] text-ink/40 text-center mt-2">Skips OTP. Use these to walk judges through the flow end-to-end.</div>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           </div>
         </div>
       )}
 
       {step === "otp" && (
         <div className="space-y-5">
+<<<<<<< HEAD
           <div className="text-sm text-ink/70">Code sent to <span className="font-semibold text-ink">{phone}</span>{existing && <span className="ml-2 text-forest-500">· welcome back</span>}</div>
+=======
+          <div>
+            <h2 className="font-display text-[22px] font-bold tracking-tightest">
+              {existing ? "Welcome back." : "Almost there."}
+            </h2>
+            <div className="text-sm text-ink/70 mt-1">
+              Code sent to <span className="font-semibold text-ink">{phone}</span>
+              {existing
+                ? <span className="ml-2 text-forest-500">· signing you in</span>
+                : <span className="ml-2 text-coral-500">· creating new account</span>}
+            </div>
+          </div>
+
+          {modeMismatch && (
+            <div className="rounded-2xl bg-gold-200 ring-1 ring-gold-400 px-4 py-3 text-[12.5px] text-ink">
+              {mode === "signin"
+                ? <>No account found for this number — we'll create one for you. <button onClick={() => setMode("signup")} className="underline font-semibold ml-1">Switch to Sign up</button></>
+                : <>An account already exists for this number — we'll sign you in. <button onClick={() => setMode("signin")} className="underline font-semibold ml-1">Switch to Sign in</button></>}
+            </div>
+          )}
+
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <Input
             ref={otpRef}
             label="6-digit code"
@@ -109,6 +263,13 @@ export function AuthForm({ initialRole }: { initialRole?: "worker" | "customer" 
 
       {step === "name" && (
         <div className="space-y-5">
+<<<<<<< HEAD
+=======
+          <div>
+            <h2 className="font-display text-[22px] font-bold tracking-tightest">Set up your account.</h2>
+            <p className="text-[13px] text-ink/60 mt-1">First time here — pick how you'll use Squadco. You can change this later.</p>
+          </div>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <Input label="Your full name" autoFocus value={name} onChange={(e) => setName(e.target.value)} placeholder="As it appears on your NIN" />
           <div>
             <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/55">I'm here to</div>
@@ -123,7 +284,11 @@ export function AuthForm({ initialRole }: { initialRole?: "worker" | "customer" 
               I'll do both
             </button>
           </div>
+<<<<<<< HEAD
           <Button block size="lg" loading={loading} onClick={completeProfile} disabled={!name.trim()}>Continue</Button>
+=======
+          <Button block size="lg" loading={loading} onClick={completeProfile} disabled={!name.trim()}>Continue to KYC →</Button>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           {error && <p className="text-coral-600 text-sm text-center">{error}</p>}
         </div>
       )}
@@ -139,6 +304,7 @@ function RolePick({ label, desc, selected, onClick }: { label: string; desc: str
     </button>
   );
 }
+<<<<<<< HEAD
 
 function DemoQuickButton({ phone, label, setPhone }: { phone: string; label: string; setPhone: (p: string) => void }) {
   return (
@@ -151,3 +317,5 @@ function DemoQuickButton({ phone, label, setPhone }: { phone: string; label: str
     </button>
   );
 }
+=======
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293

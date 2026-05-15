@@ -8,6 +8,7 @@
       <stop offset="0%" stop-color="#E04848" stop-opacity="0.16"/>
       <stop offset="60%" stop-color="#E04848" stop-opacity="0"/>
     </radialGradient>
+<<<<<<< HEAD
     <linearGradient id="coralGrad" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#F08A6E"/>
       <stop offset="1" stop-color="#C73838"/>
@@ -23,10 +24,17 @@
     <pattern id="dots" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
       <circle cx="1" cy="1" r="0.7" fill="#0A0A0A" fill-opacity="0.06"/>
     </pattern>
+=======
+    <pattern id="dots" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="0.7" fill="#0A0A0A" fill-opacity="0.06"/>
+    </pattern>
+
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
       <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0A0A0A" flood-opacity="0.18"/>
     </filter>
     <filter id="pinShadow" x="-50%" y="-50%" width="200%" height="200%">
+<<<<<<< HEAD
       <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#0A0A0A" flood-opacity="0.25"/>
     </filter>
     <style>
@@ -39,6 +47,79 @@
       .price { font: 800 14px/1 "Inter", system-ui, sans-serif; letter-spacing: -0.02em; }
       .name { font: 800 15px/1 "Inter", system-ui, sans-serif; letter-spacing: -0.02em; }
       .meta { font: 500 11px/1.2 "Inter", system-ui, sans-serif; }
+=======
+      <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#0A0A0A" flood-opacity="0.20"/>
+    </filter>
+
+    <clipPath id="mapClip">
+      <rect x="0" y="34" width="380" height="284"/>
+    </clipPath>
+    <clipPath id="cardClip">
+      <rect x="0" y="0" width="380" height="318" rx="20" ry="20"/>
+    </clipPath>
+
+    <!-- Notionists-style avatars -->
+    <symbol id="face-a" viewBox="-30 -30 60 60">
+      <path d="M-18 -8 Q -22 -22 -8 -24 Q 4 -28 14 -22 Q 22 -16 20 -4 L 16 -8 Q 8 -12 -2 -10 Q -12 -8 -16 -2 Z" fill="#1a1a1a"/>
+      <ellipse cx="0" cy="2" rx="12" ry="14" fill="#C9926A"/>
+      <path d="M-14 24 Q -12 14 -8 10 L 8 10 Q 12 14 14 24 L 14 30 L -14 30 Z" fill="#FDF8EF" stroke="#1a1a1a" stroke-width="1.2"/>
+      <circle cx="-4" cy="2" r="1.2" fill="#1a1a1a"/>
+      <circle cx="5" cy="2" r="1.2" fill="#1a1a1a"/>
+      <path d="M-3 8 Q 0 10 3 8" stroke="#1a1a1a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="face-b" viewBox="-30 -30 60 60">
+      <circle cx="0" cy="-18" r="6" fill="#1a1a1a"/>
+      <path d="M-14 -4 Q -16 -16 -2 -18 Q 12 -20 16 -8 L 14 -2 Q 6 -8 -2 -6 Q -10 -4 -14 0 Z" fill="#1a1a1a"/>
+      <ellipse cx="0" cy="2" rx="12" ry="14" fill="#A87554"/>
+      <path d="M-14 24 Q -12 14 -8 10 L 8 10 Q 12 14 14 24 L 14 30 L -14 30 Z" fill="#FDF8EF" stroke="#1a1a1a" stroke-width="1.2"/>
+      <circle cx="-4" cy="2" r="1.2" fill="#1a1a1a"/>
+      <circle cx="5" cy="2" r="1.2" fill="#1a1a1a"/>
+      <path d="M-3 8 Q 0 10 3 8" stroke="#1a1a1a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="face-c" viewBox="-30 -30 60 60">
+      <path d="M-16 -6 Q -18 -20 0 -22 Q 18 -20 16 -6 L 16 -2 L -16 -2 Z" fill="#1a1a1a"/>
+      <ellipse cx="0" cy="2" rx="12" ry="14" fill="#8B5A3C"/>
+      <path d="M-14 24 Q -12 14 -8 10 L 8 10 Q 12 14 14 24 L 14 30 L -14 30 Z" fill="#FDF8EF" stroke="#1a1a1a" stroke-width="1.2"/>
+      <rect x="-9" y="-1" width="7" height="5" rx="1" fill="#1a1a1a"/>
+      <rect x="2" y="-1" width="7" height="5" rx="1" fill="#1a1a1a"/>
+      <path d="M-3 9 Q 0 11 3 9" stroke="#1a1a1a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="face-d" viewBox="-30 -30 60 60">
+      <path d="M-18 -10 Q -20 -24 0 -26 Q 20 -24 18 -10 Q 18 -4 14 -2 L -14 -2 Q -18 -4 -18 -10 Z" fill="#E04848"/>
+      <path d="M-14 -8 Q -10 -14 0 -14 Q 10 -14 14 -8" stroke="#FDF8EF" stroke-width="1.5" fill="none"/>
+      <ellipse cx="0" cy="2" rx="12" ry="14" fill="#A87554"/>
+      <path d="M-14 24 Q -12 14 -8 10 L 8 10 Q 12 14 14 24 L 14 30 L -14 30 Z" fill="#FDF8EF" stroke="#1a1a1a" stroke-width="1.2"/>
+      <circle cx="-4" cy="2" r="1.2" fill="#1a1a1a"/>
+      <circle cx="5" cy="2" r="1.2" fill="#1a1a1a"/>
+      <path d="M-3 8 Q 0 10 3 8" stroke="#1a1a1a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="face-e" viewBox="-30 -30 60 60">
+      <path d="M-16 -4 Q -20 -22 -2 -24 Q 16 -26 18 -10 Q 18 -4 16 -2 L -16 -2 Z" fill="#1a1a1a"/>
+      <ellipse cx="0" cy="2" rx="12" ry="14" fill="#C9926A"/>
+      <path d="M-14 24 Q -12 14 -8 10 L 8 10 Q 12 14 14 24 L 14 30 L -14 30 Z" fill="#FDF8EF" stroke="#1a1a1a" stroke-width="1.2"/>
+      <circle cx="-4" cy="2" r="1.2" fill="#1a1a1a"/>
+      <circle cx="5" cy="2" r="1.2" fill="#1a1a1a"/>
+      <path d="M-5 12 Q 0 16 5 12 L 4 14 Q 0 17 -4 14 Z" fill="#1a1a1a"/>
+    </symbol>
+    <symbol id="face-f" viewBox="-30 -30 60 60">
+      <path d="M-18 0 Q -22 -22 0 -24 Q 22 -22 18 0 L 18 12 L 14 8 Q 14 -2 8 -4 L -8 -4 Q -14 -2 -14 8 L -18 12 Z" fill="#1a1a1a"/>
+      <ellipse cx="0" cy="2" rx="12" ry="14" fill="#A87554"/>
+      <path d="M-14 24 Q -12 14 -8 10 L 8 10 Q 12 14 14 24 L 14 30 L -14 30 Z" fill="#FDF8EF" stroke="#1a1a1a" stroke-width="1.2"/>
+      <circle cx="-4" cy="2" r="1.2" fill="#1a1a1a"/>
+      <circle cx="5" cy="2" r="1.2" fill="#1a1a1a"/>
+      <path d="M-3 8 Q 0 10 3 8" stroke="#1a1a1a" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    </symbol>
+
+    <style>
+      .h1 { font: 800 60px/0.96 "Inter", -apple-system, system-ui, sans-serif; letter-spacing: -0.035em; }
+      .tag { font: 600 11px/1 "Inter", system-ui, sans-serif; letter-spacing: 0.18em; text-transform: uppercase; }
+      .sub { font: 500 15px/1.5 "Inter", system-ui, sans-serif; letter-spacing: -0.01em; }
+      .chip { font: 700 12px/1 "Inter", system-ui, sans-serif; letter-spacing: -0.005em; }
+      .small { font: 500 10px/1 "Inter", system-ui, sans-serif; letter-spacing: 0.08em; }
+      .name { font: 800 14px/1 "Inter", system-ui, sans-serif; letter-spacing: -0.02em; }
+      .meta { font: 500 10px/1.2 "Inter", system-ui, sans-serif; }
+      .countpill { font: 700 11px/1 "Inter", system-ui, sans-serif; letter-spacing: -0.01em; }
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     </style>
   </defs>
 
@@ -49,6 +130,7 @@
   <rect width="1280" height="440" fill="url(#dots)"/>
 
   <!-- LEFT — branding + headline -->
+<<<<<<< HEAD
   <g transform="translate(64,64)">
     <!-- Hackathon tag pill -->
     <g>
@@ -105,10 +187,65 @@
       <g transform="translate(502,0)">
         <rect x="0" y="-22" width="78" height="28" rx="999" fill="#F0A04A"/>
         <text x="39" y="-3" class="chip" fill="#0A0A0A" text-anchor="middle">NDPA ✓</text>
+=======
+  <g transform="translate(64,48)">
+    <!-- Hackathon tag pill (widened so text fits) -->
+    <g>
+      <rect x="0" y="0" rx="999" ry="999" width="430" height="28" fill="#0A0A0A"/>
+      <circle cx="18" cy="14" r="4" fill="#E04848"/>
+      <text x="28" y="18" class="tag" fill="#FDF8EF">GTCO Squad Hackathon 3.0 · Challenge 02</text>
+    </g>
+
+    <!-- Brand mark + wordmark -->
+    <g transform="translate(0,44)">
+      <rect x="0" y="0" rx="12" ry="12" width="48" height="48" fill="#0A0A0A"/>
+      <text x="24" y="35" font-family="Inter, sans-serif" font-weight="900" font-size="28" letter-spacing="-2" fill="#FDF8EF" text-anchor="middle">S</text>
+      <circle cx="39" cy="11" r="3.5" fill="#E04848"/>
+      <text x="60" y="36" font-family="Inter, sans-serif" font-weight="900" font-size="38" letter-spacing="-2" fill="#0A0A0A">Squadco</text>
+      <text x="232" y="36" font-family="Inter, sans-serif" font-weight="500" font-size="26" letter-spacing="-1" fill="#0A0A0A" fill-opacity="0.45">/ escrow</text>
+    </g>
+
+    <!-- Headline (60px, fits) -->
+    <g transform="translate(0,128)">
+      <text class="h1" fill="#0A0A0A" x="0" y="48">Hire Nigeria's <tspan font-style="italic" fill="#E04848">hustle.</tspan></text>
+      <text class="h1" fill="#0A0A0A" x="0" y="108">Pay only when <tspan font-style="italic" fill="#1F5234">it's done.</tspan></text>
+      <rect x="298" y="114" width="210" height="7" fill="#F0A04A"/>
+    </g>
+
+    <!-- Subtext -->
+    <text class="sub" x="0" y="278" fill="#0A0A0A" fill-opacity="0.72">
+      <tspan x="0" dy="0">Discovery-first job marketplace for the 92% of Nigerians who</tspan>
+      <tspan x="0" dy="19">work informally. 25,000+ artisans pinned. Funds locked in a</tspan>
+      <tspan x="0" dy="19">Squad VA. Released only when both sides confirm. T+1 to bank.</tspan>
+    </text>
+
+    <!-- Chips -->
+    <g transform="translate(0,358)">
+      <g>
+        <rect x="0" y="-20" width="106" height="26" rx="999" fill="#0A0A0A"/>
+        <text x="53" y="-3" class="chip" fill="#FDF8EF" text-anchor="middle">92.3% informal</text>
+      </g>
+      <g transform="translate(116,0)">
+        <rect x="0" y="-20" width="80" height="26" rx="999" fill="#FDF8EF" stroke="#0A0A0A" stroke-opacity="0.18"/>
+        <text x="40" y="-3" class="chip" fill="#0A0A0A" text-anchor="middle">127m NIN</text>
+      </g>
+      <g transform="translate(206,0)">
+        <rect x="0" y="-20" width="106" height="26" rx="999" fill="#E04848"/>
+        <text x="53" y="-3" class="chip" fill="#FDF8EF" text-anchor="middle">8 Squad APIs</text>
+      </g>
+      <g transform="translate(322,0)">
+        <rect x="0" y="-20" width="114" height="26" rx="999" fill="#0E2A1F"/>
+        <text x="57" y="-3" class="chip" fill="#FDF8EF" text-anchor="middle">25k+ artisans</text>
+      </g>
+      <g transform="translate(446,0)">
+        <rect x="0" y="-20" width="68" height="26" rx="999" fill="#F0A04A"/>
+        <text x="34" y="-3" class="chip" fill="#0A0A0A" text-anchor="middle">NDPA ✓</text>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
       </g>
     </g>
   </g>
 
+<<<<<<< HEAD
   <!-- RIGHT — stylised Lagos map + pop card -->
   <g transform="translate(810,44)">
     <!-- Map card -->
@@ -201,6 +338,224 @@
         <g transform="translate(312,15)">
           <rect width="58" height="32" rx="999" fill="#E04848"/>
           <text x="29" y="20" class="chip" fill="#FDF8EF" text-anchor="middle">Hire</text>
+=======
+  <!-- RIGHT — phone-style map card (narrower, doesn't collide with headline) -->
+  <g transform="translate(836,42)">
+    <g filter="url(#cardShadow)">
+      <rect x="0" y="0" rx="20" ry="20" width="380" height="318" fill="#F4ECDF" stroke="#0A0A0A" stroke-opacity="0.10"/>
+    </g>
+
+    <g clip-path="url(#cardClip)">
+      <!-- Header strip -->
+      <rect x="0" y="0" width="380" height="34" fill="#0A0A0A"/>
+      <circle cx="18" cy="17" r="4.5" fill="#E04848"/>
+      <circle cx="32" cy="17" r="4.5" fill="#F0A04A"/>
+      <circle cx="46" cy="17" r="4.5" fill="#5AA77E"/>
+      <text x="190" y="21" class="small" fill="#FDF8EF" text-anchor="middle">LAGOS · 25,427 PINNED</text>
+
+      <!-- Map body -->
+      <g clip-path="url(#mapClip)">
+        <rect x="0" y="34" width="380" height="284" fill="#F4ECDF"/>
+
+        <!-- Yellow roads -->
+        <g fill="none" stroke="#F5D58A" stroke-width="12" stroke-linecap="round" opacity="0.95">
+          <path d="M-20 90 Q 120 80 230 105 T 400 100"/>
+          <path d="M-20 210 Q 140 195 270 215 T 400 220"/>
+          <path d="M160 34 Q 190 130 220 215 T 250 340"/>
+          <path d="M320 34 Q 300 130 330 220 T 350 340"/>
+        </g>
+        <g fill="none" stroke="#F5D58A" stroke-width="7" stroke-linecap="round" opacity="0.75">
+          <path d="M-20 155 Q 110 145 230 165 T 400 168"/>
+          <path d="M80 34 Q 90 140 100 270"/>
+        </g>
+        <!-- Smaller streets -->
+        <g fill="none" stroke="#FDF8EF" stroke-width="2.5" opacity="0.85">
+          <path d="M-20 62 L 400 66"/>
+          <path d="M-20 128 L 400 132"/>
+          <path d="M-20 188 L 400 192"/>
+          <path d="M-20 248 L 400 254"/>
+          <path d="M44 34 L 50 320"/>
+          <path d="M124 34 L 132 320"/>
+          <path d="M250 34 L 258 320"/>
+          <path d="M360 34 L 366 320"/>
+        </g>
+
+        <!-- Road label -->
+        <text x="180" y="138" font-family="Inter, sans-serif" font-size="8" font-weight="600" fill="#0A0A0A" fill-opacity="0.35" transform="rotate(-3 180 138)">Agege Motor Road</text>
+
+        <!-- PINS — row 1 -->
+        <g transform="translate(62,92)" filter="url(#pinShadow)">
+          <circle r="22" fill="#0E2A1F"/>
+          <circle r="18" fill="#F4C994"/>
+          <use href="#face-a" x="-16" y="-16" width="32" height="32"/>
+          <g transform="translate(12,-16)">
+            <circle r="7.5" fill="#F0A04A" stroke="#FDF8EF" stroke-width="1.5"/>
+            <text y="3" text-anchor="middle" font-size="10" font-weight="700" fill="#0A0A0A">★</text>
+          </g>
+          <g transform="translate(13,13)">
+            <circle r="9" fill="#0A0A0A"/>
+            <path d="M-2.5 -3 L 1 -1 L -1 1 L 2.5 3" stroke="#F0A04A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </g>
+        </g>
+
+        <g transform="translate(140,74)" filter="url(#pinShadow)">
+          <circle r="22" fill="#F0A04A"/>
+          <circle r="18" fill="#FDF8EF"/>
+          <use href="#face-b" x="-16" y="-16" width="32" height="32"/>
+          <g transform="translate(12,-16)">
+            <circle r="7.5" fill="#F0A04A" stroke="#FDF8EF" stroke-width="1.5"/>
+            <text y="3" text-anchor="middle" font-size="10" font-weight="700" fill="#0A0A0A">★</text>
+          </g>
+          <g transform="translate(13,13)">
+            <circle r="9" fill="#0A0A0A"/>
+            <circle r="3.5" fill="#E04848"/>
+          </g>
+        </g>
+
+        <g transform="translate(220,100)" filter="url(#pinShadow)">
+          <circle r="22" fill="#3E8E5C"/>
+          <circle r="18" fill="#C7E5D2"/>
+          <use href="#face-c" x="-16" y="-16" width="32" height="32"/>
+          <g transform="translate(12,-16)">
+            <circle r="7.5" fill="#F0A04A" stroke="#FDF8EF" stroke-width="1.5"/>
+            <text y="3" text-anchor="middle" font-size="10" font-weight="700" fill="#0A0A0A">★</text>
+          </g>
+          <g transform="translate(13,13)">
+            <circle r="9" fill="#0A0A0A"/>
+            <path d="M-3 -2 L 3 -2 M -3 0 L 3 0 M -3 2 L 3 2" stroke="#A0E0FF" stroke-width="1.4" stroke-linecap="round"/>
+          </g>
+        </g>
+
+        <g transform="translate(310,78)" filter="url(#pinShadow)">
+          <circle r="22" fill="#0E2A1F"/>
+          <circle r="18" fill="#F0A04A"/>
+          <use href="#face-d" x="-16" y="-16" width="32" height="32"/>
+          <g transform="translate(12,-16)">
+            <circle r="7.5" fill="#F0A04A" stroke="#FDF8EF" stroke-width="1.5"/>
+            <text y="3" text-anchor="middle" font-size="10" font-weight="700" fill="#0A0A0A">★</text>
+          </g>
+          <g transform="translate(13,13)">
+            <circle r="9" fill="#0A0A0A"/>
+            <path d="M-2 -3.5 L -2 3.5 M 0 -3.5 L 0 3.5 M 2 -3.5 L 2 3.5" stroke="#FDF8EF" stroke-width="0.9" stroke-linecap="round"/>
+          </g>
+        </g>
+
+        <!-- Row 2 -->
+        <g transform="translate(88,170)" filter="url(#pinShadow)">
+          <circle r="22" fill="#F0A04A"/>
+          <circle r="18" fill="#C7E5D2"/>
+          <use href="#face-e" x="-16" y="-16" width="32" height="32"/>
+          <g transform="translate(12,-16)">
+            <circle r="7.5" fill="#F0A04A" stroke="#FDF8EF" stroke-width="1.5"/>
+            <text y="3" text-anchor="middle" font-size="10" font-weight="700" fill="#0A0A0A">★</text>
+          </g>
+          <g transform="translate(13,13)">
+            <circle r="9" fill="#0A0A0A"/>
+            <path d="M-3.5 0 Q -3.5 -3 0 -3 Q 3.5 -3 3.5 0 L 3.5 2 L 1.5 2 L 1.5 0 Q 1.5 -1.5 0 -1.5 Q -1.5 -1.5 -1.5 0 L -1.5 2 L -3.5 2 Z" fill="#FDF8EF"/>
+          </g>
+        </g>
+
+        <g transform="translate(180,162)" filter="url(#pinShadow)">
+          <circle r="22" fill="#0E2A1F"/>
+          <circle r="18" fill="#FDF8EF"/>
+          <use href="#face-f" x="-16" y="-16" width="32" height="32"/>
+          <g transform="translate(12,-16)">
+            <circle r="7.5" fill="#F0A04A" stroke="#FDF8EF" stroke-width="1.5"/>
+            <text y="3" text-anchor="middle" font-size="10" font-weight="700" fill="#0A0A0A">★</text>
+          </g>
+          <g transform="translate(13,13)">
+            <circle r="9" fill="#0A0A0A"/>
+            <path d="M0 -3.5 L 1 -1 L 3.5 -0.5 L 1.5 1 L 2 3.5 L 0 2 L -2 3.5 L -1.5 1 L -3.5 -0.5 L -1 -1 Z" fill="#F0A04A"/>
+          </g>
+        </g>
+
+        <g transform="translate(270,180)" filter="url(#pinShadow)">
+          <circle r="22" fill="#F0A04A"/>
+          <circle r="18" fill="#FDF8EF"/>
+          <use href="#face-c" x="-16" y="-16" width="32" height="32"/>
+          <g transform="translate(12,-16)">
+            <circle r="7.5" fill="#F0A04A" stroke="#FDF8EF" stroke-width="1.5"/>
+            <text y="3" text-anchor="middle" font-size="10" font-weight="700" fill="#0A0A0A">★</text>
+          </g>
+          <g transform="translate(13,13)">
+            <circle r="9" fill="#0A0A0A"/>
+            <rect x="-3" y="-2" width="6" height="4" rx="0.5" fill="#FDF8EF"/>
+            <circle cx="2" cy="-2.5" r="0.8" fill="#FDF8EF"/>
+          </g>
+        </g>
+
+        <g transform="translate(340,168)" filter="url(#pinShadow)">
+          <circle r="22" fill="#3E8E5C"/>
+          <circle r="18" fill="#F4C994"/>
+          <use href="#face-a" x="-16" y="-16" width="32" height="32"/>
+          <g transform="translate(12,-16)">
+            <circle r="7.5" fill="#F0A04A" stroke="#FDF8EF" stroke-width="1.5"/>
+            <text y="3" text-anchor="middle" font-size="10" font-weight="700" fill="#0A0A0A">★</text>
+          </g>
+          <g transform="translate(13,13)">
+            <circle r="9" fill="#0A0A0A"/>
+            <path d="M-2.5 -3 L 1 -1 L -1 1 L 2.5 3" stroke="#F0A04A" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+          </g>
+        </g>
+
+        <!-- Filter pill row, top of map -->
+        <g transform="translate(12,46)">
+          <g>
+            <rect width="36" height="20" rx="10" fill="#FDF8EF" stroke="#0A0A0A" stroke-opacity="0.12"/>
+            <text x="18" y="14" class="meta" font-weight="700" fill="#0A0A0A" text-anchor="middle">All</text>
+          </g>
+          <g transform="translate(42,0)">
+            <rect width="78" height="20" rx="10" fill="#0A0A0A"/>
+            <text x="39" y="14" class="meta" font-weight="700" fill="#FDF8EF" text-anchor="middle">★ Top-rated</text>
+          </g>
+          <g transform="translate(126,0)">
+            <rect width="60" height="20" rx="10" fill="#FDF8EF" stroke="#0A0A0A" stroke-opacity="0.12"/>
+            <text x="30" y="14" class="meta" font-weight="700" fill="#0A0A0A" text-anchor="middle">Verified</text>
+          </g>
+          <g transform="translate(192,0)">
+            <rect width="72" height="20" rx="10" fill="#FDF8EF" stroke="#0A0A0A" stroke-opacity="0.12"/>
+            <text x="36" y="14" class="meta" font-weight="700" fill="#0A0A0A" text-anchor="middle">Discovered</text>
+          </g>
+          <g transform="translate(270,0)">
+            <rect width="40" height="20" rx="10" fill="#E04848"/>
+            <text x="20" y="14" class="meta" font-weight="700" fill="#FDF8EF" text-anchor="middle">Any</text>
+          </g>
+        </g>
+
+        <!-- Pop-card overlay: Gen Genius Lagos (widened, badge moves to its own line) -->
+        <g transform="translate(12,228)" filter="url(#cardShadow)">
+          <rect width="356" height="78" rx="14" ry="14" fill="#FDF8EF" stroke="#0A0A0A" stroke-opacity="0.10"/>
+
+          <!-- avatar tile w/ proper ring -->
+          <g transform="translate(36,39)">
+            <circle r="26" fill="#0E2A1F"/>
+            <circle r="22" fill="#F0A04A"/>
+            <use href="#face-a" x="-19" y="-19" width="38" height="38"/>
+            <g transform="translate(16,-19)">
+              <circle r="8.5" fill="#F0A04A" stroke="#FDF8EF" stroke-width="1.8"/>
+              <text y="3" text-anchor="middle" font-size="11" font-weight="700" fill="#0A0A0A">★</text>
+            </g>
+            <g transform="translate(17,17)">
+              <circle r="10" fill="#0A0A0A"/>
+              <path d="M-3 -3.5 L 1 -1 L -1 1 L 3 3.5" stroke="#F0A04A" stroke-width="2" fill="none" stroke-linecap="round"/>
+            </g>
+          </g>
+
+          <!-- text block -->
+          <text x="78" y="24" class="name" fill="#0A0A0A">Gen Genius Lagos</text>
+          <g transform="translate(216,12)">
+            <rect width="58" height="16" rx="999" fill="#F0A04A"/>
+            <text x="29" y="11" class="meta" font-weight="800" fill="#0A0A0A" text-anchor="middle">★ TOP 92</text>
+          </g>
+          <text x="78" y="44" class="meta" fill="#0A0A0A" fill-opacity="0.55">Lekki · ★ 4.8 · 132 jobs · @gengeniuslagos</text>
+          <text x="78" y="62" class="meta" fill="#1F5234" font-weight="700">WhatsApp ✓ · NIN verified · Generator repair</text>
+
+          <!-- hire btn -->
+          <g transform="translate(290,24)">
+            <rect width="52" height="30" rx="999" fill="#E04848"/>
+            <text x="26" y="19" class="chip" fill="#FDF8EF" text-anchor="middle">Hire</text>
+          </g>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
         </g>
       </g>
     </g>
@@ -208,5 +563,9 @@
 
   <!-- Footer hairline + sub-tag -->
   <rect x="64" y="408" width="608" height="1" fill="#0A0A0A" fill-opacity="0.10"/>
+<<<<<<< HEAD
   <text x="64" y="430" class="small" fill="#0A0A0A" fill-opacity="0.45">Built end-to-end on Squad APIs · Dynamic VA escrow · HMAC webhooks · Transfer API · NDPA-ready Day 1</text>
+=======
+  <text x="64" y="426" class="small" fill="#0A0A0A" fill-opacity="0.45">Built on Squad APIs · Dynamic VA escrow · HMAC webhooks · Transfer API · NDPA-ready Day 1</text>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 </svg>

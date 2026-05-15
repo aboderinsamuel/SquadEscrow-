@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { mutate, readDB, id, hashPII } from "./db";
+=======
+import { mutateAndPersist, readDB, id, hashPII, ensureHydrated } from "./db";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 import type { User, Job, Application } from "./types";
 import { seedDiscovery } from "./discovery";
 
@@ -27,6 +31,7 @@ const sampleJobs: (Partial<Job> & { customer_phone: string })[] = [
   { customer_phone: "+2348088901234", title: "Social-media graphics — 10 posts", description: "Instagram product posts for phone accessories. Templates available.", category: "graphic_design", amount: 35000, area: "Remote", urgency: "flexible" },
 ];
 
+<<<<<<< HEAD
 export function seedIfEmpty() {
   const db = readDB();
   if ((db as any)[SEEDED_FLAG]) { seedDiscovery(); return; }
@@ -36,6 +41,17 @@ export function seedIfEmpty() {
     return;
   }
   mutate((db) => {
+=======
+export async function seedIfEmpty() {
+  const db = await ensureHydrated();
+  if ((db as any)[SEEDED_FLAG]) { await seedDiscovery(); return; }
+  if (db.users.length > 0) {
+    (db as any)[SEEDED_FLAG] = true;
+    await seedDiscovery();
+    return;
+  }
+  await mutateAndPersist((db) => {
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     const phoneToId = new Map<string, string>();
     for (const w of sampleWorkers) {
       const uid = id("u");
@@ -105,7 +121,11 @@ export function seedIfEmpty() {
       firstJob.state = "FUNDED";
       firstJob.funded_at = Date.now() - 8 * 60_000;
       firstJob.escrow_va = "9035120048";
+<<<<<<< HEAD
       firstJob.escrow_ref = "JARA-" + firstJob.id;
+=======
+      firstJob.escrow_ref = "SQUADCO-" + firstJob.id;
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
       db.transactions.push({
         id: id("tx"),
         job_id: firstJob.id,
@@ -148,5 +168,9 @@ export function seedIfEmpty() {
 
     (db as any)[SEEDED_FLAG] = true;
   });
+<<<<<<< HEAD
   seedDiscovery();
+=======
+  await seedDiscovery();
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 }

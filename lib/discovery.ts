@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { mutate, readDB, id, hashPII } from "./db";
+=======
+import { mutateAndPersist, readDB, ensureHydrated, id, hashPII } from "./db";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 import type { User, SocialHandle, Comment } from "./types";
 
 // Fuzzy name-match score — simulates Squad account_name vs business_name check.
@@ -555,8 +559,13 @@ function generateProceduralArtisans(count: number): DiscoverySeed[] {
   return out;
 }
 
+<<<<<<< HEAD
 function seedFrom(seeds: DiscoverySeed[]) {
   mutate((db) => {
+=======
+async function seedFrom(seeds: DiscoverySeed[]) {
+  await mutateAndPersist((db) => {
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     for (const s of seeds) {
       const [lat, lng] = LAGOS_AREAS[s.area];
       const uid = id("u");
@@ -633,6 +642,7 @@ function seedFrom(seeds: DiscoverySeed[]) {
   });
 }
 
+<<<<<<< HEAD
 const PROC_FLAG = "__proc_seeded";
 
 export function seedDiscovery() {
@@ -651,4 +661,31 @@ export function seedDiscovery() {
     seedFrom(generateProceduralArtisans(260));
     mutate((db) => { (db as any)[PROC_FLAG] = true; });
   }
+=======
+export async function seedDiscovery() {
+  const db = await ensureHydrated();
+
+  // Count business artisans currently visible in the cache. The previous
+  // implementation gated on an in-memory `__proc_seeded` flag, which got
+  // wiped on every cold lambda — so every cold start re-ran the seed and
+  // pushed another 260 procedural rows into Supabase. The users table grew
+  // unbounded that way (3933 rows in production by the time we caught it).
+  //
+  // Replacing the flag with an empirical count makes the seed idempotent:
+  // once the discovery population is healthy, this is a no-op forever.
+  // Even with Supabase's 1000-row default page limit on hydration, a properly
+  // seeded DB yields far more than the threshold here.
+  const businessCount = db.users.filter((u) => u.business_name).length;
+
+  if (businessCount >= 50) return;
+
+  if (businessCount === 0) {
+    await seedFrom([...SEED, ...generateProceduralArtisans(260)]);
+    return;
+  }
+
+  // Some curated rows present (e.g. an old partial run) but no procedural
+  // top-up. Add procedural once; the threshold above prevents repeats.
+  await seedFrom(generateProceduralArtisans(260));
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 }

@@ -23,6 +23,7 @@ export function jaraScore(u: Partial<User>): ScoreBreakdown {
   const kycTier = u.kyc_tier ?? 0;
   const tenureDays = u.created_at ? Math.floor((Date.now() - u.created_at) / 86_400_000) : 0;
 
+<<<<<<< HEAD
   // 12-ingredient model from the deck (slide 19), using dynamic credibility if available
   let s = 300;
   if (u.credibility !== undefined) {
@@ -37,6 +38,17 @@ export function jaraScore(u: Partial<User>): ScoreBreakdown {
     s += kycTier * 20; // KYC strength
     s += Math.min(40, tenureDays * 0.2); // tenure
   }
+=======
+  // 12-ingredient model from the deck (slide 19), simplified for demo
+  let s = 300;
+  s += Math.min(120, completedJobs * 4); // completion (max 120)
+  s += Math.min(100, onTime * 100); // on-time delivery (max 100)
+  s += Math.min(120, rating * 24); // avg rating (max 120 @ 5.0)
+  s += Math.min(80, completedJobs * 1.5); // earnings velocity proxy
+  s -= Math.min(120, disputes * 30); // dispute penalty
+  s += kycTier * 20; // KYC strength
+  s += Math.min(40, tenureDays * 0.2); // tenure
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   s = Math.max(300, Math.min(850, Math.round(s)));
 
   let bandLabel = "Building";

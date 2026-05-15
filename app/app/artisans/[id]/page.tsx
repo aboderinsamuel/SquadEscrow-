@@ -1,7 +1,11 @@
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { getSessionUser } from "@/lib/auth";
+<<<<<<< HEAD
 import { readDB } from "@/lib/db";
+=======
+import { readDB, findUserById } from "@/lib/db";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 import { seedIfEmpty } from "@/lib/seed";
 import { AppHeader } from "@/components/AppHeader";
 import { Badge } from "@/components/Badge";
@@ -12,6 +16,7 @@ import { TrustPanel } from "@/components/TrustPanel";
 import { Reviews } from "@/components/Reviews";
 import { ClaimButton } from "./ClaimButton";
 import { LikeButton } from "./LikeButton";
+<<<<<<< HEAD
 import { categoryLabel, naira } from "@/lib/utils";
 
 export default async function ArtisanProfile({ params }: { params: { id: string } }) {
@@ -21,6 +26,23 @@ export default async function ArtisanProfile({ params }: { params: { id: string 
   const db = readDB();
   const a = db.users.find((u) => u.id === params.id && u.business_name);
   if (!a) notFound();
+=======
+import { BitmojiAvatar } from "@/components/BitmojiAvatar";
+import { categoryLabel, naira } from "@/lib/utils";
+
+export default async function ArtisanProfile({ params }: { params: { id: string } }) {
+  await seedIfEmpty();
+  const me = await getSessionUser();
+  if (!me) redirect("/auth");
+  // Use the Supabase-fallback helper so we don't 404 when the artisan record
+  // exists in Supabase but is missing from this lambda's partial cache. We
+  // accept any existing user — a freshly-onboarded artisan may not have a
+  // business_name yet (worker without business setup) but their profile
+  // should still render rather than 404. We fall back to their display name.
+  const a = await findUserById(params.id);
+  if (!a) notFound();
+  const db = readDB();
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
   const comments = db.comments.filter((c) => c.target_id === a.id);
   const verified = a.source === "registered" || a.claimed;
@@ -31,6 +53,7 @@ export default async function ArtisanProfile({ params }: { params: { id: string 
     <>
       <AppHeader back />
 
+<<<<<<< HEAD
       {/* Header card — bold, photo strip, business name */}
       <section className="-mt-1">
         <div className="rounded-3xl bg-ink text-cream-50 overflow-hidden">
@@ -41,13 +64,36 @@ export default async function ArtisanProfile({ params }: { params: { id: string 
                 {photos[i] || photos[i % Math.max(1, photos.length)] || "•"}
               </div>
             ))}
+=======
+      {/* Header card — bold, Bitmoji avatar, business name */}
+      <section className="-mt-1">
+        <div className="rounded-3xl bg-ink text-cream-50 overflow-hidden">
+          {/* Cover strip with Bitmoji as the centerpiece */}
+          <div className="relative h-40 bg-gradient-to-br from-coral-500 via-gold-400 to-forest-500 overflow-hidden">
+            <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "radial-gradient(rgba(255,255,255,0.4) 1px, transparent 1px)", backgroundSize: "12px 12px" }} />
+            <div className="absolute inset-0 grid place-items-center">
+              <BitmojiAvatar seed={a.id} size={120} ring />
+            </div>
+            {/* Floating service emoji badges */}
+            {photos.slice(0, 3).map((p, i) => (
+              <div key={i} className={"absolute text-2xl " + ["top-3 right-4","bottom-3 left-4","top-3 left-4"][i]} style={{ animation: `bobbing ${3 + i * 0.5}s ease-in-out infinite` }}>
+                <span className="inline-grid h-10 w-10 place-items-center rounded-2xl bg-cream-50 ring-1 ring-ink/15 shadow-card">{p}</span>
+              </div>
+            ))}
+            <style>{`@keyframes bobbing{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}`}</style>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           </div>
 
           <div className="p-5">
             <div className="flex items-start justify-between gap-2 flex-wrap">
               <div>
+<<<<<<< HEAD
                 <h1 className="text-[26px] font-bold tracking-tightest leading-[1.05]">{a.business_name}</h1>
                 <div className="text-[13px] text-cream-50/70 mt-1">{categoryLabel[a.skills?.[0] || "other"] || "Service"} · {a.area}</div>
+=======
+                <h1 className="text-[26px] font-bold tracking-tightest leading-[1.05]">{a.business_name || a.name || "Profile"}</h1>
+                <div className="text-[13px] text-cream-50/70 mt-1">{categoryLabel[a.skills?.[0] || "other"] || "Service"} · {a.area || "Lagos"}</div>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
               </div>
               <div className="flex flex-wrap items-center gap-1.5">
                 {a.credibility && a.credibility >= 85 && <Badge tone="gold">★ Top {a.credibility}</Badge>}
@@ -88,7 +134,11 @@ export default async function ArtisanProfile({ params }: { params: { id: string 
                 <div className="grid h-9 w-9 place-items-center rounded-full bg-ink text-cream-50 text-sm shrink-0">!</div>
                 <div className="flex-1">
                   <div className="font-bold text-ink">This profile was scraped from public sources</div>
+<<<<<<< HEAD
                   <p className="text-[12.5px] text-ink/65 mt-1">We aggregated public Instagram/Jiji/WhatsApp Business listings to bootstrap the directory. Owner: claim it to get NIN verification, escrow payouts, and the JARA Score.</p>
+=======
+                  <p className="text-[12.5px] text-ink/65 mt-1">We aggregated public Instagram/Jiji/WhatsApp Business listings to bootstrap the directory. Owner: claim it to get NIN verification, escrow payouts, and the Squadco Score.</p>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
                   <ClaimButton targetId={a.id} className="mt-3" />
                 </div>
               </div>

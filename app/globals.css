@@ -73,3 +73,106 @@ section[id] { scroll-margin-top: 80px; }
 }
 .step-dot.done { background: #3E8E5C; color: #FDF8EF; }
 .step-dot.active { background: #F0A04A; color: #0A0A0A; }
+<<<<<<< HEAD
+=======
+
+/* Scroll-reveal animation — paired with the IntersectionObserver helper in app/page.tsx */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Bouncy spring animation — Snapchat-style entrance */
+@keyframes spring-in {
+  0%   { transform: scale(0.6) translateY(20px); opacity: 0; }
+  60%  { transform: scale(1.08) translateY(-4px); opacity: 1; }
+  80%  { transform: scale(0.96) translateY(2px); }
+  100% { transform: scale(1) translateY(0); }
+}
+.spring-in { animation: spring-in 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+/* Float — bobbing UI elements like in the Snap Map preview */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+.float { animation: float 4s ease-in-out infinite; }
+.float-slow { animation: float 6s ease-in-out infinite; }
+
+/* Confetti pop — for moments of celebration */
+@keyframes pop {
+  0%   { transform: scale(0); opacity: 0; }
+  50%  { transform: scale(1.18); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.pop { animation: pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+/* Marquee infinite scroll */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee {
+  display: inline-flex;
+  animation: marquee-x 28s linear infinite;
+}
+
+/* Wiggle — Snapchat pin tap feedback */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-3deg); }
+  75%      { transform: rotate(3deg); }
+}
+.wiggle { animation: wiggle 0.5s ease-in-out; }
+
+/* Gradient text shimmer */
+@keyframes shimmer {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.text-shimmer {
+  background: linear-gradient(90deg, #E04848 0%, #F0A04A 25%, #3E8E5C 50%, #F0A04A 75%, #E04848 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+}
+
+/* Page-load hero rise */
+@keyframes hero-rise {
+  0%   { opacity: 0; transform: translateY(28px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.hero-rise { animation: hero-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.hero-rise-delay-1 { animation-delay: 0.08s; }
+.hero-rise-delay-2 { animation-delay: 0.18s; }
+.hero-rise-delay-3 { animation-delay: 0.28s; }
+.hero-rise-delay-4 { animation-delay: 0.40s; }
+
+/* Snap-style ping ring */
+@keyframes snap-ping {
+  0%   { transform: scale(0.6); opacity: 0.55; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+.snap-ping { animation: snap-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
+
+/* ── Syntax highlight tokens for home-page code showcase ── */
+.tok-kw    { color: #ff7eb3; font-weight: 600; }                      /* await, const */
+.tok-fn    { color: #ffd166; }                                        /* SQUAD, post */
+.tok-str   { color: #8de4a3; }                                        /* "strings" */
+.tok-tpl   { color: #ffe08a; }                                        /* `templates` */
+.tok-key   { color: #f8efdc; }                                        /* object keys */
+.tok-num   { color: #f5a04a; }                                        /* numbers */
+.tok-cm    { color: rgba(248, 239, 220, 0.40); font-style: italic; }  /* comments */
+.tok-pn    { color: rgba(248, 239, 220, 0.55); }                      /* punctuation */
+.tok-id    { color: #f8efdc; }                                        /* identifiers */
+.tok-const { color: #c5a3ff; }                                        /* CONSTANTS */
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293

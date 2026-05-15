@@ -3,7 +3,12 @@ import { Button } from "@/components/Button";
 import { Input, Textarea } from "@/components/Input";
 import { Badge } from "@/components/Badge";
 import { SocialChip } from "@/components/SocialChip";
+<<<<<<< HEAD
 import { useEffect, useRef, useState } from "react";
+=======
+import { LivenessCheck } from "@/components/LivenessCheck";
+import { useEffect, useState } from "react";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 import { useRouter } from "next/navigation";
 import { categoryLabel, categoryEmoji } from "@/lib/utils";
 import type { SocialHandle, SocialPlatform } from "@/lib/types";
@@ -20,10 +25,14 @@ export function BusinessOnboard({ banks }: { banks: Bank[] }) {
   const [nin, setNin] = useState("");
   const [bvn, setBvn] = useState("");
   const [selfieDataUrl, setSelfieDataUrl] = useState<string | null>(null);
+<<<<<<< HEAD
   const [livenessSteps, setLivenessSteps] = useState<{ step: string; passed: boolean }[]>([]);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [streaming, setStreaming] = useState(false);
+=======
+  const [showLiveness, setShowLiveness] = useState(false);
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   // Business profile fields
   const [businessName, setBusinessName] = useState("");
   const [bio, setBio] = useState("");
@@ -49,6 +58,7 @@ export function BusinessOnboard({ banks }: { banks: Bank[] }) {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+<<<<<<< HEAD
   useEffect(() => { if (step === 0) startCamera(); else stopCamera(); }, [step]);
 
   async function startCamera() {
@@ -80,6 +90,8 @@ export function BusinessOnboard({ banks }: { banks: Bank[] }) {
     stopCamera();
   }
 
+=======
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   async function lookup() {
     if (acct.length !== 10) return;
     setAcctLoading(true);
@@ -115,7 +127,11 @@ export function BusinessOnboard({ banks }: { banks: Bank[] }) {
         body: JSON.stringify({
           nin, bvn,
           bank_code: bank, account_number: acct, account_name: acctName,
+<<<<<<< HEAD
           liveness_passed: livenessSteps.length > 0 && livenessSteps.every(s => s.passed),
+=======
+          liveness_passed: !!selfieDataUrl,
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           skills, area, bio, role: "worker",
           business_name: businessName,
           social_handles: socials,
@@ -147,6 +163,7 @@ export function BusinessOnboard({ banks }: { banks: Bank[] }) {
         <div className="space-y-4 animate-rise">
           <Input label="NIN — 11 digits" inputMode="numeric" maxLength={11} value={nin} onChange={(e) => setNin(e.target.value.replace(/[^0-9]/g, ""))} placeholder="12345 67890 1" />
           <Input label="BVN — 11 digits" inputMode="numeric" maxLength={11} value={bvn} onChange={(e) => setBvn(e.target.value.replace(/[^0-9]/g, ""))} placeholder="22123456789" hint="Required for business tier — protects you and unlocks loans." />
+<<<<<<< HEAD
           <div className="relative rounded-3xl overflow-hidden ring-1 ring-ink/10 bg-ink aspect-square">
             {!selfieDataUrl ? (
               <>
@@ -180,6 +197,33 @@ export function BusinessOnboard({ banks }: { banks: Bank[] }) {
               <Button variant="outline" onClick={() => { setSelfieDataUrl(null); setLivenessSteps([]); startCamera(); }}>Retake</Button>
               <Button onClick={() => setStep(1)}>Continue</Button>
             </div>
+=======
+
+          {!selfieDataUrl && !showLiveness && (
+            <Button block size="lg" disabled={nin.length !== 11 || bvn.length !== 11} onClick={() => setShowLiveness(true)}>
+              Start liveness check
+            </Button>
+          )}
+
+          {showLiveness && !selfieDataUrl && (
+            <LivenessCheck
+              onPass={(url) => { setSelfieDataUrl(url); setShowLiveness(false); }}
+              onCancel={() => setShowLiveness(false)}
+            />
+          )}
+
+          {selfieDataUrl && (
+            <>
+              <div className="relative rounded-3xl overflow-hidden ring-1 ring-ink/10 bg-ink aspect-square">
+                <img src={selfieDataUrl} alt="Selfie" className="w-full h-full object-cover" />
+                <div className="absolute top-3 left-3 right-3 rounded-xl bg-forest-500 text-cream-50 px-3 py-2 text-sm font-bold">✓ Liveness passed · captured at {new Date().toLocaleTimeString()}</div>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="outline" onClick={() => { setSelfieDataUrl(null); setShowLiveness(true); }}>Retake</Button>
+                <Button onClick={() => setStep(1)}>Continue</Button>
+              </div>
+            </>
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           )}
         </div>
       )}

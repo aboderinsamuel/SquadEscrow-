@@ -34,7 +34,11 @@ function Icon({ name, dark }: { name: string; dark: boolean }) {
 export function BottomNav() {
   const pathname = usePathname() || "";
   return (
+<<<<<<< HEAD
     <nav className="fixed inset-x-0 bottom-0 z-30 pb-[max(env(safe-area-inset-bottom),12px)] pt-2 pointer-events-none">
+=======
+    <nav className="lg:hidden fixed inset-x-0 bottom-0 z-30 pb-[max(env(safe-area-inset-bottom),12px)] pt-2 pointer-events-none">
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
       <div className="mx-auto max-w-[480px] px-4 pointer-events-auto">
         <div className="rounded-full bg-cream-50 ring-1 ring-ink/10 shadow-card px-1.5 py-1.5 flex items-center gap-1">
           {TABS.map((t) => {

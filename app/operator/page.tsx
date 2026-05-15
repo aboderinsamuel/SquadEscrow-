@@ -3,6 +3,7 @@ import { seedIfEmpty } from "@/lib/seed";
 import { Logo } from "@/components/Logo";
 import Link from "next/link";
 import { naira, stateColor, stateLabel, timeAgo, categoryLabel } from "@/lib/utils";
+<<<<<<< HEAD
 import { isLive } from "@/lib/squad";
 
 export const dynamic = "force-dynamic";
@@ -12,6 +13,44 @@ export default function OperatorConsole() {
   const db = readDB();
   const stats = computeStats(db);
 
+=======
+import { isLive, walletBalance, merchantId } from "@/lib/squad";
+import { getSquadCalls } from "@/lib/squad-log";
+
+export const dynamic = "force-dynamic";
+
+// Endpoints this app integrates with — drives the "Endpoints integrated" grid.
+// We mark each one's last status by scanning the recent API call log.
+const SQUAD_ENDPOINTS: { path: string; label: string; purpose: string }[] = [
+  { path: "/virtual-account/business", label: "Static VA", purpose: "Per-customer escrow account" },
+  { path: "/virtual-account/create-dynamic-virtual-account", label: "Dynamic VA", purpose: "Per-job escrow account" },
+  { path: "/payout/account/lookup", label: "Account Lookup", purpose: "Verify bank name pre-payout" },
+  { path: "/payout/transfer", label: "Payout", purpose: "Disburse to worker" },
+  { path: "/transaction/refund", label: "Refund", purpose: "Dispute resolution" },
+  { path: "/virtual-account/merchant/transactions", label: "Transactions", purpose: "Reconciliation feed" },
+  { path: "/merchant/balance", label: "Wallet Balance", purpose: "Available NGN float" },
+  { path: "/sms/send/instant", label: "SMS / VAS", purpose: "Worker payout notice" },
+];
+
+export default async function OperatorConsole() {
+  await seedIfEmpty();
+  const db = readDB();
+  const stats = computeStats(db);
+
+  // Live Squad calls — fire in parallel so the page still renders fast if one is slow.
+  const [wallet] = await Promise.all([
+    walletBalance().catch((e) => ({ ok: false, error: String(e), balance: 0, source: "error" as const })),
+  ]);
+
+  const apiCalls = getSquadCalls();
+  const endpointStatus = new Map<string, { ok: boolean; status?: number; at: number }>();
+  for (const c of apiCalls) {
+    if (!endpointStatus.has(c.path)) {
+      endpointStatus.set(c.path, { ok: c.ok, status: c.status, at: c.at });
+    }
+  }
+
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   return (
     <main className="min-h-[100dvh] page-bg text-ink">
       <header className="border-b border-ink/8 px-6 py-4 flex items-center justify-between bg-cream-200/85 backdrop-blur sticky top-0 z-20">
@@ -43,6 +82,71 @@ export default function OperatorConsole() {
           <Stat label="Webhooks rx" v={String(stats.webhooks)} tone="ink" />
         </section>
 
+<<<<<<< HEAD
+=======
+        {/* ── SQUAD INTEGRATION PANEL — judge proof ── */}
+        <section className="rounded-3xl bg-cream-50 ring-1 ring-ink/10 p-6 md:p-8">
+          <div className="flex items-baseline justify-between flex-wrap gap-3 mb-5">
+            <div>
+              <div className="text-[10.5px] font-semibold uppercase tracking-[0.18em] text-coral-500">Squad API · live integration</div>
+              <h2 className="font-display text-2xl md:text-3xl font-bold tracking-tightest mt-1">8 endpoints wired. Merchant {merchantId}.</h2>
+              <p className="text-ink/65 text-[13.5px] mt-1.5">Every call routed through <code className="bg-ink/5 px-1.5 py-0.5 rounded text-[12px]">lib/squad.ts → callSquad()</code>, HMAC-SHA512 verified on the way back.</p>
+            </div>
+            <div className="rounded-2xl bg-ink text-cream-50 px-4 py-3 min-w-[180px]">
+              <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-cream-50/55">Live merchant balance</div>
+              <div className="mt-1 font-display text-xl font-bold tracking-tightest">
+                {wallet.ok ? naira(wallet.balance ?? 0) : <span className="text-coral-400 text-sm">{(wallet as any).error || "Unavailable"}</span>}
+              </div>
+              <div className="text-[10px] text-cream-50/55 mt-0.5">GET /merchant/balance</div>
+            </div>
+          </div>
+
+          {/* Endpoint integration grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+            {SQUAD_ENDPOINTS.map((ep) => {
+              const s = endpointStatus.get(ep.path);
+              const tone = !s ? "idle" : s.ok ? "ok" : "err";
+              const dot = tone === "ok" ? "bg-forest-500" : tone === "err" ? "bg-coral-500" : "bg-ink/20";
+              const label = tone === "ok" ? `${s!.status} OK` : tone === "err" ? `${s!.status || "ERR"}` : "not called yet";
+              return (
+                <div key={ep.path} className="rounded-2xl bg-cream-100 ring-1 ring-ink/8 p-3">
+                  <div className="flex items-center gap-2">
+                    <span className={"h-2 w-2 rounded-full " + dot}></span>
+                    <span className="text-[12.5px] font-bold tracking-tight">{ep.label}</span>
+                  </div>
+                  <div className="font-mono text-[10.5px] text-ink/55 mt-1 truncate">{ep.path}</div>
+                  <div className="text-[11px] text-ink/65 mt-1">{ep.purpose}</div>
+                  <div className="text-[10px] text-ink/45 mt-1.5">{s ? `${label} · ${timeAgo(s.at)}` : label}</div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Squad API call log */}
+        <section>
+          <div className="flex items-baseline justify-between mb-3 flex-wrap gap-2">
+            <h2 className="font-display text-2xl font-bold tracking-tightest">Squad API call log · {apiCalls.length}</h2>
+            <span className="text-[11.5px] text-ink/55">In-memory ring buffer · last 100 calls · resets on cold-start</span>
+          </div>
+          <div className="rounded-2xl ring-1 ring-ink/10 bg-cream-50 overflow-hidden">
+            {apiCalls.length === 0 && (
+              <div className="p-6 text-ink/55 text-sm">No Squad API calls yet this session. Trigger one by funding a job, releasing payout, or looking up a bank account.</div>
+            )}
+            {apiCalls.slice(0, 24).map((c) => (
+              <div key={c.id} className="border-t border-ink/8 first:border-t-0 px-4 py-2.5 flex items-center gap-3 flex-wrap">
+                <span className={"text-[10px] font-semibold rounded-full px-2 py-0.5 uppercase tracking-wider w-12 text-center " + (c.method === "POST" ? "bg-coral-500 text-cream-50" : c.method === "GET" ? "bg-forest-500 text-cream-50" : "bg-gold-400 text-ink")}>{c.method}</span>
+                <span className={"text-[10px] font-semibold rounded-full px-2 py-0.5 uppercase tracking-wider " + (c.ok ? "bg-forest-500/15 text-forest-700" : "bg-coral-500/15 text-coral-700")}>{c.status || (c.ok ? "OK" : "ERR")}</span>
+                <span className="font-mono text-[11.5px] text-ink/85 flex-1 min-w-0 truncate">{c.path}</span>
+                {c.error && <span className="font-mono text-[10.5px] text-coral-600 truncate max-w-[280px]">{c.error}</span>}
+                <span className="text-[10.5px] text-ink/45 font-mono tabular-nums">{c.duration_ms}ms</span>
+                <span className="text-[11px] text-ink/45">{timeAgo(c.at)}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
         {/* Float yield */}
         <section className="rounded-3xl bg-ink-900 text-cream-50 p-6 md:p-8">
           <div className="flex items-baseline justify-between flex-wrap gap-3 mb-5">
@@ -130,7 +234,11 @@ export default function OperatorConsole() {
       </div>
 
       <footer className="py-10 text-center text-[12px] text-ink/45">
+<<<<<<< HEAD
         Built for GTCO Squad Hackathon 3.0 · NDPA-ready Day 1
+=======
+        NDPA-ready · powered by Squad APIs
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
       </footer>
     </main>
   );

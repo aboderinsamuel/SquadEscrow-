@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
+<<<<<<< HEAD
 import { mutate, ensureHydrated, id } from "@/lib/db";
 import { loginUser } from "@/lib/auth";
+=======
+import { mutateAndPersist, ensureHydrated, id } from "@/lib/db";
+import { loginUser } from "@/lib/auth";
+import { supabase, supabaseEnabled } from "@/lib/supabase";
+import type { User } from "@/lib/types";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
 function normalizePhone(p: string) {
   const digits = (p || "").replace(/[^0-9]/g, "");
@@ -25,6 +32,33 @@ export async function POST(req: NextRequest) {
     if (otp.code !== code) return NextResponse.json({ ok: false, error: "bad_code" }, { status: 400 });
 
     let user = db.users.find((u) => u.phone === norm);
+<<<<<<< HEAD
+=======
+
+    // The in-memory cache is hydrated from a single `.select()` which Supabase
+    // caps at 1000 rows. With the discovery seed in play, the users table
+    // grows past 1000 quickly — meaning a perfectly valid existing user can be
+    // missing from this lambda's cache. If we trust the cache, we'd create a
+    // duplicate user with the same phone, which then trips the UNIQUE(phone)
+    // constraint at flush time, which then takes the session row down with it
+    // via the FK on sessions.user_id — and the user ends up bounced to /auth.
+    //
+    // Fall back to a direct Supabase lookup by phone before deciding it's a
+    // new signup.
+    if (!user && supabaseEnabled) {
+      try {
+        const sb = supabase();
+        const r = await sb.from("users").select("*").eq("phone", norm).maybeSingle();
+        if (r.data) {
+          user = r.data as User;
+          if (!db.users.find((u) => u.id === user!.id)) db.users.push(user);
+        }
+      } catch (e) {
+        console.error("[/api/auth/verify] phone lookup fallback failed:", e);
+      }
+    }
+
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     let new_user = false;
     if (!user) {
       new_user = true;
@@ -41,15 +75,29 @@ export async function POST(req: NextRequest) {
         disputes: 0,
         created_at: Date.now(),
       };
+<<<<<<< HEAD
       mutate((db) => {
+=======
+      // Persist user + drop OTP synchronously so the session that follows
+      // can reference a user that's already in Supabase.
+      await mutateAndPersist((db) => {
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
         db.users.push(user!);
         delete db.otps[norm];
       });
     } else {
+<<<<<<< HEAD
       mutate((db) => { delete db.otps[norm]; });
     }
 
     loginUser(user.id);
+=======
+      await mutateAndPersist((db) => { delete db.otps[norm]; });
+    }
+
+    // Persist session synchronously — see loginUser() for why this matters.
+    await loginUser(user.id);
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
     return NextResponse.json({ ok: true, new_user });
   } catch (e: any) {
     console.error("[/api/auth/verify] uncaught:", e);

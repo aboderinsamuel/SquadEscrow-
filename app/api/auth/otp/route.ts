@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+<<<<<<< HEAD
 import { mutate, ensureHydrated } from "@/lib/db";
+=======
+import { ensureHydrated, persistOtp } from "@/lib/db";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 import { seedIfEmpty } from "@/lib/seed";
 import { sendSquadSms, isLive } from "@/lib/squad";
 
@@ -17,7 +21,11 @@ export async function POST(req: NextRequest) {
     // every other lambda sees. Without this, the first request after deploy
     // creates an OTP that the *next* request (different lambda) can't see.
     const db = await ensureHydrated();
+<<<<<<< HEAD
     seedIfEmpty();
+=======
+    await seedIfEmpty();
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
     let body: any = null;
     try { body = await req.json(); } catch {}
@@ -29,9 +37,15 @@ export async function POST(req: NextRequest) {
     const code = Math.floor(100000 + Math.random() * 900000).toString();
     const existing = !!db.users.find((u) => u.phone === norm);
 
+<<<<<<< HEAD
     mutate((d) => {
       d.otps[norm] = { code, expires_at: Date.now() + 10 * 60_000 };
     });
+=======
+    // Persist OTP synchronously — single-row write so it lands in Supabase
+    // before we return (verify will hit a different lambda).
+    await persistOtp(norm, code, Date.now() + 10 * 60_000);
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
     // Try to send via Squad VAS SMS if we have keys. If Squad refuses (e.g.
     // Sender ID not registered yet), fall back to showing the OTP on screen.

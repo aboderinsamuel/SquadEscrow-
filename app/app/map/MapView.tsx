@@ -7,6 +7,10 @@ import { Button } from "@/components/Button";
 import { Badge } from "@/components/Badge";
 import { categoryLabel, naira } from "@/lib/utils";
 import { SocialChip } from "@/components/SocialChip";
+<<<<<<< HEAD
+=======
+import { BitmojiAvatar } from "@/components/BitmojiAvatar";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 
 interface ArtisanPin {
   id: string;
@@ -125,7 +129,11 @@ export function MapView({ artisans }: { artisans: ArtisanPin[] }) {
     meMarker.current = L.marker(me, { icon }).addTo(mapInstance.current);
   }, [me]);
 
+<<<<<<< HEAD
   // Re-render markers when filter changes
+=======
+  // Re-render markers when filter changes — Snap-Map-style Bitmoji characters
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
   useEffect(() => {
     const L = window.L;
     if (!L || !markerLayer.current) return;
@@ -133,6 +141,7 @@ export function MapView({ artisans }: { artisans: ArtisanPin[] }) {
     for (const a of filtered) {
       const top = a.credibility >= 85;
       const isReg = a.source === "registered" || a.claimed;
+<<<<<<< HEAD
       const bg = top ? "#0E2A1F" : isReg ? "#3E8E5C" : "#F0A04A";
       const ring = top ? "#F0A04A" : isReg ? "#0E2A1F" : "#0A0A0A";
       const photoChar = a.photos[0] || "•";
@@ -144,6 +153,28 @@ export function MapView({ artisans }: { artisans: ArtisanPin[] }) {
         </div>`,
         iconSize: [36, 36],
         iconAnchor: [18, 36],
+=======
+      const ringColor = top ? "#F0A04A" : isReg ? "#3E8E5C" : "#0A0A0A";
+      const badgeChar = a.photos[0] || "";
+      // DiceBear cartoon avatar (deterministic by id, no API key)
+      const bgPalette = ["F4ECDF", "F0A04A", "3E8E5C", "F8F0E2", "FBE2BD", "B6DDC4"];
+      let h = 0; for (let i = 0; i < a.id.length; i++) h = (h * 31 + a.id.charCodeAt(i)) & 0xffffffff;
+      const bg = bgPalette[Math.abs(h) % bgPalette.length];
+      const avatarUrl = `https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(a.id)}&backgroundColor=${bg}&radius=50&size=64`;
+
+      const icon = L.divIcon({
+        className: "",
+        html: `<div style="position:relative;cursor:pointer;width:54px;height:54px;animation:bobbing 4s ease-in-out infinite">
+          <div style="position:absolute;inset:0;border-radius:50%;background:#FDF8EF;box-shadow:0 8px 18px rgba(0,0,0,0.22);border:3px solid ${ringColor};overflow:hidden">
+            <img src="${avatarUrl}" width="48" height="48" style="display:block;width:100%;height:100%;object-fit:cover" alt=""/>
+          </div>
+          ${top ? `<div style="position:absolute;top:-3px;right:-3px;background:#F0A04A;color:#0A0A0A;font-family:Inter,sans-serif;font-weight:800;font-size:9px;letter-spacing:0.05em;padding:2px 5px;border-radius:999px;border:2px solid #FDF8EF;line-height:1">★</div>` : ""}
+          ${badgeChar ? `<div style="position:absolute;bottom:-2px;right:-2px;width:20px;height:20px;border-radius:50%;background:#0A0A0A;color:#FDF8EF;display:grid;place-items:center;font-size:11px;border:2px solid #FDF8EF">${badgeChar}</div>` : ""}
+          <style>@keyframes bobbing{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}</style>
+        </div>`,
+        iconSize: [54, 54],
+        iconAnchor: [27, 54],
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
       });
       const m = L.marker([a.geo.lat, a.geo.lng], { icon }).addTo(markerLayer.current);
       m.on("click", () => setSelected(a));
@@ -225,9 +256,13 @@ function BottomSheet({ artisan, onClose }: { artisan: ArtisanPin; onClose: () =>
     >
       <div className="mx-auto max-w-[480px] pointer-events-auto rounded-3xl bg-cream-50 ring-1 ring-ink/10 shadow-card overflow-hidden">
         <div className="flex items-start gap-3 p-4">
+<<<<<<< HEAD
           <div className="grid h-14 w-14 place-items-center rounded-2xl bg-ink text-cream-50 text-2xl shrink-0">
             {artisan.photos[0] || "•"}
           </div>
+=======
+          <BitmojiAvatar seed={artisan.id} size={56} ring online={top || isReg} />
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5 flex-wrap">
               <h3 className="font-bold text-[17px] tracking-tight text-ink truncate">{artisan.name}</h3>

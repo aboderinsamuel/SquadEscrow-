@@ -13,7 +13,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
+<<<<<<< HEAD
 import type { DB } from "./types";
+=======
+import type { DB, User, Job } from "./types";
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 import { supabase, supabaseEnabled } from "./supabase";
 
 const DATA_DIR = path.join(process.cwd(), "data");
@@ -275,6 +279,108 @@ export function writeDB() {
   });
 }
 
+<<<<<<< HEAD
+=======
+// Synchronous flush — awaitable. Use in critical paths (auth, OTP, KYC)
+// where the response MUST NOT be sent before Supabase has the row, because
+// Vercel can freeze the lambda the instant the HTTP response goes out and
+// any pending process.nextTick work gets dropped on the floor.
+export async function flushNow(): Promise<void> {
+  const cur = getCache();
+  if (!cur) return;
+  if (!READONLY_FS) {
+    try {
+      ensureDir();
+      fs.writeFileSync(DB_FILE, JSON.stringify(cur, null, 2));
+    } catch (e) {
+      console.error("[db] JSON flush failed:", e);
+    }
+  }
+  if (supabaseEnabled) {
+    try { await flushToSupabase(cur); }
+    catch (e: any) { console.error("[db] Supabase flush failed:", e?.message); }
+  }
+}
+
+// Like mutate() but awaits the Supabase flush before resolving.
+// Required for auth/OTP/session writes on Vercel — fire-and-forget process.nextTick
+// flushes get dropped when the lambda is frozen after the HTTP response.
+export async function mutateAndPersist<T>(fn: (db: DB) => T): Promise<T> {
+  const db = await ensureHydrated();
+  const result = fn(db);
+  await flushNow();
+  return result;
+}
+
+// ── Targeted writes ─────────────────────────────────────────────────────
+// flushNow() re-upserts the entire DB (1000+ rows) on every call — that's
+// what's making /api/auth/verify take 10 seconds and hit Vercel's function
+// timeout. These targeted writers upsert ONLY the row that changed, so
+// auth flow is fast and the session row reliably lands in Supabase before
+// the response goes out.
+
+export async function persistSession(token: string, userId: string): Promise<void> {
+  // Always update local cache first so the same-lambda reads see it.
+  const db = await ensureHydrated();
+  db.sessions[token] = { user_id: userId, created_at: Date.now() };
+  if (!supabaseEnabled) return;
+  try {
+    await supabase().from("sessions").upsert({
+      token,
+      user_id: userId,
+      created_at: Date.now(),
+    });
+  } catch (e: any) {
+    console.error("[db] persistSession failed:", e?.message);
+  }
+}
+
+export async function deleteSession(token: string): Promise<void> {
+  const db = await ensureHydrated();
+  delete db.sessions[token];
+  if (!supabaseEnabled) return;
+  try {
+    await supabase().from("sessions").delete().eq("token", token);
+  } catch (e: any) {
+    console.error("[db] deleteSession failed:", e?.message);
+  }
+}
+
+export async function persistOtp(phone: string, code: string, expiresAt: number): Promise<void> {
+  const db = await ensureHydrated();
+  db.otps[phone] = { code, expires_at: expiresAt };
+  if (!supabaseEnabled) return;
+  try {
+    await supabase().from("otps").upsert({ phone, code, expires_at: expiresAt });
+  } catch (e: any) {
+    console.error("[db] persistOtp failed:", e?.message);
+  }
+}
+
+export async function deleteOtp(phone: string): Promise<void> {
+  const db = await ensureHydrated();
+  delete db.otps[phone];
+  if (!supabaseEnabled) return;
+  try {
+    await supabase().from("otps").delete().eq("phone", phone);
+  } catch (e: any) {
+    console.error("[db] deleteOtp failed:", e?.message);
+  }
+}
+
+export async function persistUser(u: any): Promise<void> {
+  const db = await ensureHydrated();
+  const i = db.users.findIndex((x) => x.id === u.id);
+  if (i >= 0) db.users[i] = u; else db.users.push(u);
+  if (!supabaseEnabled) return;
+  try {
+    await supabase().from("users").upsert(sanitizeUser(u));
+  } catch (e: any) {
+    console.error("[db] persistUser failed:", e?.message);
+  }
+}
+
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
 export function mutate<T>(fn: (db: DB) => T): T {
   const db = readDB();
   const result = fn(db);
@@ -289,3 +395,89 @@ export function id(prefix = "id") {
 export function hashPII(v: string) {
   return crypto.createHash("sha256").update(v).digest("hex").slice(0, 32);
 }
+<<<<<<< HEAD
+=======
+
+// Cache-aware lookups with Supabase fallback. Server-rendered pages used to
+// 404 when the looked-up record was beyond Supabase's 1000-row default page
+// limit (or had been written by another lambda whose cache the current one
+// hadn't seen). These helpers check the in-memory cache first, fall back to
+// a direct Supabase read, and backfill the cache so subsequent reads stay fast.
+export async function findUserById(id: string): Promise<User | null> {
+  const db = await ensureHydrated();
+  const hit = db.users.find((u) => u.id === id);
+  if (hit) return hit;
+  if (!supabaseEnabled) return null;
+  try {
+    const sb = supabase();
+    const r = await sb.from("users").select("*").eq("id", id).maybeSingle();
+    if (r.error || !r.data) return null;
+    const user = r.data as User;
+    if (!db.users.find((u) => u.id === user.id)) db.users.push(user);
+    return user;
+  } catch (e) {
+    console.error("[db] findUserById Supabase fallback failed:", e);
+    return null;
+  }
+}
+
+// List every user that has a business profile, merging the in-memory cache
+// with a live Supabase scan. Used by Discover / Map / Operator pages so a
+// freshly-onboarded artisan always appears for the next page hit on any
+// lambda — even if THIS lambda's cache was hydrated before the new row was
+// written by a different lambda.
+export async function listBusinessUsers(): Promise<User[]> {
+  const db = await ensureHydrated();
+  const cacheUsers = db.users.filter((u) => !!u.business_name);
+  if (!supabaseEnabled) return cacheUsers;
+  try {
+    const sb = supabase();
+    // Pull every business row from Supabase. Default page limit is 1000;
+    // we page through if discovery grows past that.
+    const all: User[] = [];
+    const PAGE = 1000;
+    for (let from = 0; from < 5000; from += PAGE) {
+      const r = await sb
+        .from("users")
+        .select("*")
+        .not("business_name", "is", null)
+        .range(from, from + PAGE - 1);
+      if (r.error || !r.data || r.data.length === 0) break;
+      all.push(...(r.data as User[]));
+      if (r.data.length < PAGE) break;
+    }
+    // Merge: Supabase rows are authoritative for fields, but use cache rows
+    // for any IDs not yet in Supabase (extremely rare — only the few-ms gap
+    // before a fresh write lands).
+    const byId = new Map<string, User>();
+    for (const u of all) byId.set(u.id, u);
+    for (const u of cacheUsers) if (!byId.has(u.id)) byId.set(u.id, u);
+    // Backfill cache with anything Supabase gave us that the cache didn't have.
+    for (const u of all) {
+      if (!db.users.find((x) => x.id === u.id)) db.users.push(u);
+    }
+    return Array.from(byId.values());
+  } catch (e) {
+    console.error("[db] listBusinessUsers Supabase merge failed:", e);
+    return cacheUsers;
+  }
+}
+
+export async function findJobById(id: string): Promise<Job | null> {
+  const db = await ensureHydrated();
+  const hit = db.jobs.find((j) => j.id === id);
+  if (hit) return hit;
+  if (!supabaseEnabled) return null;
+  try {
+    const sb = supabase();
+    const r = await sb.from("jobs").select("*").eq("id", id).maybeSingle();
+    if (r.error || !r.data) return null;
+    const job = r.data as Job;
+    if (!db.jobs.find((j) => j.id === job.id)) db.jobs.push(job);
+    return job;
+  } catch (e) {
+    console.error("[db] findJobById Supabase fallback failed:", e);
+    return null;
+  }
+}
+>>>>>>> 3b3298f981096c33ac3e495edea8c3de294f4293
