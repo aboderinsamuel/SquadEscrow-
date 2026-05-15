@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 300 80" fill="none">
+  <title>SquadcoEscrow — full lockup (dark background)</title>
+
+  <!-- Icon: 64x64 mark on left -->
+  <g transform="translate(8, 8)">
+    <rect x="1" y="1" width="62" height="62" rx="18" fill="#FDF8EF"/>
+    <path d="M44 22.5c-2-3.2-5.8-5.2-10.2-5.2-6.2 0-10.8 3.4-10.8 8.2 0 4.2 3.2 6.4 9.2 7.6l3.6.6c5 1 7.2 2.6 7.2 5.4 0 3.2-3.6 5.4-9 5.4-4.8 0-8.6-1.8-10.8-5"
+          stroke="#0A0A0A" stroke-width="4.8" stroke-linecap="round" fill="none"/>
+    <circle cx="49" cy="17" r="5.2" fill="#E04848" stroke="#FDF8EF" stroke-width="2.4"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="84" y="50" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        font-size="36" font-weight="700" fill="#FDF8EF" letter-spacing="-1.4">Squadco</text>
+  <text x="230" y="50" font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+        font-size="28" font-weight="500" fill="rgba(253,248,239,0.55)" letter-spacing="-0.6">/ escrow</text>
+</svg>
