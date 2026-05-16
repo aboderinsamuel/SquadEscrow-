@@ -5,6 +5,7 @@ import { Button } from "@/components/Button";
 import { Badge } from "@/components/Badge";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { bitmojiUrl } from "@/components/BitmojiAvatar";
+import { DemoPlayer } from "@/components/DemoPlayer";
 
 export default function Landing() {
   return (
@@ -94,43 +95,7 @@ export default function Landing() {
           <div className="relative rounded-[28px] bg-ink ring-1 ring-ink/15 overflow-hidden shadow-card group">
             {/* Aspect-ratio 16/9 video container */}
             <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
-              {/*
-                ┌─────────────────────────────────────────────────────────────┐
-                │ DROP YOUR DEMO VIDEO HERE                                   │
-                │                                                             │
-                │ Replace the <div> below with one of:                       │
-                │                                                             │
-                │ 1. <video src="/demo.mp4" controls autoPlay muted loop ... />│
-                │ 2. <iframe src="https://www.youtube.com/embed/VIDEO_ID" ... />│
-                │ 3. <iframe src="https://player.vimeo.com/video/ID" ... />  │
-                │                                                             │
-                │ Keep the className for sizing.                              │
-                └─────────────────────────────────────────────────────────────┘
-              */}
-              <div className="absolute inset-0 grid place-items-center bg-gradient-to-br from-ink-900 via-forest-900 to-ink overflow-hidden">
-                {/* Animated background */}
-                <div className="absolute inset-0 opacity-30" style={{ backgroundImage: "radial-gradient(rgba(180,255,57,0.18) 1px, transparent 1px)", backgroundSize: "24px 24px" }} />
-                <div className="absolute inset-x-0 -top-1/2 h-full bg-gradient-radial from-coral-500/30 via-transparent to-transparent blur-3xl" />
-
-                {/* Big play button — animates on hover */}
-                <button className="relative grid place-items-center">
-                  <span className="absolute inset-0 rounded-full bg-coral-500/30 animate-ping" style={{ animationDuration: "2s" }} />
-                  <span className="absolute -inset-4 rounded-full bg-coral-500/15" />
-                  <span className="relative grid h-20 w-20 md:h-28 md:w-28 place-items-center rounded-full bg-coral-500 text-cream-50 shadow-pop transition-transform group-hover:scale-110">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                  </span>
-                </button>
-                <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between text-cream-50">
-                  <div>
-                    <div className="text-[10px] uppercase tracking-[0.18em] text-cream-50/55">Product walkthrough</div>
-                    <div className="text-lg font-bold mt-0.5">Sign up · hire · escrow · payout</div>
-                  </div>
-                  <div className="hidden md:flex items-center gap-1.5 text-[12px] text-cream-50/65">
-                    <span className="h-2 w-2 rounded-full bg-coral-400" />
-                    <span>1:32</span>
-                  </div>
-                </div>
-              </div>
+              <DemoPlayer />
             </div>
           </div>
           <p className="mt-4 text-center text-[12px] text-ink/45">Coming soon. Real-time recording of a customer hiring an artisan, escrow funding through Squad, and a worker getting paid in T+1.</p>
