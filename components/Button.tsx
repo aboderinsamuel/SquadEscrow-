@@ -12,7 +12,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const base =
-  "relative inline-flex items-center justify-center gap-2 rounded-full font-semibold tracking-tight transition-[transform,background,box-shadow,border-color] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-cream-200 disabled:opacity-40 disabled:cursor-not-allowed active:translate-y-px whitespace-nowrap";
+  "relative inline-flex items-center justify-center gap-2 rounded-lg font-semibold tracking-tight transition-[transform,background,box-shadow,border-color] duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:opacity-40 disabled:cursor-not-allowed active:translate-y-px whitespace-nowrap";
 
 const variants: Record<Variant, string> = {
   primary:

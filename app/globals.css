@@ -6,8 +6,8 @@
 
 html, body { height: 100%; }
 body {
-  background: #F4ECDF;
-  color: #0A0A0A;
+  background: #FFFFFF;
+  color: #000000;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-feature-settings: "ss01", "cv01", "cv11";
@@ -17,19 +17,19 @@ body {
 * { -webkit-tap-highlight-color: transparent; }
 input, textarea, select, button { font: inherit; color: inherit; }
 
-/* Page-level radial wash — warm, subtle */
+/* Page-level wash — pure white with the faintest green/yellow accent (Bolt style) */
 .page-bg {
   background:
-    radial-gradient(900px 600px at 90% -10%, rgba(240, 160, 74, 0.18), transparent 60%),
-    radial-gradient(700px 500px at -10% 110%, rgba(224, 72, 72, 0.10), transparent 60%),
-    #F4ECDF;
+    radial-gradient(900px 600px at 90% -10%, rgba(0, 194, 76, 0.06), transparent 60%),
+    radial-gradient(700px 500px at -10% 110%, rgba(255, 204, 0, 0.05), transparent 60%),
+    #FFFFFF;
 }
 
-/* Card surfaces — flat, hairline ink border */
+/* Card surfaces — Bolt look: white + 1px gray border, slightly tighter radius */
 .card {
-  background: #FDF8EF;
-  border: 1px solid rgba(10, 10, 10, 0.10);
-  border-radius: 18px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
 }
 
 /* Hairline */
@@ -58,21 +58,21 @@ section[id] { scroll-margin-top: 80px; }
 
 /* Strip legacy glass — make it harmless on the new theme */
 .glass {
-  background: #FDF8EF;
-  border: 1px solid rgba(10, 10, 10, 0.10);
-  border-radius: 18px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
   backdrop-filter: none;
 }
 
-/* Step indicator dot */
+/* Step indicator dot — Bolt-green when done, Bolt-yellow when active */
 .step-dot {
   display: inline-grid; place-items: center;
   width: 24px; height: 24px; border-radius: 999px;
   font-size: 11px; font-weight: 700;
   background: rgba(10,10,10,0.08); color: rgba(10,10,10,0.45);
 }
-.step-dot.done { background: #3E8E5C; color: #FDF8EF; }
-.step-dot.active { background: #F0A04A; color: #0A0A0A; }
+.step-dot.done { background: #00C24C; color: #FFFFFF; }
+.step-dot.active { background: #FFCC00; color: #000000; }
 
 /* Scroll-reveal animation — paired with the IntersectionObserver helper in app/page.tsx */
 .reveal {
@@ -135,7 +135,7 @@ section[id] { scroll-margin-top: 80px; }
   100% { background-position: 200% 50%; }
 }
 .text-shimmer {
-  background: linear-gradient(90deg, #E04848 0%, #F0A04A 25%, #3E8E5C 50%, #F0A04A 75%, #E04848 100%);
+  background: linear-gradient(90deg, #00C24C 0%, #34D186 25%, #FFCC00 50%, #34D186 75%, #00C24C 100%);
   background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;

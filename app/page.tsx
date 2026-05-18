@@ -401,7 +401,7 @@ function SnapMapPreview() {
   return (
     <div className="relative">
       <div className="rounded-3xl bg-cream-50 ring-1 ring-ink/10 shadow-card p-3 overflow-hidden">
-        <div className="relative h-[460px] rounded-2xl bg-[#EDE5D4] overflow-hidden">
+        <div className="relative h-[460px] rounded-2xl bg-[#F4F4F5] overflow-hidden">
           {/* Faux streets */}
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 460" preserveAspectRatio="none">
             <path d="M0 80 L400 60" stroke="rgba(10,10,10,0.08)" strokeWidth="14" />
