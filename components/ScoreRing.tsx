@@ -22,7 +22,7 @@ export function ScoreRing({ score, label, delta }: { score: number; label?: stri
           className="h-full rounded-full"
           style={{
             width: `${Math.round(pct * 100)}%`,
-            background: "linear-gradient(90deg, #E04848 0%, #F0A04A 50%, #3E8E5C 100%)",
+            background: "linear-gradient(90deg, #00C24C 0%, #FFCC00 50%, #1FAE6B 100%)",
           }}
         />
       </div>
@@ -42,9 +42,9 @@ export function ScoreDial({ score, size = 120, label }: { score: number; size?: 
       <svg width={size} height={size} className="-rotate-90">
         <defs>
           <linearGradient id={`dial-${score}`} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stopColor="#E04848" />
-            <stop offset="0.5" stopColor="#F0A04A" />
-            <stop offset="1" stopColor="#3E8E5C" />
+            <stop offset="0" stopColor="#00C24C" />
+            <stop offset="0.5" stopColor="#FFCC00" />
+            <stop offset="1" stopColor="#1FAE6B" />
           </linearGradient>
         </defs>
         <circle cx={size / 2} cy={size / 2} r={r} stroke="rgba(10,10,10,0.10)" strokeWidth={stroke} fill="none" />

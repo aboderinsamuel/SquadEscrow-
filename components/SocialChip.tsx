@@ -35,7 +35,7 @@ const meta: Record<Platform, { label: string; bg: string; text: string; icon: Re
   jiji: {
     label: "Jiji.ng",
     bg: "bg-gold-400", text: "text-ink",
-    icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 7v6a3 3 0 11-6 0" fill="#FDF8EF"/></svg>,
+    icon: <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M10 7v6a3 3 0 11-6 0" fill="#FFFFFF"/></svg>,
     href: (h) => `https://${h.startsWith("http") ? h : h}`,
   },
   google: {

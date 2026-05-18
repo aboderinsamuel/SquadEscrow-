@@ -33,7 +33,7 @@ export function Avatar({ name, size = 40, verified, className }: { name: string;
       {verified && (
         <span className="absolute -bottom-0.5 -right-0.5 grid h-5 w-5 place-items-center rounded-full bg-cream-50 ring-[1.5px] ring-ink">
           <svg viewBox="0 0 24 24" width="13" height="13" fill="none">
-            <path d="M8.5 12.2l2.4 2.4 4.6-4.6" stroke="#3E8E5C" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M8.5 12.2l2.4 2.4 4.6-4.6" stroke="#1FAE6B" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </span>
       )}

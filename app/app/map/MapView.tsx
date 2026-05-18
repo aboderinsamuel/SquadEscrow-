@@ -117,7 +117,7 @@ export function MapView({ artisans }: { artisans: ArtisanPin[] }) {
       className: "",
       html: `<div style="position:relative">
         <div style="position:absolute;inset:-12px;border-radius:50%;background:rgba(224,72,72,0.18);animation:pulseme 1.6s ease-out infinite"></div>
-        <div style="width:18px;height:18px;border-radius:50%;background:#E04848;border:3px solid #FDF8EF;box-shadow:0 4px 10px rgba(0,0,0,0.25)"></div>
+        <div style="width:18px;height:18px;border-radius:50%;background:#00C24C;border:3px solid #FFFFFF;box-shadow:0 4px 10px rgba(0,0,0,0.25)"></div>
         <style>@keyframes pulseme{0%{transform:scale(0.6);opacity:0.6}100%{transform:scale(2);opacity:0}}</style>
       </div>`,
       iconSize: [18, 18],
@@ -134,7 +134,7 @@ export function MapView({ artisans }: { artisans: ArtisanPin[] }) {
     for (const a of filtered) {
       const top = a.credibility >= 85;
       const isReg = a.source === "registered" || a.claimed;
-      const ringColor = top ? "#F0A04A" : isReg ? "#3E8E5C" : "#0A0A0A";
+      const ringColor = top ? "#FFCC00" : isReg ? "#1FAE6B" : "#0A0A0A";
       const badgeChar = a.photos[0] || "";
       // DiceBear cartoon avatar (deterministic by id, no API key)
       const bgPalette = ["F4ECDF", "F0A04A", "3E8E5C", "F8F0E2", "FBE2BD", "B6DDC4"];
@@ -145,11 +145,11 @@ export function MapView({ artisans }: { artisans: ArtisanPin[] }) {
       const icon = L.divIcon({
         className: "",
         html: `<div style="position:relative;cursor:pointer;width:54px;height:54px;animation:bobbing 4s ease-in-out infinite">
-          <div style="position:absolute;inset:0;border-radius:50%;background:#FDF8EF;box-shadow:0 8px 18px rgba(0,0,0,0.22);border:3px solid ${ringColor};overflow:hidden">
+          <div style="position:absolute;inset:0;border-radius:50%;background:#FFFFFF;box-shadow:0 8px 18px rgba(0,0,0,0.22);border:3px solid ${ringColor};overflow:hidden">
             <img src="${avatarUrl}" width="48" height="48" style="display:block;width:100%;height:100%;object-fit:cover" alt=""/>
           </div>
-          ${top ? `<div style="position:absolute;top:-3px;right:-3px;background:#F0A04A;color:#0A0A0A;font-family:Inter,sans-serif;font-weight:800;font-size:9px;letter-spacing:0.05em;padding:2px 5px;border-radius:999px;border:2px solid #FDF8EF;line-height:1">★</div>` : ""}
-          ${badgeChar ? `<div style="position:absolute;bottom:-2px;right:-2px;width:20px;height:20px;border-radius:50%;background:#0A0A0A;color:#FDF8EF;display:grid;place-items:center;font-size:11px;border:2px solid #FDF8EF">${badgeChar}</div>` : ""}
+          ${top ? `<div style="position:absolute;top:-3px;right:-3px;background:#FFCC00;color:#0A0A0A;font-family:Inter,sans-serif;font-weight:800;font-size:9px;letter-spacing:0.05em;padding:2px 5px;border-radius:999px;border:2px solid #FFFFFF;line-height:1">★</div>` : ""}
+          ${badgeChar ? `<div style="position:absolute;bottom:-2px;right:-2px;width:20px;height:20px;border-radius:50%;background:#0A0A0A;color:#FFFFFF;display:grid;place-items:center;font-size:11px;border:2px solid #FFFFFF">${badgeChar}</div>` : ""}
           <style>@keyframes bobbing{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}</style>
         </div>`,
         iconSize: [54, 54],
@@ -200,9 +200,9 @@ export function MapView({ artisans }: { artisans: ArtisanPin[] }) {
 
       {/* Legend */}
       <div className="absolute bottom-[110px] right-4 z-20 rounded-2xl bg-cream-50/95 ring-1 ring-ink/10 shadow-card p-2.5 text-[11px] text-ink/75">
-        <Dot color="#0E2A1F" ring="#F0A04A" /> Top-rated
-        <Dot color="#3E8E5C" /> Verified
-        <Dot color="#F0A04A" /> Discovered
+        <Dot color="#0F1A17" ring="#FFCC00" /> Top-rated
+        <Dot color="#1FAE6B" /> Verified
+        <Dot color="#FFCC00" /> Discovered
         <div className="flex items-center gap-1.5 mt-1"><span className="h-2 w-2 rounded-full bg-coral-500" /><span>You</span></div>
       </div>
 

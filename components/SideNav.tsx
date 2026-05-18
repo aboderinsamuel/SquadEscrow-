@@ -14,7 +14,7 @@ const ITEMS = [
 ] as const;
 
 function Icon({ name, dark }: { name: string; dark: boolean }) {
-  const c = dark ? "#FDF8EF" : "#0A0A0A";
+  const c = dark ? "#FFFFFF" : "#0A0A0A";
   const common = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "none", stroke: c, strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
   if (name === "feed")  return <svg {...common}><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/></svg>;
   if (name === "map")   return <svg {...common}><path d="M9 4l-6 2v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v16M15 6v16"/></svg>;

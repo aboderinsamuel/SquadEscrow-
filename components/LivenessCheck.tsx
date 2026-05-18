@@ -249,7 +249,7 @@ export function LivenessCheck({ onPass, onCancel }: Props) {
 
         {/* Face-outline guide */}
         <svg className="pointer-events-none absolute inset-0 w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-          <ellipse cx="50" cy="50" rx="32" ry="42" fill="none" stroke={faceDetected ? "#3E8E5C" : "#FDF8EF"} strokeOpacity={faceDetected ? 1 : 0.45} strokeWidth="0.7" strokeDasharray={faceDetected ? "0" : "1.5 1.5"} />
+          <ellipse cx="50" cy="50" rx="32" ry="42" fill="none" stroke={faceDetected ? "#1FAE6B" : "#FFFFFF"} strokeOpacity={faceDetected ? 1 : 0.45} strokeWidth="0.7" strokeDasharray={faceDetected ? "0" : "1.5 1.5"} />
         </svg>
 
         {/* Top status pill */}

@@ -25,7 +25,7 @@ export default async function WalletPage() {
       {/* HERO — big checkmark + paid amount, matching mockup 4 */}
       <section className="pt-4 pb-2 text-center">
         <div className="mx-auto grid h-20 w-20 place-items-center rounded-full bg-forest-500 ring-[3px] ring-ink">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FDF8EF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"/></svg>
         </div>
         <h1 className="mt-5 font-display text-[34px] font-bold tracking-tightest leading-[1.05]">
           {earned > 0 ? <><span>{naira(earned)} paid</span><br/><span>to your bank.</span></> : <>{naira(0)} earned<br/>so far.</>}

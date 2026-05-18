@@ -159,7 +159,7 @@ export function OnboardFlow({ startName, banks }: { startName: string; banks: Ba
                 </>
               ) : (
                 <div className="absolute inset-0 rounded-full bg-coral-grad ring-[3px] ring-ink grid place-items-center">
-                  <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#FDF8EF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"/></svg>
+                  <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l5 5L20 7"/></svg>
                 </div>
               )}
             </div>

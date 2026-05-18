@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 
 export function Logo({ className, size = 28, dark = false }: { className?: string; size?: number; dark?: boolean }) {
-  const fg = dark ? "#FDF8EF" : "#0A0A0A";
-  const bg = dark ? "#0A0A0A" : "#FDF8EF";
+  const fg = dark ? "#FFFFFF" : "#0A0A0A";
+  const bg = dark ? "#0A0A0A" : "#FFFFFF";
   return (
     <span className={cn("inline-flex items-baseline gap-2", className)}>
       <svg width={size} height={size} viewBox="0 0 32 32" fill="none" aria-hidden className="self-center">
@@ -17,7 +17,7 @@ export function Logo({ className, size = 28, dark = false }: { className?: strin
           fill="none"
         />
         {/* Escrow indicator — the coral dot signals "funds locked" */}
-        <circle cx="24.5" cy="8.5" r="2.6" fill="#E04848" stroke={fg} strokeWidth="1.2" />
+        <circle cx="24.5" cy="8.5" r="2.6" fill="#00C24C" stroke={fg} strokeWidth="1.2" />
       </svg>
       <span className={cn("text-[1.05em] font-bold tracking-tightest leading-none", dark ? "text-cream-50" : "text-ink")}>Squadco</span>
       <span className={cn("text-[0.82em] font-medium tracking-tight leading-none", dark ? "text-cream-50/55" : "text-ink/45")}>/ escrow</span>

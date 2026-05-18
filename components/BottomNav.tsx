@@ -12,7 +12,7 @@ const TABS = [
 ] as const;
 
 function Icon({ name, dark }: { name: string; dark: boolean }) {
-  const c = dark ? "#FDF8EF" : "#0A0A0A";
+  const c = dark ? "#FFFFFF" : "#0A0A0A";
   if (name === "feed") return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={c} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="6" rx="2"/><rect x="3" y="14" width="18" height="6" rx="2"/></svg>
   );
